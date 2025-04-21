@@ -26,7 +26,6 @@
   font-display: swap;
 }
 
-
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -161,7 +160,6 @@
   transition-duration: 200ms;
   transition-timing-function: ease-in-out;
 }
-
 
 @layer base {
   * {

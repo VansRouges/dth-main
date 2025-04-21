@@ -49,7 +49,7 @@ const AdminOverviewPage: NextPage = async () => {
               <p className="text-xs text-gray-500 mt-1">30 minutes ago</p>
             </div>
             <div className="border-b pb-4 last:border-0 last:pb-0">
-              <p className="text-sm">Course "Advanced React" was updated</p>
+              <p className="text-sm">Course &#34;Advanced React&#34; was updated</p>
               <p className="text-xs text-gray-500 mt-1">2 hours ago</p>
             </div>
           </div>

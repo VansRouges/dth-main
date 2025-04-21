@@ -309,7 +309,7 @@ export default function OnBoardingPage() {
                     </SelectContent>
                   </Select>
                   {errors.interestedProjects && (
-                    <p className="text-red-500 text-xs mt-1">Please select projects you're interested in</p>
+                    <p className="text-red-500 text-xs mt-1">Please select projects you&#39;re interested in</p>
                   )}
                 </div>
 

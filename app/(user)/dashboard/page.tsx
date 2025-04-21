@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 
 import UserLayout from "@/components/user-layout";
@@ -8,25 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
 
-  // const publicMetadata = user?.publicMetadata;
-  // const role = publicMetadata?.role;
-
-  // // If publicMetadata doesn't exist or is empty, redirect to onboarding
-  // if (!publicMetadata || Object?.keys(publicMetadata).length === 0) {
-  //   redirect('/onboarding');
-  // }
-
-  // // Role-based routing
-  // switch (role) {
-  //   case 'admin':
-  //     redirect('/admin');
-  //   case 'instructor':
-  //     redirect('/instructor');
-  //   case 'user':
-  //   default:
-  //     // Continue to dashboard for regular users
-  //     break;
-  // }
 
   return (
     <UserLayout>
@@ -118,7 +98,7 @@ const UserDashboardPage: NextPage = async () => {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="flex-1">
-                    <p className="font-medium">Completed "React Fundamentals" lesson</p>
+                    <p className="font-medium">Completed &#34;React Fundamentals&#34; lesson</p>
                     <p className="text-sm text-muted-foreground">2 hours ago</p>
                   </div>
                   <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
@@ -132,7 +112,7 @@ const UserDashboardPage: NextPage = async () => {
               <CardContent className="p-6">
                 <div className="flex items-center space-x-4">
                   <div className="flex-1">
-                    <p className="font-medium">Started "Advanced JavaScript" course</p>
+                    <p className="font-medium">Started &#34;Advanced JavaScript&#34; course</p>
                     <p className="text-sm text-muted-foreground">1 day ago</p>
                   </div>
                   <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">

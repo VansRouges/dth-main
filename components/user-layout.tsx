@@ -40,13 +40,13 @@ export default async function UserLayout({ children }: UserLayoutProps) {
           "--sidebar-width": "19rem",
         } as React.CSSProperties
       }
-      className="bg-white"
+      className="bg-red-"
     >
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="bg-inherit">
       {/* Navigation */}
-      <header className="flex h-16 bg-white border-b shrink-0 items-center justify-between px-4">
-        <SidebarTrigger className="-ml-1 text-gray-700" />
+      <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
+        <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" />
         <div className="ml-auto">
           <SignedIn>
             <UserButton />
@@ -55,7 +55,7 @@ export default async function UserLayout({ children }: UserLayoutProps) {
       </header>
 
       {/* Main Content */}
-        <main className="container mx-auto px-4 py-8">
+        <main className="container mx-auto px-4 py-2">
           {children}
         </main>
       </SidebarInset>

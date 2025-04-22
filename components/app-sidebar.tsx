@@ -25,7 +25,7 @@ const navItems = [
   {
     title: "Dashboard",
     url: "/dashboard",
-    icon: <DashboardIcon className="h-5 w-5" />,
+    icon: <DashboardIcon />,
   },
   {
     title: "My Learning",
@@ -35,22 +35,22 @@ const navItems = [
   {
     title: "Mentorship",
     url: "/mentorship",
-    icon: <MentorshipIcon className="h-5 w-5" />,
+    icon: <MentorshipIcon />,
   },
   {
     title: "My Projects",
     url: "/my-projects",
-    icon: <ProjectsIcon className="h-5 w-5" />,
+    icon: <ProjectsIcon />,
   },
   {
     title: "Job Boards",
     url: "/job-boards",
-    icon: <JobIcon className="h-5 w-5" />,
+    icon: <JobIcon />,
   },
   {
     title: "Hackathons",
     url: "/hackathons",
-    icon: <HackathonIcon className="h-5 w-5" />,
+    icon: <HackathonIcon />,
   },
 ];
 

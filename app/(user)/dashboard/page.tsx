@@ -3,15 +3,18 @@ import { currentUser } from "@clerk/nextjs/server";
 
 import UserLayout from "@/components/user-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DashboardOverview } from "@/components/dashboard-overview";
+import { TopPicks } from "@/components/top-picks"
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
-
+  console.log("user:", user)
 
   return (
     <UserLayout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user?.firstName}!</h1>
+        <DashboardOverview userName={user?.fullName} coursesCount={4} mentoringCount={3} projectsCount={3} />
+
+        {/* <TopPicks /> */}
         
         {/* Quick Stats */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,7 +160,6 @@ const UserDashboardPage: NextPage = async () => {
             </Card>
           </div>
         </div>
-      </div>
     </UserLayout>
   );
 };

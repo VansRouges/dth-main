@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
 
-export function TopPicks() {
+export function OtherPicks() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -40,7 +40,7 @@ export function TopPicks() {
   return (
     <div className="mb-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">Top picks for you</h2>
+        <h2 className="text-xl font-bold">What Others Have been Learning</h2>
         <a href="#" className="text-orange-500 font-semibold text-sm">
           See more
         </a>

@@ -4,7 +4,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import UserLayout from "@/components/user-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DashboardOverview } from "@/components/dashboard-overview";
-import { TopPicks } from "@/components/top-picks"
+// import { TopPicks } from "@/components/top-picks"
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();

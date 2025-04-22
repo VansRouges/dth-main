@@ -22,7 +22,7 @@ export function DashboardOverview({
 
       <div className="relative z-10">
         <h2 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h2>
-        <p className="text-white/80 mb-8">Hi {userName}, you're welcome</p>
+        <p className="text-white/80 mb-8">Hi {userName}, you&#39;re welcome</p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Courses Enrolled Card */}

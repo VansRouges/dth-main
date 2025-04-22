@@ -86,7 +86,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton
                   className={cn(
                     "hover:bg-white group hover:text-[#104BC1] transition-colors",
-                    pathname === item.url && "bg-[#104BC1] text-white hover:bg-[#104BC1] hover:text-white"
+                    pathname === item.url ? "bg-[#104BC1] text-white hover:bg-[#104BC1] hover:text-white" : ""
                   )}
                   size="lg"
                   asChild

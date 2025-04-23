@@ -80,7 +80,7 @@
   --popover: oklch(0.175 0.05 270);
   --popover-foreground: oklch(1 0 0);
 
-  --primary: oklch(0.75 0.25 60); /* orange CTA */
+  --primary: #E87C00; /* orange CTA */
   --primary-foreground: oklch(1 0 0);
 
   --secondary: oklch(0.14 0.045 270); /* muted blue btn */

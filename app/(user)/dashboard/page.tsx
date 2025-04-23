@@ -3,14 +3,14 @@ import { currentUser } from "@clerk/nextjs/server";
 import UserLayout from "@/components/user-layout";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { TopPicks } from "@/components/top-picks"
-import { OtherPicks } from "@/components/mentors-pick";
+import { OtherPicks } from "@/components/other-picks";
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
   console.log("user:", user)
 
   return (
-    <UserLayout>
+    <UserLayout> 
         <DashboardOverview userName={user?.fullName} coursesCount={4} mentoringCount={3} projectsCount={3} />
 
         <TopPicks />

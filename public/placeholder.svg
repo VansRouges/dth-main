@@ -1,0 +1,42 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#e2e8f0"/>
+  <g transform="translate(50, 50)">
+    <!-- Beach scene for video thumbnail -->
+    <rect x="0" y="0" width="400" height="200" fill="#87ceeb"/>
+    <rect x="0" y="150" width="400" height="50" fill="#f0e68c"/>
+    
+    <!-- Sun -->
+    <circle cx="350" cy="50" r="30" fill="#f9d71c"/>
+    
+    <!-- Hand holding phone -->
+    <path d="M250 100 Q270 80 290 90 L320 110 Q330 120 320 130 L280 160 Q270 170 260 160 L240 130 Q230 120 250 100" fill="#ffccbc"/>
+    <rect x="260" y="120" width="40" height="60" rx="5" fill="#333"/>
+    <rect x="265" y="125" width="30" height="50" rx="2" fill="#fff"/>
+    
+    <!-- People at computers for invite friends illustration -->
+    <g transform="translate(0, 250)">
+      <!-- Desk -->
+      <rect x="50" y="50" width="300" height="10" fill="#8b4513"/>
+      <rect x="60" y="60" width="10" height="40" fill="#8b4513"/>
+      <rect x="330" y="60" width="10" height="40" fill="#8b4513"/>
+      
+      <!-- Person 1 -->
+      <circle cx="120" cy="30" r="15" fill="#ffccbc"/>
+      <rect x="110" y="45" width="20" height="30" fill="#3498db"/>
+      <rect x="100" y="50" width="40" height="20" rx="5" fill="#333"/>
+      
+      <!-- Computer 1 -->
+      <rect x="105" y="30" width="30" height="20" fill="#ddd"/>
+      <rect x="110" y="35" width="20" height="10" fill="#333"/>
+      
+      <!-- Person 2 -->
+      <circle cx="280" cy="30" r="15" fill="#ffccbc"/>
+      <rect x="270" y="45" width="20" height="30" fill="#e74c3c"/>
+      <rect x="260" y="50" width="40" height="20" rx="5" fill="#333"/>
+      
+      <!-- Computer 2 -->
+      <rect x="265" y="30" width="30" height="20" fill="#ddd"/>
+      <rect x="270" y="35" width="20" height="10" fill="#333"/>
+    </g>
+  </g>
+</svg>

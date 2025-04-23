@@ -6,12 +6,11 @@ interface CourseCardProps {
   instructor: string
   price: string
   duration: string
-  showPurchaseButton?: boolean
 }
 
-export function CourseCard({ title, instructor, price, duration, showPurchaseButton = false }: CourseCardProps) {
+export function CourseCard({ title, instructor, price, duration }: CourseCardProps) {
   return (
-    <div className="min-w-[280px] flex-shrink-0 rounded-lg bg-gray-100 overflow-hidden">
+    <div className="group min-w-[280px] flex-shrink-0 rounded-lg bg-gray-100 overflow-hidden hover:shadow-md transition-shadow">
       <div className="h-[120px] bg-gray-200 flex items-center justify-center">
         <Book className="h-12 w-12 text-gray-500" />
       </div>
@@ -24,11 +23,14 @@ export function CourseCard({ title, instructor, price, duration, showPurchaseBut
         <div className="flex items-center mb-2">
           <span className="text-xs text-gray-600">{instructor}</span>
         </div>
-        {showPurchaseButton ? (
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-2">Purchase ({price})</Button>
-        ) : (
-          <p className="font-medium text-sm">{price}</p>
-        )}
+        <div className="relative h-8">
+          <Button className="absolute cursor-pointer inset-0 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            Purchase ({price})
+          </Button>
+          <p className="absolute inset-0 font-medium text-sm group-hover:opacity-0 transition-opacity">
+            {price}
+          </p>
+        </div>
       </div>
     </div>
   )

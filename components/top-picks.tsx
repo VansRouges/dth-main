@@ -25,16 +25,29 @@ export function TopPicks() {
       instructor: "Agina Evans",
       price: "NGN 12,000.00",
       duration: "12h20m",
-      showPurchaseButton: false,
     },
     {
       title: "Azure Data Engineering Course with Certification",
       instructor: "Agina Evans",
       price: "NGN 12,000.00",
       duration: "10h30m",
-      showPurchaseButton: true,
     },
-
+    {
+      title: "Azure Data Engineering Course with Certification",
+      instructor: "Agina Evans",
+      price: "NGN 12,000.00",
+      duration: "10h30m",
+    },{
+      title: "Azure Data Engineering Course with Certification",
+      instructor: "Agina Evans",
+      price: "NGN 12,000.00",
+      duration: "10h30m",
+    },{
+      title: "Azure Data Engineering Course with Certification",
+      instructor: "Agina Evans",
+      price: "NGN 12,000.00",
+      duration: "10h30m",
+    },
   ]
 
   return (

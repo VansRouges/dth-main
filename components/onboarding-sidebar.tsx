@@ -27,7 +27,7 @@ export function OnboardingSidebar() {
           <div>
             <h3 className="font-medium">How to navigate Our Dashboard</h3>
             <p className="text-sm text-gray-500 mt-1">
-              We're glad to have you onboard! Here are some quick tips to get you up and running.
+              We&#39;re glad to have you onboard! Here are some quick tips to get you up and running.
             </p>
           </div>
         </div>

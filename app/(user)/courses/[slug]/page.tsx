@@ -38,7 +38,7 @@ export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
 
             <div className="relative z-10">
             <h1 className="text-2xl font-bold text-white mb-2">My Learning</h1>
-            <p className="text-white/80">Hi Henry Osuji, you're welcome</p>
+            <p className="text-white/80">Hi Henry Osuji, you&#39;re welcome</p>
             </div>
         </div>
 

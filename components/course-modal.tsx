@@ -47,7 +47,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
           </div>
 
           <div className="mb-6">
-            <h3 className="font-bold mb-3">What you'll learn</h3>
+            <h3 className="font-bold mb-3">What you&#39;ll learn</h3>
             <ul className="space-y-3 list-disc pl-5">
               <li className="text-sm">The course provides the entire toolbox you need to become a data scientist</li>
               <li className="text-sm">

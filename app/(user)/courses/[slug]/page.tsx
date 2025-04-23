@@ -1,4 +1,5 @@
-import UserLayout from "@/components/user-layout"
+import CourseLayout from "@/components/user-layout"
+import { currentUser } from "@clerk/nextjs/server";
 import { Star, Clock, Award, Calendar } from "lucide-react"
 
 interface CourseDetailsPageProps {
@@ -7,7 +8,9 @@ interface CourseDetailsPageProps {
   }
 }
 
-export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
+export default async function CourseDetailsPage({ params }: CourseDetailsPageProps) {
+  const user = await currentUser();
+  // Fetch course details from the database or API
   // In a real app, you would fetch course data based on the ID
   // For this example, we'll use static data matching the image
   const course = {
@@ -27,7 +30,7 @@ export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
   }
 
   return (
-    <UserLayout>
+    <CourseLayout>
         <div className="min-h-screen bg-white">
         {/* Header */}
         <div className="relative overflow-hidden bg-[#0a2158] rounded-lg p-6 mb-8">
@@ -38,7 +41,7 @@ export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
 
             <div className="relative z-10">
             <h1 className="text-2xl font-bold text-white mb-2">My Learning</h1>
-            <p className="text-white/80">Hi Henry Osuji, you&#39;re welcome</p>
+            <p className="text-white/80 capitalize">Hi {user?.fullName}, you&#39;re welcome</p>
             </div>
         </div>
 
@@ -93,6 +96,6 @@ export default function CourseDetailsPage({ params }: CourseDetailsPageProps) {
             </div>
         </div>
         </div>
-    </UserLayout>
+    </CourseLayout>
   )
 }

@@ -70,7 +70,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
             >
               <Link href="/">
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-bold capitalize">DataTechHub</span>
+                  <span className="font-bold logo-font capitalize">DataTechHub</span>
                 </div>
               </Link>
             </SidebarMenuButton>

@@ -40,7 +40,7 @@ export default async function CourseDetailsPage({ params }: CourseDetailsPagePro
             <div className="absolute right-10 bottom-10 h-32 w-32 rounded-full bg-[#81ecec] opacity-30 blur-xl"></div>
 
             <div className="relative z-10">
-            <h1 className="text-2xl font-bold text-white mb-2">My Learning</h1>
+            <h1 className="text-2xl font-bold text-white mb-2">My Learning</h1> 
             <p className="text-white/80 capitalize">Hi {user?.fullName}, you&#39;re welcome</p>
             </div>
         </div>
@@ -89,7 +89,7 @@ export default async function CourseDetailsPage({ params }: CourseDetailsPagePro
             <div className="space-y-4">
                 {course.description.map((paragraph, index) => (
                 <p key={index} className="text-gray-800 leading-relaxed">
-                    {paragraph}
+                    {paragraph} 
                 </p>
                 ))}
             </div>

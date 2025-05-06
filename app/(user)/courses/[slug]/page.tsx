@@ -89,7 +89,7 @@ export default async function CourseDetailsPage({ params }: CourseDetailsPagePro
             <div className="space-y-4">
                 {course.description.map((paragraph, index) => (
                 <p key={index} className="text-gray-800 leading-relaxed">
-                    {paragraph} 
+                  {paragraph} 
                 </p>
                 ))}
             </div>

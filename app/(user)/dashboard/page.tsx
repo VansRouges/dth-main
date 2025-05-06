@@ -4,6 +4,7 @@ import UserLayout from "@/components/user-layout";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { TopPicks } from "@/components/top-picks"
 import { OtherPicks } from "@/components/other-picks";
+import { MentorPicks } from "@/components/mentor-picks";
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
@@ -14,7 +15,7 @@ const UserDashboardPage: NextPage = async () => {
         <DashboardOverview userName={user?.fullName} coursesCount={4} mentoringCount={3} projectsCount={3} />
 
         <TopPicks />
-        
+        <MentorPicks />
         <OtherPicks />
     </UserLayout>
   );

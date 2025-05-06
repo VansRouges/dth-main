@@ -1,10 +1,10 @@
 "use client"
 import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { CourseCard } from "@/components/course-card"
+import { MentorCard } from "@/components/mentor-card"
 import { Button } from "@/components/ui/button"
 
-export function TopPicks() {
+export function MentorPicks() {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -19,41 +19,45 @@ export function TopPicks() {
     }
   }
 
-  const courses = [
+  const mentors = [
     {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "12h20m",
+      name: "Agina Evans",
+      experience: 10,
+      title: "Lead Software Engineer, Netflix",
+      price: "NGN 12,000",
+      sessionsCount: 3000,
+      reviewCount: 100,
     },
     {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
+        name: "Bob Skylum",
+        experience: 10,
+        title: "Software Engineer, Google",
+        price: "NGN 12,000",
+        sessionsCount: 3000,
+        reviewCount: 100,
     },
     {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },{
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },{
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
+        name: "Jack Shadow",
+        experience: 10,
+        title: "Senior Data Analyst, Google",
+        price: "NGN 12,000",
+        sessionsCount: 3000,
+        reviewCount: 100,
+    },
+    {
+        name: "Phil Skylum",
+        experience: 10,
+        title: "Senior Data Analyst, Meta Inc.",
+        price: "NGN 12,000",
+        sessionsCount: 3000,
+        reviewCount: 100,
     },
   ]
 
   return (
     <div className="my-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">Top picks for you</h2>
+        <h2 className="text-xl font-bold">Top Mentors Pick</h2>
         <a href="#" className="text-orange-500 font-semibold text-sm">
           See more
         </a>
@@ -70,9 +74,9 @@ export function TopPicks() {
             scrollSnapType: "x mandatory"
           }}
         >
-          {courses.map((course, index) => (
+          {mentors.map((mentor, index) => (
             <div key={index} className="flex-shrink-0 w-[300px]">
-              <CourseCard {...course} />
+              <MentorCard {...mentor} />
             </div>
           ))}
         </div>

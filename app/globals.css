@@ -174,7 +174,7 @@
     @apply border-[#EDEDED] outline-ring/50;
   }
   body {
-    @apply bg-white text-black;
+    @apply bg-[#FAFAFA] text-black;
     font-family: 'Helvetica', ui-sans-serif, system-ui, sans-serif;
   }
   .logo-font {

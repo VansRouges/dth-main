@@ -18,10 +18,10 @@ export function CourseCard({ title, instructor, price, duration }: CourseCardPro
   return (
     <>
     <div 
-      className="group min-w-[280px] flex-shrink-0 rounded-lg bg-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+      className="group min-w-[280px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow"
       onClick={() => setIsModalOpen(true)}
     >
-      <div className="h-[120px] bg-gray-200 flex items-center justify-center">
+      <div className="h-[120px] bg-[#D9D9D9] flex items-center justify-center">
         <Book className="h-12 w-12 text-gray-500" />
       </div>
       <div className="p-4">
@@ -39,7 +39,7 @@ export function CourseCard({ title, instructor, price, duration }: CourseCardPro
           <span className="text-xs">{instructor}</span>
         </div>
         <div className="relative h-8 cursor-pointer">
-          <Button className="absolute inset-0 w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <Button className="absolute inset-0 w-full tracking-wider font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity">
             Purchase ({price})
           </Button>
           <p className="absolute inset-0 font-bold text-sm group-hover:opacity-0 transition-opacity">

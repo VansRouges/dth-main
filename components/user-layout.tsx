@@ -4,8 +4,11 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "./app-sidebar";
+import { ChevronDown } from "lucide-react"
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "./ui/sidebar";
 import { OnboardingSidebar } from "./onboarding-sidebar";
+import Image from "next/image";
+import { SearchBar } from "./SearchBar";
 
 interface UserLayoutProps {
   children: ReactNode;
@@ -50,9 +53,31 @@ export default async function UserLayout({ children }: UserLayoutProps) {
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
           <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" />
-          <div className="ml-auto">
+          <SearchBar />
+          <div className="ml-auto flex space-x-3">
             <SignedIn>
-              <UserButton />
+              <div className="flex space-x-3">
+                <Image
+                  src="/notification.png"
+                  alt="notificatons"
+                  width={32}
+                  height={32}
+                  className="object-cover w-full h-full rounded-full"
+                />
+                <Image
+                  src="/attention.png"
+                  alt="notificatons"
+                  width={32}
+                  height={32}
+                  className="object-cover w-full h-full rounded-full"
+                />
+              </div>
+              {/* User Avatar and Name */}
+              <div className="flex space-x-2 cursor-pointer">
+                <UserButton />
+                <h1 className="font-semibold">{user?.fullName}</h1>
+                <ChevronDown className="h-4 w-4 text-primary" />
+              </div>
             </SignedIn>
           </div>
         </header>

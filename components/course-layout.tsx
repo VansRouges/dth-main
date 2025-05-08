@@ -58,13 +58,13 @@ export default async function CourseLayout({ children }: UserLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="grid grid-cols-4 bg-blue-">
-          <main className="bg-red- w-full col-span-4 md:col-span-3 px-4 py-2 flex-1">
+        <div className="grid grid-cols-5 bg-blue-">
+          <main className="bg-red- w-full col-span-5 lg:col-span-3 px-4 py-2 flex-1">
             {children}
           </main>
           
           {/* Onboarding Sidebar (Right) - Hidden on mobile, visible on large screens */}
-          <div className="hidden lg:block mx-auto bg-green- col-span-1">
+          <div className="hidden lg:block mx-auto bg-green- col-span-2">
             <OnboardingSidebar />
           </div>
         </div>

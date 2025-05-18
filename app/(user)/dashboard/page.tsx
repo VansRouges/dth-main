@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
 import { currentUser } from "@clerk/nextjs/server";
-import UserLayout from "@/components/user-layout";
+import UserLayout from "@/components/layouts/user-layout";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { TopPicks } from "@/components/top-picks"
 import { OtherPicks } from "@/components/other-picks";

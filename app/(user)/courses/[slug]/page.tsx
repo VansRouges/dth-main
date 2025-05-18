@@ -1,4 +1,4 @@
-import CourseLayout from "@/components/user-layout"
+import CourseLayout from "@/components/layouts/user-layout"
 import { currentUser } from "@clerk/nextjs/server";
 import { Star, Clock, Award, Calendar } from "lucide-react"
 

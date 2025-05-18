@@ -1,9 +1,7 @@
-import LearningLayout from "@/components/learning-layout"
+import LearningLayout from "@/components/layouts/learning-layout"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
 import { LearningCard } from "@/components/learning-cards"
-
-
+import Link from "next/link"
 
 export default function LearningPage() {
   return (
@@ -23,7 +21,7 @@ export default function LearningPage() {
                 className="object-cover w-32 h-32 absolute bottom-0 right-0"
               />
               <p className="text-6xl font-bold absolute top-1/2 mt-4 left-8 transform -translate-y-1/2">
-                1
+                3
               </p>
             </div>
             <div className="w-1/3 bg-[#B5C7EC] text-[#081227] p-3 h-32 rounded-xl relative overflow-hidden">
@@ -49,17 +47,20 @@ export default function LearningPage() {
                 className="object-cover w-32 h-32 absolute bottom-0 right-0"
               />
               <p className="text-6xl font-bold absolute top-1/2 mt-4 left-8 transform -translate-y-1/2">
-                1
+                5
               </p>
             </div>
           </div>
           
-          {/* Learning Manangement Button */}
+          {/* Learning Management Button */}
           <div className="col-span-1 w-full bg-yellow- py-2 px-4">
             <div className="bg-green- h-32 flex items-end justify-start rounded-xl">
-              <Button className="bg-[#104BC1] w-full h-14 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest">
+              <Link 
+                href="/my-learning/learning-management"
+                className="bg-[#104BC1] w-full h-14 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-md"
+              >
                 Learning Management
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

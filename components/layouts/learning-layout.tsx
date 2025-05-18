@@ -3,12 +3,12 @@ import { ReactNode } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { AppSidebar } from "./app-sidebar";
+import { AppSidebar } from "../app-sidebar";
 import { ChevronDown } from "lucide-react"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "./ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 // import { OnboardingSidebar } from "./onboarding-sidebar";
 import Image from "next/image";
-import { SearchBar } from "./SearchBar";
+import { SearchBar } from "../SearchBar";
 
 interface UserLayoutProps {
   children: ReactNode;

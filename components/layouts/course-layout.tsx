@@ -3,18 +3,15 @@ import { ReactNode } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { AppSidebar } from "./app-sidebar";
-import { ChevronDown } from "lucide-react"
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "./ui/sidebar";
-import { OnboardingSidebar } from "./onboarding-sidebar";
-import Image from "next/image";
-import { SearchBar } from "./SearchBar";
+import { AppSidebar } from "../app-sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
+import { OnboardingSidebar } from "../onboarding-sidebar";
 
 interface UserLayoutProps {
   children: ReactNode;
 }
 
-export default async function UserLayout({ children }: UserLayoutProps) {
+export default async function CourseLayout({ children }: UserLayoutProps) {
   const user = await currentUser();
   const publicMetadata = user?.publicMetadata;
   const role = publicMetadata?.role;
@@ -53,43 +50,21 @@ export default async function UserLayout({ children }: UserLayoutProps) {
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
           <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" />
-          <SearchBar />
-          <div className="ml-auto flex space-x-3">
+          <div className="ml-auto">
             <SignedIn>
-              <div className="flex space-x-3">
-                <Image
-                  src="/notification.png"
-                  alt="notificatons"
-                  width={32}
-                  height={32}
-                  className="object-cover w-full h-full rounded-full"
-                />
-                <Image
-                  src="/attention.png"
-                  alt="notificatons"
-                  width={32}
-                  height={32}
-                  className="object-cover w-full h-full rounded-full"
-                />
-              </div>
-              {/* User Avatar and Name */}
-              <div className="flex space-x-2 cursor-pointer">
-                <UserButton />
-                <h1 className="font-semibold">{user?.fullName}</h1>
-                <ChevronDown className="h-4 w-4 text-primary" />
-              </div>
+              <UserButton />
             </SignedIn>
           </div>
         </header>
 
         {/* Main Content */}
-        <div className="grid grid-cols-4 bg-blue-">
-          <main className="bg-red- w-full col-span-4 md:col-span-3 px-4 py-2 flex-1">
+        <div className="grid grid-cols-5 bg-blue-">
+          <main className="bg-red- w-full col-span-5 lg:col-span-3 px-4 py-2 flex-1">
             {children}
           </main>
           
           {/* Onboarding Sidebar (Right) - Hidden on mobile, visible on large screens */}
-          <div className="hidden lg:block mx-auto bg-green- col-span-1">
+          <div className="hidden lg:block mx-auto bg-green- col-span-2">
             <OnboardingSidebar />
           </div>
         </div>

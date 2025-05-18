@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { currentUser } from '@clerk/nextjs/server';
 
 import { checkAdminAccess } from "@/lib/utils";
-import AdminLayout from "@/components/AdminLayout";
+import AdminLayout from "@/components/layouts/AdminLayout";
 
 const AdminOverviewPage: NextPage = async () => {
   const user = await currentUser();

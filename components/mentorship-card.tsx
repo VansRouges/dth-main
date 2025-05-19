@@ -1,15 +1,15 @@
 "use client"
-import { Book, GraduationCap } from "lucide-react"
+import { Book } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
-interface LearningCardProps {
+interface MentorshipCardProps {
   title: string
   instructor: string
   progress: number
 }
 
-export function LearningCard({ title, instructor, progress }: LearningCardProps) {
+export function MentorshipCard({ title, instructor, progress }: MentorshipCardProps) {
   return (
     <div className="group w-full flex-shrink-0 rounded-lg p-5 cursor-pointer bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
       {/* Course Thumbnail Placeholder */}
@@ -20,12 +20,11 @@ export function LearningCard({ title, instructor, progress }: LearningCardProps)
       {/* Course Content */}
       <div className="p-4 space-y-3">
         {/* Title */}
-        <h3 className="font-semibold text-base line-clamp-2">{title}</h3>
+        <h3 className="font-semibold text-base line-clamp-2">{instructor}</h3>
 
         {/* Instructor */}
-        <div className="flex items-center space-x-1 text-gray-600 text-sm">
-          <GraduationCap className="h-4 w-4" />
-          <span className="truncate">{instructor}</span>
+        <div className="flex items-center text-gray-600 text-sm">
+          <span className="truncate">{title}</span>
         </div>
 
         {/* Progress */}

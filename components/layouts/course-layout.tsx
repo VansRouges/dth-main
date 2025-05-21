@@ -5,7 +5,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "../app-sidebar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
-import { OnboardingSidebar } from "../onboarding-sidebar";
+import { CourseEnrollment } from "../course-enrollment";
 
 interface UserLayoutProps {
   children: ReactNode;
@@ -58,15 +58,16 @@ export default async function CourseLayout({ children }: UserLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="grid grid-cols-5 bg-blue-">
-          <main className="bg-red- w-full col-span-5 lg:col-span-3 px-4 py-2 flex-1">
+        <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
+          {/* Main Content Area - Takes full width on mobile, 3/4 on desktop */}
+          <main className="w-full lg:w-3/4 flex-1">
             {children}
           </main>
           
-          {/* Onboarding Sidebar (Right) - Hidden on mobile, visible on large screens */}
-          <div className="hidden lg:block mx-auto bg-green- col-span-2">
-            <OnboardingSidebar />
-          </div>
+          {/* Course Enrollment Sidebar - Hidden on mobile, visible on desktop (1/4 width) */}
+          <aside className="w-full lg:w-1/4 max-w-md lg:max-w-full">
+            <CourseEnrollment />
+          </aside>
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -1,4 +1,4 @@
-import CourseLayout from "@/components/layouts/user-layout"
+import CourseLayout from "@/components/layouts/course-layout"
 import { currentUser } from "@clerk/nextjs/server";
 import { 
   Star, 
@@ -72,8 +72,8 @@ export default async function CourseDetailsPage({ params }: CourseDetailsPagePro
 
           <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
             <h1 className="text-3xl font-bold">My Learning</h1>
-            <p>Welcome back, {user?.fullName}</p>
-            <p className="mt-2 text-lg">
+            <p className="my-3">Hi {user?.fullName}, you&#39;re welcome</p>
+            {/* <p className="mt-2 text-lg">
               Last updated: {new Date().toLocaleDateString('en-US', { 
                 month: '2-digit', 
                 day: '2-digit', 
@@ -81,7 +81,7 @@ export default async function CourseDetailsPage({ params }: CourseDetailsPagePro
                 hour: '2-digit',
                 minute: '2-digit'
               })}
-            </p>
+            </p> */}
           </div>
         </div>
 

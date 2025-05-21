@@ -1,7 +1,8 @@
 // components/layouts/admin-layout.tsx
 import { ReactNode } from "react";
-import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { AdminAppSidebar } from "../admin-app-sidebar";
+import { SidebarInset, SidebarProvider } from "../ui/sidebar";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -9,69 +10,39 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-700">
-      {/* Sidebar + Main content container */}
-      <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 min-h-screen bg-white border-r">
-          <div className="p-4 border-b">
-            <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          </div>
-          
-          <nav className="p-4">
-            <ul className="space-y-2">
-              <li>
-                <Link 
-                  href="/admin/overview" 
-                  className="block px-4 py-2 rounded-md hover:bg-gray-100 font-medium text-blue-600"
-                >
-                  Overview
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/admin/users" 
-                  className="block px-4 py-2 rounded-md hover:bg-gray-100"
-                >
-                  User Management
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/admin/courses" 
-                  className="block px-4 py-2 rounded-md hover:bg-gray-100"
-                >
-                  Course Management
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/admin/settings" 
-                  className="block px-4 py-2 rounded-md hover:bg-gray-100"
-                >
-                  Settings
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </aside>
-
-        {/* Main content area */}
-        <main className="flex-1">
-          {/* Top navigation */}
-          <header className="bg-white border-b p-4 flex justify-between items-center">
-            <h2 className="text-lg font-semibold">Dashboard</h2>
-            <div className="flex items-center space-x-4">
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "19rem",
+          "--onboarding-sidebar-width": "22rem",
+        } as React.CSSProperties
+      }
+      className="flex h-full"
+    >
+      {/* Main App Sidebar (Left) */}
+      <AdminAppSidebar />
+      
+      {/* Main Content Area */}
+      <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
+        {/* Navigation */}
+        <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
+          {/* <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" /> */}
+          <div className="ml-auto">
+            <SignedIn>
               <UserButton />
-            </div>
-          </header>
-          
-          {/* Page content */}
-          <div className="p-6">
-            {children}
+            </SignedIn>
           </div>
-        </main>
-      </div>
-    </div>
+        </header>
+
+        {/* Main Content */}
+        <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
+          {/* Main Content Area - Takes full width on mobile, 3/4 on desktop */}
+          <main className="w-full lg:w-3/4 flex-1">
+            {children}
+          </main>
+          
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

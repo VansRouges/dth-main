@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import { redirect } from "next/navigation";
 import { currentUser } from '@clerk/nextjs/server';
 import { checkAdminAccess } from "@/lib/utils";
-import AdminLayout from "@/components/layouts/AdminLayout";
+// import  from "@/components/layouts/AdminLayout";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -50,7 +50,7 @@ const AdminOverviewPage: NextPage = async () => {
   ];
 
   return (
-    <AdminLayout>
+    <>
        {/* Banner */}
        <div className="relative overflow-hidden rounded-xl mr-14 w-[75%]">
         <Image
@@ -91,7 +91,7 @@ const AdminOverviewPage: NextPage = async () => {
       </div>
 
 
-    </AdminLayout>
+    </>
   );
 };
 

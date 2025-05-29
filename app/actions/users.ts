@@ -11,7 +11,8 @@ export async function fetchAllUsers() {
         throw new Error(data.error || 'Failed to fetch users');
       }
   
-      return data;
+      console.log('Fetched users:', data);
+      return data.data || [];
     } catch (error) {
       console.error('Error in fetchAllUsers:', error);
       throw error;

@@ -51,7 +51,7 @@ const ScoreRing: React.FC<ScoreRingProps> = ({
       {/* Score text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         <span className="text-lg font-bold leading-tight">
-          {score.toFixed(1)}
+          {score?.toFixed(1)}
         </span>
         <span className="text-xs text-gray-500">
           Avg. Score

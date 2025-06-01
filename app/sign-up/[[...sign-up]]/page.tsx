@@ -8,7 +8,7 @@ export default function SignUpPage() {
     <div className="bg-white min-h-screen md:h-screen md:overflow-hidden">
       <div className="container mx-auto px-4 py-8 h-full flex flex-col">
         <div className="flex justify-between items-center mb-8">
-            <Link href="/" className="text-blue-600 font-sans font-bold text-lg">
+            <Link href="/" className="text-blue-600 font-logo font-bold text-lg">
                 DataTechHub
             </Link>
             <Link href="/">

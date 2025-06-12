@@ -1,4 +1,3 @@
-import { Box, Users, Database, Handshake } from "lucide-react"
 import Link from "next/link"
 
 export default function OurServices() {

@@ -7,8 +7,14 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
-
+import { BookCopy, ChevronDown, Handshake, Kanban, UserRound, ChevronRight } from "lucide-react";
 import React, { useRef, useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 
 interface NavbarProps {
@@ -69,7 +75,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
     <motion.div
       ref={ref}
       // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
-      className={cn("sticky inset-x-0 top-10 z-40 w-[80%] h-16 rounded-xl bg-[#081227]", className)}
+      className={cn("sticky inset-x-0 top-10 z-40 w-[75%] h-16 rounded-xl bg-[#081227]", className)}
     >
       {React.Children.map(children, (child) =>
         React.isValidElement(child)
@@ -91,7 +97,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        width: visible ? "40%" : "100%",
+        width: visible ? "75%" : "100%",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -124,23 +130,68 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         className,
       )}
     >
-      {items.map((item, idx) => (
-        <a
-          onMouseEnter={() => setHovered(idx)}
-          onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
-          key={`link-${idx}`}
-          href={item.link}
-        >
-          {hovered === idx && (
-            <motion.div
-              layoutId="hovered"
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
-            />
-          )}
-          <span className="relative z-20">{item.name}</span>
-        </a>
-      ))}
+      {items.map((item, idx) => {
+        if (item.name === "Services") {
+          return (
+            <div key={`link-${idx}`} className="relative px-4 py-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  onMouseEnter={() => setHovered(idx)}
+                  className="text-neutral-600 dark:text-neutral-300 focus:outline-none flex items-center"
+                >
+                  <span className="relative z-20">{item.name}</span>
+                  <ChevronDown className="h-4 w-4 ml-1" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mt-2 w-[400px]">
+                  <DropdownMenuItem>
+                    <BookCopy />
+                    Bootcamp/Cohort-Based Learning
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <UserRound />
+                    One-on-one Learning sessions
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Kanban />
+                    Guided Project Database
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Handshake />
+                    Business Consulting Services
+                    <ChevronRight className="h-4 w-4 ml-auto" />
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              {hovered === idx && (
+                <motion.div
+                  layoutId="hovered"
+                  className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+                />
+              )}
+            </div>
+          );
+        }
+        return (
+          <a
+            onMouseEnter={() => setHovered(idx)}
+            onClick={onItemClick}
+            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+            key={`link-${idx}`}
+            href={item.link}
+          >
+            {hovered === idx && (
+              <motion.div
+                layoutId="hovered"
+                className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              />
+            )}
+            <span className="relative z-20">{item.name}</span>
+          </a>
+        );
+      })}
     </motion.div>
   );
 };

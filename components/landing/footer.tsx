@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="bg-white py-12 px-4 border-t border-gray-200">
+    <footer className="bg-white py-28 px-4 border-t border-gray-200">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-3 gap-8 items-start">
           {/* Newsletter Section */}
-          <div>
+          <div className=" p-2 px-3">
             <p className="text-blue-600 font-medium mb-4">{"Don't miss important dates, news, and resources."}</p>
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Subscribe for our newsletters</h3>
             <div className="flex gap-2">
@@ -18,7 +19,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Section */}
-          <div>
+          <div className=" flex flex-col justify-center items-center">
             <h4 className="text-blue-600 font-medium mb-4">Contact us</h4>
             <div className="space-y-2 text-gray-700">
               <p>+234 7076238643</p>
@@ -47,11 +48,15 @@ export default function Footer() {
           </div>
 
           {/* Logo and Links Section */}
-          <div className="text-right">
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">DATATECH</h2>
-              <p className="text-sm text-gray-600">Empowering through data</p>
-            </div>
+          <div className="text-right ">
+           <Image
+                src="/landing/footer-logo.png"
+                alt="Person reacting"
+                width={500}
+                height={600}
+                className="w-full h-full object-contain mb-6"
+                priority
+            />
 
             <div className="flex justify-end gap-4 text-sm text-gray-600">
               <Link href="#" className="hover:text-gray-900">

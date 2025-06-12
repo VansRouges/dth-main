@@ -18,16 +18,16 @@ export default function Home() {
   const router = useRouter()
   const navItems = [
     {
-      name: "Individuals",
-      link: "/",
+      name: "Services",
+      link: "",
     },
     {
-      name: "Business",
+      name: "About Us",
       link: "/business",
     },
     {
-      name: "Courses",
-      link: "/courses",
+      name: "Contact Us",
+      link: "/contact",
     },
   ];
 
@@ -41,7 +41,7 @@ export default function Home() {
           <NavbarLogo />
           <NavItems items={navItems} />
           <div className="flex items-center gap-4">
-            <NavbarButton variant="primary" onClick={() => router.push("/sign-in")}>Login</NavbarButton>
+            <NavbarButton variant="primary" onClick={() => router.push("/sign-in")}>Join as Instructor</NavbarButton>
             <NavbarButton variant="primary" className="bg-[#104BC1] text-white" onClick={() => router.push("/sign-up")}>Register</NavbarButton>
           </div>
         </NavBody>
@@ -76,7 +76,7 @@ export default function Home() {
                 variant="primary"
                 className="w-full"
               >
-                Login
+                Join as Instructor
               </NavbarButton>
               <NavbarButton
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -89,6 +89,8 @@ export default function Home() {
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
+
+      
       <HeroSection />
 
     </div>

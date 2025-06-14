@@ -45,12 +45,14 @@ export default function Footer() {
             <div className="space-y-2 text-gray-700">
               <p>+447407209293</p>
               <p>+2349163946478</p>
-              <Link href="mailto:info@datatechhub.io" className="hover:text-blue-600">
-                info@datatechhub.io
-              </Link>
-              <Link href="mailto:datatechhub.io@gmail.com" className="hover:text-blue-600">
-                datatechhub.io@gmail.com
-              </Link>
+              <div className="flex flex-col space-y-2">
+                <Link href="mailto:info@datatechhub.io" className="hover:text-blue-600">
+                  info@datatechhub.io
+                </Link>
+                <Link href="mailto:datatechhub.io@gmail.com" className="hover:text-blue-600">
+                  datatechhub.io@gmail.com
+                </Link>
+              </div>
             </div>
 
             {/* Social Media Icons */}

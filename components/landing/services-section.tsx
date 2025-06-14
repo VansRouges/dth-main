@@ -1,4 +1,86 @@
-import Link from "next/link"
+import Link from "next/link";
+import { ReactNode } from "react";
+
+type Service = {
+  id: number;
+  title: string;
+  description: string;
+  icon: string;
+  bgColor: string;
+  textColor: string;
+  linkColor: string;
+  linkText: string;
+};
+
+type ServiceCardProps = {
+  service: Service;
+};
+
+const services: Service[] = [
+  {
+    id: 1,
+    title: "Bootcamp/Cohort-Based Learning",
+    description: "Intensive immersive programs designed to build job-ready skills in data technologies.",
+    icon: "/landing/books.svg",
+    bgColor: "bg-[#104BC133]",
+    textColor: "text-[#09296A]",
+    linkColor: "text-blue-700 hover:text-blue-800",
+    linkText: "Explore bootcamp"
+  },
+  {
+    id: 2,
+    title: "One-on-One Learning Sessions",
+    description: "Tailored mentorship to meet your unique learning needs.",
+    icon: "/landing/users.svg",
+    bgColor: "bg-[#FF880033]",
+    textColor: "text-[#8C4B00]",
+    linkColor: "text-orange-700 hover:text-orange-800",
+    linkText: "See Full Details"
+  },
+  {
+    id: 3,
+    title: "Guided Project Database",
+    description: "Access real-world projects to practice your skills and build a portfolio.",
+    icon: "/landing/projects.svg",
+    bgColor: "bg-[#F7C2C6]",
+    textColor: "text-[#7F1F27]",
+    linkColor: "text-[#7F1F27] hover:text-pink-800",
+    linkText: "See Full Details"
+  },
+  {
+    id: 4,
+    title: "Business Consulting Services",
+    description: "Tailored solutions to empower your business with data-driven strategies.",
+    icon: "/landing/handshake.svg",
+    bgColor: "bg-[#EAF6EC]",
+    textColor: "text-[#165C26]",
+    linkColor: "text-[#165C26] hover:text-green-800",
+    linkText: "See Full Details"
+  }
+];
+
+const ServiceCard = ({ service }: ServiceCardProps) => {
+  return (
+    <div className={`${service.bgColor} rounded-2xl p-4 h-full`}>
+      <div className="mb-6">
+        <img
+          src={service.icon}
+          alt={service.title}
+          width={70}
+          height={70}
+          className="object-contain"
+        />
+      </div>
+      <h3 className={`text-xl font-bold ${service.textColor} mb-4`}>{service.title}</h3>
+      <p className={`text-gray-700 leading-relaxed ${service.id === 2 ? 'mb-12' : 'mb-6'}`}>
+        {service.description}
+      </p>
+      <Link href="#" className={`font-medium transition-colors ${service.linkColor}`}>
+        {service.linkText}
+      </Link>
+    </div>
+  );
+};
 
 export default function OurServices() {
   return (
@@ -12,84 +94,10 @@ export default function OurServices() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 px-24">
-        {/* Bootcamp/Cohort-Based Learning */}
-        <div className="bg-[#104BC133] rounded-2xl p-4 h-full">
-          <div className="mb-6">
-            <img
-                src="/landing/wpf_books.svg"
-                alt="logo"
-                width={70}
-                height={70}
-                className="object-contain"
-            />
-          </div>
-          <h3 className="text-xl font-bold text-[#09296A] mb-4">Bootcamp/Cohort-Based Learning</h3>
-          <p className="text-gray-700 mb-6 leading-relaxed">
-            Intensive immersive programs designed to build job-ready skills in data technologies.
-          </p>
-          <Link href="#" className="text-blue-700 font-medium hover:text-blue-800 transition-colors">
-            Explore bootcamp
-          </Link>
-        </div>
-
-        {/* One-on-One Learning Sessions */}
-        <div className="bg-[#FF880033] rounded-2xl p-4 h-full">
-          <div className="mb-6">
-            <img
-                src="/landing/users.svg"
-                alt="logo"
-                width={70}
-                height={70}
-                className="object-contain"
-            />
-          </div>
-          <h3 className="text-xl font-bold text-[#8C4B00] mb-4">One-on-One Learning Sessions:</h3>
-          <p className="text-gray-700 mb-6 leading-relaxed">Tailored mentorship to meet your unique learning needs.</p>
-          <Link href="#" className="text-orange-700 font-medium hover:text-orange-800 transition-colors">
-            See Full Details
-          </Link>
-        </div>
-
-        {/* Guided Project Database */}
-        <div className="bg-[#F7C2C6] rounded-2xl p-4 h-full">
-          <div className="mb-6">
-            <img
-                src="/landing/projects.svg"
-                alt="logo"
-                width={70}
-                height={70}
-                className="object-contain"
-            />
-          </div>
-          <h3 className="text-xl font-bold text-[#7F1F27] mb-4">Guided Project Database:</h3>
-          <p className="text-gray-700 mb-6 leading-relaxed">
-            Access real-world projects to practice your skills and build a portfolio.
-          </p>
-          <Link href="#" className="text-[#7F1F27] font-medium hover:text-pink-800 transition-colors">
-            See Full Details
-          </Link>
-        </div>
-
-        {/* Business Consulting Services */}
-        <div className="bg-[#EAF6EC] rounded-2xl p-4 h-full">
-          <div className="mb-6">
-            <img
-                src="/landing/handshake.svg"
-                alt="logo"
-                width={70}
-                height={70}
-                className="object-contain"
-            />
-          </div>
-          <h3 className="text-xl font-bold text-[#165C26] mb-4">Business Consulting Services</h3>
-          <p className="text-gray-700 mb-6 leading-relaxed">
-            Tailored solutions to empower your business with data-driven strategies.
-          </p>
-          <Link href="#" className="text-[#165C26] font-medium hover:text-green-800 transition-colors">
-            See Full Details
-          </Link>
-        </div>
+        {services.map((service) => (
+          <ServiceCard key={service.id} service={service} />
+        ))}
       </div>
     </section>
-  )
+  );
 }

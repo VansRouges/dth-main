@@ -1,35 +1,76 @@
+"use client"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+
+const stats = [
+  {
+    id: 1,
+    value: "7",
+    label: "Courses",
+    image: "/landing/stat-head.svg",
+    alt: "courses"
+  },
+  {
+    id: 2,
+    value: "20+",
+    label: "Tutors",
+    image: "/landing/tutorial.svg",
+    alt: "tutors"
+  },
+  {
+    id: 3,
+    value: "2283",
+    label: "Google Reviews",
+    image: "/landing/stars.svg",
+    alt: "reviews"
+  },
+  {
+    id: 4,
+    value: "5000+",
+    label: "Students",
+    image: "/landing/students.svg",
+    alt: "students"
+  },
+  {
+    id: 5,
+    value: "1",
+    label: "Common goals",
+    image: "/landing/goal.svg",
+    alt: "goals"
+  }
+];
+
 
 export default function StatsTestimonialsCTA() {
+  const router = useRouter()
+
   return (
     <div>
       {/* Stats Section */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">7</div>
-              <div className="text-gray-600">Courses</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">20+</div>
-              <div className="text-gray-600">Tutors</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">2283</div>
-              <div className="text-gray-600">Google Reviews</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">5000+</div>
-              <div className="text-gray-600">Students</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gray-900 mb-2">1</div>
-              <div className="text-gray-600">Common goals</div>
-            </div>
+            {stats.map((stat) => (
+              <div key={stat.id} className="relative group">
+                {/* Background image positioned behind the content */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <img
+                    src={stat.image}
+                    alt={stat.alt}
+                    className="w-32 h-32 object-contain"
+                  />
+                </div>
+                {/* Stat content */}
+                <div className="relative z-10">
+                  <div className="text-4xl font-bold text-gray-900 mb-2">{stat.value}</div>
+                  <div className="text-gray-600">{stat.label}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
 
       {/* Testimonials Section */}
       <section className="py-16 px-4 bg-white">
@@ -85,34 +126,45 @@ export default function StatsTestimonialsCTA() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-24 px-4 bg-slate-900">
-        {/* Background with shapes - now on the base layer */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <img
-            src="/landing/Shapes.png"
-            alt="Abstract shapes background"
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
 
-        {/* Content container - transparent and on top */}
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="bg-transparent rounded-2xl p-12">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-4xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
-                <p className="text-blue-100 mb-8 text-lg">
-                  Join thousands of learners transforming their careers with DataTechHub.
-                </p>
-                <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 text-lg font-semibold">
-                  Get Started Today
-                </Button>
-              </div>
+      {/* Base layer - dark background */}
+      <section className="relative py-32 px-4 bg-slate-900 flex justify-center items-center">
+        {/* Shapes background - confined to the blue container */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
+            <img
+              src="/landing/shapes.png"
+              alt="Abstract shapes background"
+              className="w-full h-full object-cover opacity-10"
+            />
+          </div>
+        <div className="relative bg-[#104BC1] rounded-xl w-[70%] min-h-[400px]">
 
-              <div className="flex justify-center">
-                <div className="bg-white rounded-lg p-8 text-center">
-                  <div className="text-4xl font-bold text-gray-900 mb-2">97%</div>
-                  <div className="text-gray-600">Project Completion Rate</div>
+          {/* Content container - transparent and on top */}
+          <div className="relative z-10 h-full">
+            <div className="h-full flex items-center justify-center p-12">
+              <div className="grid md:grid-cols-2 px-16 gap-8 items-center w-full max-w-6xl">
+                <div>
+                  <h2 className="text-5xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+                  <p className="text-blue-100 mb-8 text-lg">
+                    Join thousands of learners transforming their careers with DataTechHub.
+                  </p>
+                  <Button onClick={() => { router.push("/sign-up") }} className="bg-white cursor-pointer text-blue-600 hover:bg-gray-100 p-6 text-lg font-semibold">
+                    Get Started Today
+                  </Button>
+                </div>
+
+                <div className="relative flex justify-center h-full">
+                  <div className="bg-white w-[80%] rounded-lg p-8 text-center">
+                    <img
+                      src="/landing/progress.png"
+                      alt="Abstract shapes background"
+                      className="w-full h-full object-cover h-fit "
+                    />
+                    {/* <div className="absolute top-10 left">
+                      <div className="text-4xl font-bold text-gray-900 mb-2">97%</div>
+                      <div className="text-gray-600">Project Completion Rate</div>
+                    </div> */}
+                  </div>
                 </div>
               </div>
             </div>

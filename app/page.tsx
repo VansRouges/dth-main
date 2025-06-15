@@ -78,20 +78,20 @@ export default function Home() {
                 <ChevronDown className="h-4 w-4 ml-2" />
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mt-2 w-[400px]">
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/bootcamps')}>
                     <BookCopy />
                     Bootcamp/Cohort-Based Learning
                     <ChevronRight className="h-4 w-4 ml-2" />
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/one-on-one')}>
                     <UserRound />
                     One-on-one Learning sessions
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/projects')}>
                     <Kanban />
                     Guided Project Database
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => router.push('/business')}>
                     <Handshake />
                     Business Consulting Services
                   </DropdownMenuItem>

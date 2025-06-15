@@ -160,10 +160,6 @@ export default function StatsTestimonialsCTA() {
                       alt="Abstract shapes background"
                       className="w-full h-full object-cover h-fit "
                     />
-                    {/* <div className="absolute top-10 left">
-                      <div className="text-4xl font-bold text-gray-900 mb-2">97%</div>
-                      <div className="text-gray-600">Project Completion Rate</div>
-                    </div> */}
                   </div>
                 </div>
               </div>

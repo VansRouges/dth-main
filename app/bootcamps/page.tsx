@@ -65,25 +65,25 @@ export default function BootcampsPage() {
         {
           title: "Project Portfolio Assistance",
           description: "Get support in building and showcasing a portfolio that highlights your skills.",
-          icon: <FileText className="w-8 h-8 text-white" />,
+          icon: "/landing/bc-projects.svg",
           bgColor: "bg-orange-50"
         },
         {
           title: "Interview Guidance",
           description: "Practice interview techniques and receive feedback to improve",
-          icon: <MessageCircle className="w-8 h-8 text-white" />,
+          icon: "/landing/bc-chat.svg",
           bgColor: "bg-orange-50"
         },
         {
           title: "Career Mentorship",
           description: "Continuous guidance from experienced mentors to support your career transition",
-          icon: <Users className="w-8 h-8 text-white" />,
+          icon: "/landing/bc-mentoring.svg",
           bgColor: "bg-orange-50"
         },
         {
           title: "LinkedIn & CV Guidance",
           description: "Optimize your LinkedIn profile and resume to stand out to potential employers",
-          icon: <Briefcase className="w-8 h-8 text-white" />,
+          icon: "/landing/bc-cv.svg",
           bgColor: "bg-orange-50"
         }
     ];
@@ -235,8 +235,14 @@ export default function BootcampsPage() {
             {services.map((service, index) => (
                 <div key={index} className={`${service.bgColor} rounded-2xl p-8`}>
                 <div className="mb-6">
-                    <div className="w-16 h-16 bg-orange-500 rounded-lg flex items-center justify-center">
-                    {service.icon}
+                    <div className="w-16 h-16 bg- rounded-lg flex items-center justify-center">
+                    <img
+                      src={service.icon}
+                      alt={service.title}
+                      width={70}
+                      height={70}
+                      className="object-contain"
+                    />
                     </div>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{service.title}</h3>

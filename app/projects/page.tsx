@@ -1,156 +1,169 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Check, Globe, Award } from "lucide-react"
+"use client"
+import { Button } from "@/components/ui/button";
+import Footer from "@/components/landing/footer";
+import Navigation from "@/components/landing/navigation";
+import { useRouter } from "next/navigation";
+import SubscriptionPlans from "@/components/landing/subscription-plans";
 
 export default function ProjectsPage() {
+  const router = useRouter()
+
+    const navItems = [
+      {
+        name: "Services",
+        link: "",
+      },
+      {
+        name: "About Us",
+        link: "/about",
+      },
+      {
+        name: "Contact Us",
+        link: "/contact",
+      },
+    ];
+
+
+    const steps = [
+        {
+          icon: "/landing/steps-number.svg",
+          title: "Step-by-step project guides.",
+          description: "Schedule your learning session",
+        },
+        {
+          icon: "/landing/domain.svg",
+          title: "Categorized projects by difficulty and domain.",
+          description: "Get paired with an expert",
+        },
+        {
+          icon: "/landing/certificate.svg",
+          title: "Certifications for completed projects.",
+          description: "Begin your data journey",
+        },
+      ];
+
   return (
-    <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="py-16 px-4 bg-white">
+    <main className="min-h-screen relative">
+        {/* Navigation */}
+        <Navigation navItems={navItems} />
+
+        {/* Hero Section */}
+        <section className="py-24 pb-60 px-4 bg-[#F8F8F8] relative">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">Practice with Real-World Projects</h1>
+                <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                  Practice with Real-World Projects
+                </h1>
             </div>
-            <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[300px] relative">
-              {/* Placeholder for hero image */}
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                <span className="sr-only">Projects hero image</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Feature Cards Section */}
-      <section className="py-8 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="bg-blue-600 text-white border-0">
-              <CardContent className="p-6">
-                <p className="text-lg">Gain hands-on experience with curated projects and case studies.</p>
-              </CardContent>
-            </Card>
-            <Card className="bg-gray-100 border-0">
-              <CardContent className="p-6">
-                <p className="text-lg text-gray-700">Build a portfolio that demonstrates your skills.</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Features</h2>
-            <p className="text-gray-600 text-lg">How DataTechHub leads in data education.</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Step-by-step guides */}
-            <div className="text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-2xl font-bold text-blue-600">123</span>
+            <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[400px] relative">
+                {/* Placeholder for hero image */}
+                <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                <span className="sr-only">Bootcamp hero image</span>
                 </div>
-              </div>
-              <p className="text-gray-700 font-medium">Step-by-step project guides.</p>
             </div>
-
-            {/* Categorized projects */}
-            <div className="text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Globe className="w-8 h-8 text-blue-600" />
-                </div>
-              </div>
-              <p className="text-gray-700 font-medium">Categorized projects by difficulty and domain.</p>
             </div>
-
-            {/* Certifications */}
-            <div className="text-center">
-              <div className="mb-6 flex justify-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Award className="w-8 h-8 text-blue-600" />
-                </div>
-              </div>
-              <p className="text-gray-700 font-medium">Certifications for completed projects.</p>
-            </div>
-          </div>
         </div>
-      </section>
 
-      {/* Subscription and Plans Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Subscription and Plans</h2>
-            <p className="text-gray-600 text-lg">Subscribe to access the full library</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Individual Plan */}
-            <Card className="bg-blue-600 text-white border-0 overflow-hidden">
-              <CardContent className="p-8">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold mb-2">Individual</h3>
-                  <p className="text-blue-100 mb-6">
-                    Perfect for individuals and freelancers looking to enhance their skills
-                  </p>
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold">$1000.00</span>
-                    <span className="text-blue-200 ml-2">/month</span>
+        {/* Matching Process Section - positioned absolutely over the divider */}
+          <div className="absolute -bottom-20 left-0 right-0">
+              <div className="max-w-6xl mx-auto px-4">
+                <div className="bg-transparent p-8 rounded-xl">
+                  <div className="max-w-6xl mx-auto flex space-x-3 items-center justify-center">
+                    <div className="bg-[#104BC1] text-white h-fit w-96 rounded-xl flex flex-col p-5 space-y-2">
+                      <h2 className="font-semibold text-xl">Gain hands-on experience with curated projects and case studies.</h2>
+                    </div>
+                    <div className="bg-[#DDE8FF] h-fit w-96 text-[#081227] rounded-xl flex flex-col p-5 space-y-2">
+                      <h2 className="font-semibold text-xl">Build a portfolio that demonstrates your skills.</h2>
+                    </div>
                   </div>
-                  <Button className="w-full bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3">
-                    Subscribe Now
+                </div>
+              </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-24 px-4 bg-white">
+          <div className="max-w-4xl mx-auto text-center">
+              {/* Header */}
+              <div className="mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Features</h2>
+                <p className="text-gray-600 text-lg">How DataTech Hub leads in data education.</p>
+              </div>
+
+              {/* Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+              {steps.map((step, index) => {
+                  return (
+                  <div key={index} className="flex flex-col items-start rounded-xl bg-[#F8F8F8] p-2 px-5">
+                      {/* Icon Circle */}
+                      <div className="w-20 h-20 flex items-center justify-center mb-6">
+                          <img
+                              src={step.icon}
+                              alt={step.title}
+                              width={70}
+                              height={70}
+                              className="object-contain"
+                          />
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">{step.title}</h3>
+
+                      {/* Optional description for accessibility */}
+                      <p className="text-gray-600 text-sm sr-only">{step.description}</p>
+                  </div>
+                  )
+              })}
+              </div>
+          </div>
+        </section>
+
+        {/* Subscription Plans */}
+        <SubscriptionPlans />
+
+        {/* CTA Section */}
+      <section className="relative py-32 px-4 bg-[#081227] flex justify-center items-center">
+        {/* Shapes background - confined to the blue container */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
+            <img
+              src="/landing/shapes.png"
+              alt="Abstract shapes background"
+              className="w-full h-full object-cover opacity-10"
+            />
+          </div>
+        <div className="relative bg-[#104BC1] rounded-xl w-[70%] min-h-[400px]">
+
+          {/* Content container - transparent and on top */}
+          <div className="relative z-10 h-full">
+            <div className="h-full flex items-center justify-center p-12">
+              <div className="grid md:grid-cols-2 px-16 gap-8 items-center w-full max-w-6xl">
+                <div>
+                  <h2 className="text-5xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+                  <p className="text-blue-100 mb-8 text-lg">
+                    Join thousands of learners transforming their careers with DataTechHub.
+                  </p>
+                  <Button onClick={() => { router.push("/sign-up") }} className="bg-white cursor-pointer text-blue-600 hover:bg-gray-100 p-6 text-lg font-semibold">
+                    Get Started Today
                   </Button>
                 </div>
 
-                <div className="space-y-3">
-                  <p className="font-semibold mb-4">Subscription Benefit</p>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                    <div key={num} className="flex items-center gap-3">
-                      <Check className="w-5 h-5 text-white" />
-                      <span className="text-sm">Benefit {num}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Organization Plan */}
-            <Card className="border-2 border-gray-200 overflow-hidden">
-              <CardContent className="p-8">
-                <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Organization</h3>
-                  <p className="text-gray-600 mb-6">
-                    Designed for teams and organizations seeking comprehensive training solutions
-                  </p>
-                  <div className="mb-6">
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3">
-                      {"Let's talk"}
-                    </Button>
+                <div className="relative flex justify-center h-full">
+                  <div className="bg-white w-[80%] rounded-lg p-8 text-center">
+                    <img
+                      src="/landing/progress.png"
+                      alt="Abstract shapes background"
+                      className="w-full h-full object-cover h-fit "
+                    />
                   </div>
                 </div>
-
-                <div className="space-y-3">
-                  <p className="font-semibold mb-4 text-gray-900">Subscription Benefit</p>
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                    <div key={num} className="flex items-center gap-3">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-gray-400"></div>
-                      </div>
-                      <span className="text-sm text-gray-700">Benefit {num}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      <Footer />
     </main>
   )
 }

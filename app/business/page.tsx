@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
 
-export default function BootcampsPage() {
+export default function BusinessPage() {
     const router = useRouter()
     const navItems = [
       {
@@ -25,38 +25,9 @@ export default function BootcampsPage() {
     ];
 
     const benefits = [
-        "Intensive and immersive curriculum.",
-        "Structured Learning Paths",
-        "Peer collaboration and networking.",
-        "Real-world project experience.",
-        "Certification upon completion."
-    ];
-
-    const services = [
-        {
-          title: "Project Portfolio Assistance",
-          description: "Get support in building and showcasing a portfolio that highlights your skills.",
-          icon: "/landing/bc-projects.svg",
-          bgColor: "bg-orange-50"
-        },
-        {
-          title: "Interview Guidance",
-          description: "Practice interview techniques and receive feedback to improve",
-          icon: "/landing/bc-chat.svg",
-          bgColor: "bg-orange-50"
-        },
-        {
-          title: "Career Mentorship",
-          description: "Continuous guidance from experienced mentors to support your career transition",
-          icon: "/landing/bc-mentoring.svg",
-          bgColor: "bg-orange-50"
-        },
-        {
-          title: "LinkedIn & CV Guidance",
-          description: "Optimize your LinkedIn profile and resume to stand out to potential employers",
-          icon: "/landing/bc-cv.svg",
-          bgColor: "bg-orange-50"
-        }
+        "Corporate training in data-driven technologies.",
+        "Talent outsourcing for projects or roles.",
+        "Data strategy consulting and execution.",
     ];
 
   return (
@@ -70,19 +41,18 @@ export default function BootcampsPage() {
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div>
                 <h1 className="text-6xl font-bold text-gray-900 mb-6 leading-tight">
-                    Accelerate Your Career with Our Bootcamps
+                    Empower Your Business with Data-Driven Insights
                 </h1>
                 <p className="text-gray-600 text-lg leading-relaxed">
-                    Our immersive bootcamps are designed to accelerate your tech career by offering structured, hands-on
-                    learning experiences led by industry professionals. Ideal for those looking to make a rapid transition
-                    or build foundational skills quickly.
+                    From team training to talent outsourcing, we offer solutions tailored to your business.
                 </p>
                 </div>
                 <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[400px] relative">
-                {/* Placeholder for hero image */}
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                    <span className="sr-only">Bootcamp hero image</span>
-                </div>
+                    <img
+                        src="/landing/business-hero.jpg"
+                        alt="Business Hero Illustration"
+                        className="w-full h-full object-cover rounded-xl"
+                    />
                 </div>
             </div>
             </div>
@@ -92,17 +62,18 @@ export default function BootcampsPage() {
         <section className="py-16 px-4 bg-white">
             <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-12">
-                <p className="text-blue-600 font-medium mb-2">How do we stand out?</p>
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">Benefits of our Bootcamps</h2>
+                <p className="text-blue-600 font-medium mb-2">What can we do?</p>
+                <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Business consulting Services</h2>
                 <p className="text-gray-600 text-lg">How DataTechHub leads in data education.</p>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[350px] relative">
-                    {/* Placeholder for benefits image */}
-                    <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                    <span className="sr-only">Benefits illustration</span>
-                    </div>
+                    <img
+                        src="/landing/business-hero-2.png"
+                        alt="Business Hero Illustration"
+                        className="w-full h-full object-cover rounded-xl"
+                    />
                 </div>
 
                 <div className="space-y-6">
@@ -112,45 +83,16 @@ export default function BootcampsPage() {
                             <Check className="w-3 h-3 text-white font-extrabold" />
                         </div>
                         <div>
-                        <h3 className="font-semibold text-gray-900 text-lg">{benefit}</h3>
+                        <h3 className="font-semibold text-[#104BC1] text-lg">{benefit}</h3>
                         </div>
                     </div>
                     ))}
                 </div>
                 </div>
             </div>
-        </section>
-
-        {/* Services Section */}
-        <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-                <div key={index} className={`${service.bgColor} rounded-2xl p-8`}>
-                <div className="mb-6">
-                    <div className="w-16 h-16 bg- rounded-lg flex items-center justify-center">
-                    <img
-                      src={service.icon}
-                      alt={service.title}
-                      width={70}
-                      height={70}
-                      className="object-contain"
-                    />
-                    </div>
-                </div>
-                <h3 className="text-xl font-bold text-[#8C4B00] mb-4">{service.title}</h3>
-                <p className="text-gray-700 leading-relaxed">
-                    {service.description}
-                </p>
-                </div>
-            ))}
-            </div>
-        </div>
-        </section>
+        </section>        
 
       {/* CTA Section */}
-
-      {/* Base layer - dark background */}
       <section className="relative py-32 px-4 bg-slate-900 flex justify-center items-center">
         {/* Shapes background - confined to the blue container */}
         <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">

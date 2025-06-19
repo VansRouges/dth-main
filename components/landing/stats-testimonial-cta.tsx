@@ -128,7 +128,7 @@ export default function StatsTestimonialsCTA() {
       {/* CTA Section */}
 
       {/* Base layer - dark background */}
-      <section className="relative py-32 px-4 bg-slate-900 flex justify-center items-center">
+      <section className="relative py-32 px-4 bg-[#081227] flex justify-center items-center">
         {/* Shapes background - confined to the blue container */}
         <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
             <img

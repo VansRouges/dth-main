@@ -42,10 +42,10 @@ export default function Footer() {
           {/* Contact Section */}
           <div className="flex flex-col justify-center items-center">
             <h4 className="text-blue-600 font-medium mb-4">Contact us</h4>
-            <div className="space-y-2 text-gray-700">
+            <div className="flex flex-col space-y-2 text-gray-700 justify-center items-center">
               <p>+447407209293</p>
               <p>+2349163946478</p>
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 justify-center items-center">
                 <Link href="mailto:info@datatechhub.io" className="hover:text-blue-600">
                   info@datatechhub.io
                 </Link>

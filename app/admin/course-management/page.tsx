@@ -14,7 +14,7 @@ interface ManagementCard {
   iconBgColor: string;
 }
 
-const AdminOverviewPage: NextPage = async () => {
+const CourseManagement: NextPage = async () => {
   const user = await currentUser();
 
   if (!checkAdminAccess(user)) {
@@ -23,29 +23,29 @@ const AdminOverviewPage: NextPage = async () => {
 
   const managementCards: ManagementCard[] = [
     {
-      title: "Users",
-      href: "/admin/users",
-      icon: "/management/award.svg",
-      bgColor: "bg-[#9CD7A9]",
-      textColor: "text-[#11461D]",
-      iconBgColor: "bg-[#4CAF5033]"
-    },
-    {
-      title: "Students",
-      href: "/admin/students",
-      icon: "/admin/user-group.svg",
+      title: "Courses(Cohort)",
+      href: "/admin/course-management/courses",
+      icon: "/admin/courses.svg",
       bgColor: "bg-[#B5C7EC]",
       textColor: "text-[#081227]",
       iconBgColor: "bg-[#104BC133]"
     },
     {
-      title: "Instructors",
-      href: "/admin/instructors",
+      title: "One-On-One",
+      href: "#",
       icon: "/admin/teacher.svg",
       bgColor: "bg-[#FFF3B0]",
       textColor: "text-[#6B3900]",
       iconBgColor: "bg-[#FF880033]"
-    }
+    },
+    {
+      title: "Projects",
+      href: "#",
+      icon: "/admin/projects.svg",
+      bgColor: "bg-[#9CD7A9]",
+      textColor: "text-[#11461D]",
+      iconBgColor: "bg-[#4CAF5033]"
+    },
   ];
 
   return (
@@ -62,7 +62,7 @@ const AdminOverviewPage: NextPage = async () => {
         />
 
         <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
-          <h1 className="text-3xl font-extrabold">User Management</h1>
+          <h1 className="text-3xl font-extrabold">Course Management</h1>
         </div>
       </div>
 
@@ -94,4 +94,4 @@ const AdminOverviewPage: NextPage = async () => {
   );
 };
 
-export default AdminOverviewPage;
+export default CourseManagement;

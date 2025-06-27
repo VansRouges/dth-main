@@ -31,7 +31,7 @@ const navItems = [
   },
   {
     title: "Course Management",
-    url: "/admin/courses",
+    url: "/admin/course-management",
     icon: <LearningIcon />,
   },
   

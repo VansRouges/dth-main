@@ -1,24 +1,14 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { CalendarDays, Clock, Plus, Upload, User, Video, ExternalLink, EllipsisVertical } from "lucide-react"
+import { Plus } from "lucide-react"
+import { CourseCard } from "./course-dashboard/CourseCard"
+import { LiveClassCard } from "./course-dashboard/LiveClassCard"
+import { AddCourseDialog } from "./course-dashboard/ AddCourseDialog"
+import { ScheduleClassDialog } from "./course-dashboard/ScheduleClassDialog"
 
 // Mock data
 const courses = [
@@ -119,89 +109,21 @@ export default function CourseDashboard() {
       <Tabs defaultValue="courses" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="courses">Courses</TabsTrigger>
-          <TabsTrigger value="live-classes">Live Classes</TabsTrigger> 
+          <TabsTrigger value="live-classes">Live Classes</TabsTrigger>
         </TabsList>
 
         <TabsContent value="courses" className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold">Courses</h2>
-            <Dialog open={courseModalOpen} onOpenChange={setCourseModalOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Add Course
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Upload Course Videos</DialogTitle>
-                  <DialogDescription className="text-black">Upload your course videos by clicking or dragging files here.</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div
-                    className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-                      dragActive ? "border-primary bg-primary/5" : "border-gray-300 hover:border-primary/50"
-                    }`}
-                    onDragEnter={handleDrag}
-                    onDragLeave={handleDrag}
-                    onDragOver={handleDrag}
-                    onDrop={handleDrop}
-                  >
-                    <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                    <div className="space-y-2">
-                      <p className="text-lg font-medium">Drop your videos here</p>
-                      <p className="text-sm text-black/20">or click to browse files</p>
-                    </div>
-                    <input
-                      type="file"
-                      multiple
-                      accept="video/*"
-                      onChange={handleFileSelect}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-end space-x-2">
-                    <Button variant="outline" className="text-white" onClick={() => setCourseModalOpen(true)}>
-                      Cancel
-                    </Button>
-                    <Button onClick={() => setCourseModalOpen(false)}>Upload</Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Button onClick={() => setCourseModalOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Course
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {courses.map((course) => (
-              <Card key={course.id} className="overflow-hidden h-96 p-5 text-black">
-                <div className="flex justify-between">
-                  <span>Course ID:</span>
-                  <EllipsisVertical className="w-6 h-6 cursor-pointer" />
-                </div>
-                <div className="aspect-video h-[45%]">
-                  <img
-                    src={course.thumbnail || "/placeholder.svg"}
-                    alt={course.title}
-                    className="w-full h-full object-cover rounded-xl"
-                  />
-                </div>
-                <CardContent>
-                  <div className="flex justify-between items-center text-sm text-black">
-                    <div className="flex items-center">
-                      <span>Number of Modules: </span>
-                      <span className="font-bold">{course.duration}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span>Number of Lessons: </span>
-                      <span className=" font-bold">{course.lessons}</span>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardHeader>
-                  <CardTitle className="line-clamp-1 text-black font-semibold text-xl">{course.title}</CardTitle>
-                  <CardDescription className="line-clamp-2 tracking-wide text-[#FF8800] text-lg font-bold">{course.price}</CardDescription>
-                </CardHeader>
-              </Card>
+              <CourseCard key={course.id} course={course} />
             ))}
           </div>
         </TabsContent>
@@ -209,113 +131,22 @@ export default function CourseDashboard() {
         <TabsContent value="live-classes" className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold">Live Classes</h2>
-            <Dialog open={liveClassModalOpen} onOpenChange={setLiveClassModalOpen}>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Schedule Class
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Schedule Live Class</DialogTitle>
-                  <DialogDescription className="text-black">Create a new live class session for your students.</DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Meeting Title</Label>
-                    <Input id="title" placeholder="Enter meeting title" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="date">Date</Label>
-                      <Input id="date" type="date" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="time">Time</Label>
-                      <Input id="time" type="time" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="facilitator">Facilitator Name</Label>
-                    <Input id="facilitator" placeholder="Enter facilitator name" />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="course">Course</Label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a course" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {courses.map((course) => (
-                          <SelectItem key={course.id} value={course.title}>
-                            {course.title}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="meeting-link">Google Meeting Link</Label>
-                    <Input id="meeting-link" placeholder="https://meet.google.com/..." type="url" />
-                  </div>
-
-                  <div className="flex justify-end space-x-2">
-                    <Button variant="outline" className="text-white" onClick={() => setLiveClassModalOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button onClick={() => setLiveClassModalOpen(false)}>Schedule Class</Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <Button onClick={() => setLiveClassModalOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Schedule Class
+            </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {liveClasses.map((liveClass) => (
-              <Card key={liveClass.id}>
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <CardTitle className="line-clamp-1 text-black">{liveClass.title}</CardTitle>
-                    <div
-                      className={`w-3 h-3 rounded-full ${
-                        liveClass.status === "upcoming" ? "bg-green-500" : "bg-orange-500"
-                      }`}
-                    />
-                  </div>
-                  <Badge variant="secondary" className="w-fit">
-                    {liveClass.course}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center text-sm text-black">
-                    <CalendarDays className="w-4 h-4 mr-2" />
-                    {new Date(liveClass.date).toLocaleDateString()} at {liveClass.time}
-                  </div>
-
-                  <div className="flex items-center text-sm text-black">
-                    <User className="w-4 h-4 mr-2" />
-                    {liveClass.facilitator}
-                  </div>
-
-                  <div className="pt-2">
-                    <Button variant="outline" size="sm" className="w-full" asChild>
-                      <a href={liveClass.meetingLink} target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Join Meeting
-                      </a>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <LiveClassCard key={liveClass.id} liveClass={liveClass} />
             ))}
           </div>
         </TabsContent>
       </Tabs>
+
+      <AddCourseDialog open={courseModalOpen} onOpenChange={setCourseModalOpen} />
+      <ScheduleClassDialog open={liveClassModalOpen} onOpenChange={setLiveClassModalOpen} courses={courses} />
     </div>
   )
 }

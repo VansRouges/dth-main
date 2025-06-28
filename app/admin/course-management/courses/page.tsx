@@ -5,14 +5,6 @@ import { checkAdminAccess } from "@/lib/utils";
 import Image from "next/image";
 import CourseDashboard from "@/components/admin/course-dashboard";
 
-interface ManagementCard {
-  title: string;
-  href: string;
-  icon: string;
-  bgColor: string;
-  textColor: string;
-  iconBgColor: string;
-}
 
 const Courses: NextPage = async () => {
   const user = await currentUser();
@@ -41,7 +33,7 @@ const Courses: NextPage = async () => {
       </div>
 
 
-    <CourseDashboard />
+      <CourseDashboard />
     </>
   );
 };

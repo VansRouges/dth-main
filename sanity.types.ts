@@ -13,6 +13,26 @@
  */
 
 // Source: schema.json
+export type LiveClass = {
+  _id: string;
+  _type: "liveClass";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  date?: string;
+  time?: string;
+  facilitator?: string;
+  course?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "course";
+  };
+  meetingLink?: string;
+  status?: "upcoming" | "past";
+};
+
 export type LessonCompletion = {
   _id: string;
   _type: "lessonCompletion";
@@ -344,7 +364,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/courses/getCourseById.ts
 // Variable: getCourseByIdQuery

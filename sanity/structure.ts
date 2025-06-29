@@ -1,9 +1,8 @@
 import { StructureBuilder } from "sanity/structure";
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure = (S: StructureBuilder) =>
   S.list()
-    .title("DTH Admin Dashboard")
+    .title("Admin Dashboard")
     .items([
       // Course Content
       S.listItem()
@@ -15,21 +14,15 @@ export const structure = (S: StructureBuilder) =>
               S.list()
                 .title("Course Options")
                 .items([
-                  // Option to edit course content
                   S.listItem()
                     .title("Edit Course Content")
-                    .child(
-                      S.document().schemaType("course").documentId(courseId)
-                    ),
-                  // Option to view course enrollments
+                    .child(S.document().schemaType("course").documentId(courseId)),
                   S.listItem()
                     .title("View Students")
                     .child(
                       S.documentList()
                         .title("Course Enrollments")
-                        .filter(
-                          '_type == "enrollment" && course._ref == $courseId'
-                        )
+                        .filter('_type == "enrollment" && course._ref == $courseId')
                         .params({ courseId })
                     ),
                 ])
@@ -45,7 +38,6 @@ export const structure = (S: StructureBuilder) =>
           S.list()
             .title("Select a Type of User")
             .items([
-              // Instructors with options
               S.listItem()
                 .title("Instructors")
                 .schemaType("instructor")
@@ -56,7 +48,6 @@ export const structure = (S: StructureBuilder) =>
                       S.list()
                         .title("Instructor Options")
                         .items([
-                          // Option to edit instructor details
                           S.listItem()
                             .title("Edit Instructor Details")
                             .child(
@@ -64,21 +55,17 @@ export const structure = (S: StructureBuilder) =>
                                 .schemaType("instructor")
                                 .documentId(instructorId)
                             ),
-                          // Option to view instructor's courses
                           S.listItem()
                             .title("View Courses")
                             .child(
                               S.documentList()
                                 .title("Instructor's Courses")
-                                .filter(
-                                  '_type == "course" && instructor._ref == $instructorId'
-                                )
+                                .filter('_type == "course" && instructor._ref == $instructorId')
                                 .params({ instructorId })
                             ),
                         ])
                     )
                 ),
-              // Students with options
               S.listItem()
                 .title("Students")
                 .schemaType("student")
@@ -89,7 +76,6 @@ export const structure = (S: StructureBuilder) =>
                       S.list()
                         .title("Student Options")
                         .items([
-                          // Option to edit student details
                           S.listItem()
                             .title("Edit Student Details")
                             .child(
@@ -97,27 +83,21 @@ export const structure = (S: StructureBuilder) =>
                                 .schemaType("student")
                                 .documentId(studentId)
                             ),
-                          // Option to view enrollments
                           S.listItem()
                             .title("View Enrollments")
                             .child(
                               S.documentList()
                                 .title("Student Enrollments")
-                                .filter(
-                                  '_type == "enrollment" && student._ref == $studentId'
-                                )
+                                .filter('_type == "enrollment" && student._ref == $studentId')
                                 .params({ studentId })
                             ),
-                          // Option to view completed lessons
                           S.listItem()
                             .title("View Completed Lessons")
                             .child(
                               S.documentList()
                                 .title("Completed Lessons")
                                 .schemaType("lessonCompletion")
-                                .filter(
-                                  '_type == "lessonCompletion" && student._ref == $studentId'
-                                )
+                                .filter('_type == "lessonCompletion" && student._ref == $studentId')
                                 .params({ studentId })
                                 .defaultOrdering([
                                   { field: "completedAt", direction: "desc" },
@@ -131,20 +111,45 @@ export const structure = (S: StructureBuilder) =>
 
       S.divider(),
 
+      // Live Classes
+      S.listItem()
+        .title("Live Classes")
+        .child(
+          S.documentTypeList("liveClass")
+            .title("Live Classes")
+            .child((liveClassId) =>
+              S.list()
+                .title("Live Class Options")
+                .items([
+                  S.listItem()
+                    .title("Edit Live Class")
+                    .child(
+                      S.document()
+                        .schemaType("liveClass")
+                        .documentId(liveClassId)
+                    ),
+                  S.listItem()
+                    .title("View Attendees")
+                    .child(
+                      S.documentList()
+                        .title("Live Class Attendees")
+                        .filter('_type == "liveClassAttendance" && liveClass._ref == $liveClassId')
+                        .params({ liveClassId })
+                    ),
+                ])
+            )
+        ),
+
+      S.divider(),
+
       // System Management
       S.listItem()
         .title("System Management")
         .child(
           S.list()
             .title("System Management")
-            .items([S.documentTypeListItem("category").title("Categories")])
-        ),
-      // Live Classes
-      S.listItem()
-        .title("Live Classes")
-        .child(
-          S.list()
-            .title("Live Classes")
-            .items([S.documentTypeListItem("category").title("Categories")])
+            .items([
+              S.documentTypeListItem("category").title("Categories"),
+            ])
         ),
     ]);

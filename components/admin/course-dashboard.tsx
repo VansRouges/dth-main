@@ -74,35 +74,8 @@ const liveClasses = [
 export default function CourseDashboard() {
   const [courseModalOpen, setCourseModalOpen] = useState(false)
   const [liveClassModalOpen, setLiveClassModalOpen] = useState(false)
-  const [dragActive, setDragActive] = useState(false)
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true)
-    } else if (e.type === "dragleave") {
-      setDragActive(false)
-    }
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      // Handle file upload logic here
-      console.log("Files dropped:", e.dataTransfer.files)
-    }
-  }
-
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      // Handle file upload logic here
-      console.log("File selected:", e.target.files[0])
-    }
-  }
+  
 
   return (
     <div className="container mx-auto p-6">

@@ -131,10 +131,10 @@ export default function CourseDashboard() {
         <TabsContent value="live-classes" className="space-y-6">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold">Live Classes</h2>
-            <Button onClick={() => setLiveClassModalOpen(true)}>
+            {/* <Button onClick={() => setLiveClassModalOpen(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Schedule Class
-            </Button>
+            </Button> */}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

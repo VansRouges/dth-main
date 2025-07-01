@@ -3,63 +3,87 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false,
+  },
+});
 
 const STORAGE_BUCKET = "course-content";
 
-export const uploadCourseVideo = async (
+export const uploadDirectToSupabase = async (
   file: File,
   onProgress?: (percentage: number) => void
 ): Promise<{ url: string | null; error: Error | null }> => {
   try {
     const fileName = `course-videos/${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    const filePath = `${fileName}`;
     
-    // Get signed upload URL from your backend
-    const { data: signedUrlData, error: signedUrlError } = await supabase
-      .functions
-      .invoke('generate-upload-url', {
-        body: { path: filePath, contentType: file.type }
-      });
+    // Create a custom upload implementation with progress tracking
+    const { error } = await uploadWithProgress(
+      file,
+      fileName,
+      onProgress
+    );
 
-    if (signedUrlError || !signedUrlData?.signedUrl) {
-      throw signedUrlError || new Error('Failed to get signed URL');
-    }
+    if (error) throw error;
 
-    // Upload using fetch with progress tracking
-    const xhr = new XMLHttpRequest();
-    xhr.open('PUT', signedUrlData.signedUrl, true);
-    xhr.setRequestHeader('Content-Type', file.type);
+    const { data: { publicUrl } } = supabase.storage
+      .from(STORAGE_BUCKET)
+      .getPublicUrl(fileName);
 
-    return new Promise((resolve, reject) => {
-      xhr.upload.onprogress = (event) => {
-        if (event.lengthComputable && onProgress) {
-          const percentage = Math.round((event.loaded / event.total) * 100);
-          onProgress(percentage);
-        }
-      };
-
-      xhr.onload = async () => {
-        if (xhr.status >= 200 && xhr.status < 300) {
-          // Get public URL after successful upload
-          const { data: { publicUrl } } = supabase.storage
-            .from(STORAGE_BUCKET)
-            .getPublicUrl(filePath);
-          
-          resolve({ url: publicUrl, error: null });
-        } else {
-          reject(new Error('Upload failed'));
-        }
-      };
-
-      xhr.onerror = () => {
-        reject(new Error('Upload failed'));
-      };
-
-      xhr.send(file);
-    });
+    return { url: publicUrl, error: null };
   } catch (error) {
-    console.error("Error uploading video:", error);
+    console.error("Upload error:", error);
     return { url: null, error: error as Error };
   }
 };
+
+// Custom upload function with progress tracking
+async function uploadWithProgress(
+  file: File,
+  fileName: string,
+  onProgress?: (percentage: number) => void
+) {
+  return new Promise<{ error: Error | null }>((resolve) => {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Get upload URL from Supabase
+    supabase.storage
+      .from(STORAGE_BUCKET)
+      .createSignedUploadUrl(fileName)
+      .then(({ data: signedUrlData, error: signedError }) => {
+        if (signedError || !signedUrlData?.signedUrl) {
+          resolve({ error: signedError || new Error('No signed URL') });
+          return;
+        }
+
+        xhr.open('PUT', signedUrlData.signedUrl, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${supabaseAnonKey}`);
+        xhr.setRequestHeader('x-upsert', 'false');
+
+        // Progress tracking
+        xhr.upload.onprogress = (event) => {
+          if (event.lengthComputable && onProgress) {
+            const percent = Math.round((event.loaded / event.total) * 100);
+            onProgress(percent);
+          }
+        };
+
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve({ error: null });
+          } else {
+            resolve({ error: new Error('Upload failed') });
+          }
+        };
+
+        xhr.onerror = () => {
+          resolve({ error: new Error('Network error') });
+        };
+
+        xhr.send(file);
+      });
+  });
+}

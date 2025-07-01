@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Progress } from "@/components/ui/progress"
 import { toast } from "sonner"
+import { uploadDirectToSupabase } from "@/supabase/supabase"
 
 interface AddCourseDialogProps {
   open: boolean
@@ -47,49 +48,37 @@ export function AddCourseDialog({ open, onOpenChange }: AddCourseDialogProps) {
     }
   }
 
-  const handleFileUpload = async (file: File) => {
+ const handleFileUpload = async (file: File) => {
   if (!file.type.startsWith("video/")) {
     toast.error("Only video files are allowed (MP4, WebM, MOV)");
+    return;
+  }
+
+  // Client-side size validation (adjust as needed)
+  if (file.size > 100 * 1024 * 1024) { // 100MB
+    toast.error("File too large - maximum 100MB");
     return;
   }
 
   setIsUploading(true);
   setUploadProgress(0);
 
-  const formData = new FormData();
-  formData.append("file", file);
+  try {
+    const { url, error } = await uploadDirectToSupabase(file, (progress) => {
+      setUploadProgress(progress);
+    });
 
-  const xhr = new XMLHttpRequest();
-
-  // Progress tracking
-  xhr.upload.onprogress = (event) => {
-    if (event.lengthComputable) {
-      const percent = Math.round((event.loaded / event.total) * 100);
-      setUploadProgress(percent);
-    }
-  };
-
-  // Handle completion
-  xhr.onload = () => {
-    if (xhr.status === 200) {
-      const { url } = JSON.parse(xhr.response);
+    if (error) throw error;
+    if (url) {
       setVideoUrl(url);
       toast.success("Video uploaded successfully!");
-    } else {
-      toast.error("Upload failed. Please try again.");
     }
+  } catch (error) {
+    console.error("Upload error:", error);
+    toast.error(error instanceof Error ? error.message : "Upload failed");
+  } finally {
     setIsUploading(false);
-  };
-
-  // Handle errors
-  xhr.onerror = () => {
-    toast.error("Network error during upload.");
-    setIsUploading(false);
-  };
-
-  // Start upload
-  xhr.open("POST", "/api/upload-video", true);
-  xhr.send(formData);
+  }
 };
 
   const copyToClipboard = (e: React.MouseEvent) => {

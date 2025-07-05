@@ -9,6 +9,8 @@ import { enrollmentType } from "./enrollmentType";
 import { categoryType } from "./categoryType";
 import { lessonCompletionType } from "./lessonCompletionType";
 import { liveClassType } from "./liveClassType";
+import { skillsType } from "./skillsType";
+import { jobOpportunityType } from './jobOppotunityType';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -22,6 +24,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     categoryType,
     lessonCompletionType,
     liveClassType,
+    skillsType,
+    jobOpportunityType,
   ],
 };
 
@@ -34,3 +38,5 @@ export * from "./enrollmentType";
 export * from "./categoryType";
 export * from "./lessonCompletionType";
 export * from "./liveClassType";
+export * from "./skillsType";
+export * from "./jobOppotunityType";

@@ -13,6 +13,24 @@
  */
 
 // Source: schema.json
+export type JobOpportunity = {
+  _id: string;
+  _type: "jobOpportunity";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+};
+
+export type Skill = {
+  _id: string;
+  _type: "skill";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+};
+
 export type LiveClass = {
   _id: string;
   _type: "liveClass";
@@ -22,7 +40,12 @@ export type LiveClass = {
   title?: string;
   date?: string;
   time?: string;
-  facilitator?: string;
+  facilitator?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "instructor";
+  };
   course?: {
     _ref: string;
     _type: "reference";
@@ -30,7 +53,6 @@ export type LiveClass = {
     [internalGroqTypeReferenceTo]?: "course";
   };
   meetingLink?: string;
-  status?: "upcoming" | "past";
 };
 
 export type LessonCompletion = {
@@ -190,12 +212,31 @@ export type Course = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  previewVideo?: string;
   category?: {
     _ref: string;
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
+  topRated?: boolean;
+  skillsCovered?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skill";
+  }>;
+  level?: "Beginner" | "Intermediate" | "Advanced";
+  certification?: boolean;
+  designedFor?: Array<string>;
+  jobOpportunities?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "jobOpportunity";
+  }>;
   modules?: Array<{
     _ref: string;
     _type: "reference";
@@ -364,7 +405,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = JobOpportunity | Skill | LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/courses/getCourseById.ts
 // Variable: getCourseByIdQuery
@@ -391,6 +432,7 @@ export type GetCourseByIdQueryResult = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  previewVideo?: string;
   category: {
     _id: string;
     _type: "category";
@@ -403,6 +445,24 @@ export type GetCourseByIdQueryResult = {
     icon?: string;
     color?: string;
   } | null;
+  topRated?: boolean;
+  skillsCovered?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skill";
+  }>;
+  level?: "Advanced" | "Beginner" | "Intermediate";
+  certification?: boolean;
+  designedFor?: Array<string>;
+  jobOpportunities?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "jobOpportunity";
+  }>;
   modules: Array<{
     _id: string;
     _type: "module";
@@ -489,6 +549,7 @@ export type GetCourseBySlugQueryResult = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  previewVideo?: string;
   category: {
     _id: string;
     _type: "category";
@@ -501,6 +562,24 @@ export type GetCourseBySlugQueryResult = {
     icon?: string;
     color?: string;
   } | null;
+  topRated?: boolean;
+  skillsCovered?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skill";
+  }>;
+  level?: "Advanced" | "Beginner" | "Intermediate";
+  certification?: boolean;
+  designedFor?: Array<string>;
+  jobOpportunities?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "jobOpportunity";
+  }>;
   modules: Array<{
     _id: string;
     _type: "module";
@@ -587,6 +666,7 @@ export type GetCoursesQueryResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+  previewVideo?: string;
   category: {
     _id: string;
     _type: "category";
@@ -599,6 +679,24 @@ export type GetCoursesQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
+  topRated?: boolean;
+  skillsCovered?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skill";
+  }>;
+  level?: "Advanced" | "Beginner" | "Intermediate";
+  certification?: boolean;
+  designedFor?: Array<string>;
+  jobOpportunities?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "jobOpportunity";
+  }>;
   modules?: Array<{
     _ref: string;
     _type: "reference";
@@ -654,6 +752,7 @@ export type SearchQueryResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+  previewVideo?: string;
   category: {
     _id: string;
     _type: "category";
@@ -666,6 +765,24 @@ export type SearchQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
+  topRated?: boolean;
+  skillsCovered?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skill";
+  }>;
+  level?: "Advanced" | "Beginner" | "Intermediate";
+  certification?: boolean;
+  designedFor?: Array<string>;
+  jobOpportunities?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "jobOpportunity";
+  }>;
   modules?: Array<{
     _ref: string;
     _type: "reference";
@@ -787,12 +904,31 @@ export type ProgressQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    previewVideo?: string;
     category?: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
+    topRated?: boolean;
+    skillsCovered?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "skill";
+    }>;
+    level?: "Advanced" | "Beginner" | "Intermediate";
+    certification?: boolean;
+    designedFor?: Array<string>;
+    jobOpportunities?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "jobOpportunity";
+    }>;
     modules: Array<{
       _id: string;
       _type: "module";
@@ -1002,12 +1138,31 @@ export type GetCompletionsQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    previewVideo?: string;
     category?: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
+    topRated?: boolean;
+    skillsCovered?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "skill";
+    }>;
+    level?: "Advanced" | "Beginner" | "Intermediate";
+    certification?: boolean;
+    designedFor?: Array<string>;
+    jobOpportunities?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "jobOpportunity";
+    }>;
     modules: Array<{
       _id: string;
       _type: "module";
@@ -1093,6 +1248,7 @@ export type GetEnrolledCoursesQueryResult = {
         crop?: SanityImageCrop;
         _type: "image";
       };
+      previewVideo?: string;
       category: {
         _id: string;
         _type: "category";
@@ -1105,6 +1261,24 @@ export type GetEnrolledCoursesQueryResult = {
         icon?: string;
         color?: string;
       } | null;
+      topRated?: boolean;
+      skillsCovered?: Array<{
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        _key: string;
+        [internalGroqTypeReferenceTo]?: "skill";
+      }>;
+      level?: "Advanced" | "Beginner" | "Intermediate";
+      certification?: boolean;
+      designedFor?: Array<string>;
+      jobOpportunities?: Array<{
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        _key: string;
+        [internalGroqTypeReferenceTo]?: "jobOpportunity";
+      }>;
       modules?: Array<{
         _ref: string;
         _type: "reference";

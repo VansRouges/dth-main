@@ -22,10 +22,7 @@ export const courseType = defineType({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: {
-        source: "title",
-        maxLength: 96,
-      },
+      options: { source: "title", maxLength: 96 },
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -39,12 +36,57 @@ export const courseType = defineType({
       type: "image",
     }),
     defineField({
+      name: "previewVideo",
+      title: "Preview Video Link",
+      type: "url",
+      description: "Link to a preview video (YouTube, Vimeo, etc.)",
+      validation: (rule) => rule.uri({
+        scheme: ['http', 'https', 'mailto', 'tel']
+      }),
+    }),
+    defineField({
       name: "category",
       title: "Category",
       type: "reference",
       to: [{ type: "category" }],
-      validation: (rule) => rule.required(),
     }),
+    {
+      name: "topRated",
+      title: "Top Rated",
+      type: "boolean",
+    },
+    {
+      name: "skillsCovered",
+      title: "Skills Covered",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "skill" }] }],
+    },
+    {
+      name: "level",
+      title: "Course Level",
+      type: "string",
+      options: {
+        list: ["Beginner", "Intermediate", "Advanced"],
+        layout: "radio",
+      },
+    },
+    {
+      name: "certification",
+      title: "Certification",
+      type: "boolean",
+    },
+    {
+      name: "designedFor",
+      title: "Who this course is designed for",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "jobOpportunities",
+      title: "Job Opportunities",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "jobOpportunity" }] }],
+    },
     defineField({
       name: "modules",
       title: "Modules",

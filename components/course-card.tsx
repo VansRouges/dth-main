@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { Book, AlarmClock, GraduationCap, Play } from "lucide-react"
+import { AlarmClock, GraduationCap} from "lucide-react"
 import { Loader } from "@/components/ui/loader";
 import { Button } from "@/components/ui/button"
 import { urlFor } from "@/sanity/lib/image";

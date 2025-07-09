@@ -4,7 +4,7 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "../app-sidebar";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
+import { SidebarInset, SidebarProvider } from "../ui/sidebar";
 import { CourseEnrollment } from "../course-enrollment";
 import Image from "next/image";
 import { ChevronDown } from "lucide-react";

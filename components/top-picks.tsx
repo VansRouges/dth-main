@@ -4,7 +4,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
 
-export function TopPicks() {
+interface TopPicksProps {
+  courses: Array<any>;
+}
+
+export function TopPicks({ courses }: TopPicksProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -18,37 +22,6 @@ export function TopPicks() {
       scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" })
     }
   }
-
-  const courses = [
-    {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "12h20m",
-    },
-    {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },
-    {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },{
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },{
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-    },
-  ]
 
   return (
     <div className="my-8 w-full overflow-hidden">
@@ -70,11 +43,15 @@ export function TopPicks() {
             scrollSnapType: "x mandatory"
           }}
         >
-          {courses.map((course, index) => (
-            <div key={index} className="flex-shrink-0 w-[300px]">
-              <CourseCard {...course} />
-            </div>
-          ))}
+          {courses && courses.length > 0 ? (
+            courses.map((course, index) => (
+              <div key={index} className="flex-shrink-0 w-[300px]">
+                <CourseCard {...course} />
+              </div>
+            ))
+          ) : (
+            <div className="text-gray-500">No top picks available.</div>
+          )}
         </div>
 
         <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">

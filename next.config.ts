@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
       },
       // Add other domains if needed
       {
+        hostname: "cdn.sanity.io",
+        protocol: "https",
+      },
+      {
         protocol: 'https',
         hostname: 'images.clerk.dev',
       },

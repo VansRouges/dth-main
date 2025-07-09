@@ -3,25 +3,25 @@ import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
+import { Course } from "@/types/course"
 
 interface TopPicksProps {
-  courses: Array<any>;
+  courses: Course[];
 }
 
 export function TopPicks({ courses }: TopPicksProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: -300, behavior: "smooth" })
   }
 
   const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: 300, behavior: "smooth" })
   }
+
+  // Filter top rated courses if needed
+  const topRatedCourses = courses.filter(course => course.topRated)
 
   return (
     <div className="my-8 w-full overflow-hidden">
@@ -43,10 +43,10 @@ export function TopPicks({ courses }: TopPicksProps) {
             scrollSnapType: "x mandatory"
           }}
         >
-          {courses && courses.length > 0 ? (
-            courses.map((course, index) => (
-              <div key={index} className="flex-shrink-0 w-[300px]">
-                <CourseCard {...course} />
+          {topRatedCourses.length > 0 ? (
+            topRatedCourses.map((course) => (
+              <div key={course._id} className="flex-shrink-0 w-[300px]">
+                <CourseCard course={course} />
               </div>
             ))
           ) : (

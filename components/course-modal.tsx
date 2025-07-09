@@ -3,16 +3,12 @@ import { Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { useRouter } from "next/navigation"
+import { Course } from "@/types/course"
 
 interface CourseModalProps {
   isOpen: boolean
   onClose: () => void
-  course: {
-    title: string
-    instructor: string
-    price: string
-    duration: string
-  }
+  course: Course
 }
 
 export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
@@ -33,7 +29,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             <span className="text-sm font-medium text-orange-500">Full course</span>
             <div className="flex items-center text-orange-500">
               <Clock className="h-4 w-4 mr-1" />
-              <span className="text-sm">{course.duration}</span>
+              {/* <span className="text-sm">{course.duration}</span> */}
             </div>
           </div>
 
@@ -43,7 +39,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             <div className="h-5 w-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
               <span className="text-xs">👤</span>
             </div>
-            <span className="text-sm">{course.instructor}</span>
+            {/* <span className="text-sm">{course.instructor}</span> */}
           </div>
 
           <div className="mb-6">

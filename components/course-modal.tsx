@@ -33,7 +33,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             </div>
           </div>
 
-          <h2 className="text-xl font-bold mb-2">{course.title}</h2>
+          <h2 className="text-xl font-bold mb-2">{course?.title}</h2>
 
           <div className="flex items-center mb-6">
             <div className="h-5 w-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
@@ -59,7 +59,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6"
             onClick={handlePurchase}
         >
-            Purchase ({course.price})
+            Purchase ({course?.price})
         </Button>
         </div>
       </DialogContent>

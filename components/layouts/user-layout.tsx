@@ -52,25 +52,29 @@ export default async function UserLayout({ children }: UserLayoutProps) {
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" />
+          {/* <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" /> */}
           <SearchBar />
           <div className="ml-auto flex space-x-3">
             <SignedIn>
-              <div className="flex space-x-3">
-                <Image
-                  src="/notification.png"
-                  alt="notificatons"
-                  width={32}
-                  height={32}
-                  className="object-cover w-full h-full rounded-full"
-                />
-                <Image
-                  src="/attention.png"
-                  alt="notificatons"
-                  width={32}
-                  height={32}
-                  className="object-cover w-full h-full rounded-full"
-                />
+              <div className="flex space-x-2 ">
+                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
+                  <Image
+                    src="/bell.svg"
+                    alt="notificatons"
+                    width={32}
+                    height={32}
+                    className="object-cover w-5 h-5 rounded-full"
+                  />
+                </div>
+                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
+                  <Image
+                    src="/information.svg"
+                    alt="notificatons"
+                    width={32}
+                    height={32}
+                    className="object-cover w-5 h-5 rounded-full"
+                  />
+                </div>
               </div>
               {/* User Avatar and Name */}
               <div className="flex space-x-2 cursor-pointer">

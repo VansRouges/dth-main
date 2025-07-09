@@ -1,4 +1,3 @@
-// import { BookOpen, MessageSquare, CheckSquare } from "lucide-react"
 import Image from "next/image"
 
 interface DashboardOverviewProps {
@@ -17,20 +16,21 @@ export function DashboardOverview({
   return (
     <div className="relative">
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-xl mr-14">
-        <Image
-          src="/banner.png"
-          alt="Dashboard tutorial"
-          width={320}
-          height={100}
-          className="object-cover w-full h-full"
-        />
-
-        <div className="absolute inset-0 -mt-32 p-6 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold text-white">Dashboard Overview</h2>
-          <p className="text-white/80 mt-2">
-            Hi {userName}, you&apos;re welcome
-          </p>
+      <div className="relative mb-16">
+        <div className="relative overflow-hidden rounded-bl-[100px] rounded-tr-[100px] rounded-tl-lg rounded-br-lg mr-20 bg-green- h-52">
+          <Image
+            src="/banner.svg"
+            alt="Dashboard tutorial"
+            width={320}
+            height={500}
+            className="object-cover w-full h-full"
+          />
+          <div className="absolute inset-0 -mt-12 p-6 flex flex-col justify-center">
+            <h2 className="text-3xl font-bold text-white">Dashboard Overview</h2>
+            <p className="text-white/80 mt-2">
+              Hi {userName}, you&apos;re welcome
+            </p>
+          </div>
         </div>
       </div>
 
@@ -41,7 +41,7 @@ export function DashboardOverview({
           <div className="w-1/3 bg-[#FFED8A] text-[#6B5A00] p-3 h-32 rounded-xl relative overflow-hidden">
             <h2 className="font-semibold">Courses Enrolled</h2>
             <Image
-              src="/my-learning/book-open.png"
+              src="/my-learning/book-open.svg"
               alt="book-open"
               width={32}
               height={32}
@@ -55,7 +55,7 @@ export function DashboardOverview({
           <div className="w-1/3 bg-[#B5C7EC] text-[#081227] p-3 h-32 rounded-xl relative overflow-hidden">
             <h2 className="font-semibold">Mentoring</h2>
             <Image
-              src="/my-learning/pc-user.png"
+              src="/my-learning/pc-user.svg"
               alt="book-open"
               width={32}
               height={32}
@@ -69,7 +69,7 @@ export function DashboardOverview({
           <div className="w-1/3 bg-[#9CD7A9] text-[#11461D] p-3 h-32 rounded-xl relative overflow-hidden">
             <h2 className="font-semibold">Projects in Progress</h2>
             <Image
-              src="/my-learning/award.png"
+              src="/my-learning/award.svg"
               alt="book-open"
               width={32}
               height={32}

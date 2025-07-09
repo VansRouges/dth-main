@@ -43,7 +43,7 @@ export default function Navigation({ navItems }: NavigationProps) {
             variant="primary" 
             onClick={() => router.push("/sign-in")}
           >
-            Join as Instructor
+            Sign In
           </NavbarButton>
           <NavbarButton 
             variant="primary" 
@@ -112,7 +112,7 @@ export default function Navigation({ navItems }: NavigationProps) {
               variant="primary"
               className="w-full"
             >
-              Join as Instructor
+              Sign In
             </NavbarButton>
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}

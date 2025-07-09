@@ -44,7 +44,7 @@ export default function LearningPage() {
             <div className="w-1/3 bg-[#FFED8A] text-[#6B5A00] p-3 h-32 rounded-xl relative overflow-hidden">
               <h2 className="font-semibold">Active Mentorships</h2>
               <Image
-                src="/my-learning/book-open.png"
+                src="/my-learning/book-open.svg"
                 alt="book-open"
                 width={32}
                 height={32}
@@ -57,7 +57,7 @@ export default function LearningPage() {
             <div className="w-1/3 bg-[#B5C7EC] text-[#081227] p-3 h-32 rounded-xl relative overflow-hidden">
               <h2 className="font-semibold">Completed Mentorships</h2>
               <Image
-                src="/my-learning/pc-user.png"
+                src="/my-learning/pc-user.svg"
                 alt="book-open"
                 width={32}
                 height={32}
@@ -70,7 +70,7 @@ export default function LearningPage() {
             <div className="w-1/3 bg-[#9CD7A9] text-[#11461D] p-3 h-32 rounded-xl relative overflow-hidden">
               <h2 className="font-semibold">Certifications</h2>
               <Image
-                src="/my-learning/award.png"
+                src="/my-learning/cert.svg"
                 alt="book-open"
                 width={32}
                 height={32}
@@ -125,7 +125,7 @@ export default function LearningPage() {
             </div>
             <div className="w-1/3 bg-blue- flex justify-center">
               <Image
-                src="/my-learning/chats.png"
+                src="/my-learning/chats.svg"
                 alt="Meeting Banner"
                 width={320}
                 height={100}

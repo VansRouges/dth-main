@@ -219,6 +219,12 @@ export type Course = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
+  duration?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "duration";
+  };
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -230,6 +236,7 @@ export type Course = {
   level?: "Beginner" | "Intermediate" | "Advanced";
   certification?: boolean;
   designedFor?: Array<string>;
+  whatYouWillLearn?: Array<string>;
   jobOpportunities?: Array<{
     _ref: string;
     _type: "reference";
@@ -272,6 +279,12 @@ export type Instructor = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+};
+
+export type Duration = {
+  _type: "duration";
+  hour?: string;
+  mins?: string;
 };
 
 export type Category = {
@@ -405,7 +418,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = JobOpportunity | Skill | LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = JobOpportunity | Skill | LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Duration | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/courses/getCourseById.ts
 // Variable: getCourseByIdQuery
@@ -445,6 +458,12 @@ export type GetCourseByIdQueryResult = {
     icon?: string;
     color?: string;
   } | null;
+  duration?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "duration";
+  };
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -456,6 +475,7 @@ export type GetCourseByIdQueryResult = {
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
+  whatYouWillLearn?: Array<string>;
   jobOpportunities?: Array<{
     _ref: string;
     _type: "reference";
@@ -562,6 +582,12 @@ export type GetCourseBySlugQueryResult = {
     icon?: string;
     color?: string;
   } | null;
+  duration?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "duration";
+  };
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -573,6 +599,7 @@ export type GetCourseBySlugQueryResult = {
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
+  whatYouWillLearn?: Array<string>;
   jobOpportunities?: Array<{
     _ref: string;
     _type: "reference";
@@ -679,6 +706,12 @@ export type GetCoursesQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
+  duration?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "duration";
+  };
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -690,6 +723,7 @@ export type GetCoursesQueryResult = Array<{
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
+  whatYouWillLearn?: Array<string>;
   jobOpportunities?: Array<{
     _ref: string;
     _type: "reference";
@@ -765,6 +799,12 @@ export type SearchQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
+  duration?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "duration";
+  };
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -776,6 +816,7 @@ export type SearchQueryResult = Array<{
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
+  whatYouWillLearn?: Array<string>;
   jobOpportunities?: Array<{
     _ref: string;
     _type: "reference";
@@ -911,6 +952,12 @@ export type ProgressQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
+    duration?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "duration";
+    };
     topRated?: boolean;
     skillsCovered?: Array<{
       _ref: string;
@@ -922,6 +969,7 @@ export type ProgressQueryResult = {
     level?: "Advanced" | "Beginner" | "Intermediate";
     certification?: boolean;
     designedFor?: Array<string>;
+    whatYouWillLearn?: Array<string>;
     jobOpportunities?: Array<{
       _ref: string;
       _type: "reference";
@@ -1145,6 +1193,12 @@ export type GetCompletionsQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
+    duration?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "duration";
+    };
     topRated?: boolean;
     skillsCovered?: Array<{
       _ref: string;
@@ -1156,6 +1210,7 @@ export type GetCompletionsQueryResult = {
     level?: "Advanced" | "Beginner" | "Intermediate";
     certification?: boolean;
     designedFor?: Array<string>;
+    whatYouWillLearn?: Array<string>;
     jobOpportunities?: Array<{
       _ref: string;
       _type: "reference";
@@ -1261,6 +1316,12 @@ export type GetEnrolledCoursesQueryResult = {
         icon?: string;
         color?: string;
       } | null;
+      duration?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "duration";
+      };
       topRated?: boolean;
       skillsCovered?: Array<{
         _ref: string;
@@ -1272,6 +1333,7 @@ export type GetEnrolledCoursesQueryResult = {
       level?: "Advanced" | "Beginner" | "Intermediate";
       certification?: boolean;
       designedFor?: Array<string>;
+      whatYouWillLearn?: Array<string>;
       jobOpportunities?: Array<{
         _ref: string;
         _type: "reference";

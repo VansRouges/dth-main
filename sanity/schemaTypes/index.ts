@@ -11,6 +11,7 @@ import { lessonCompletionType } from "./lessonCompletionType";
 import { liveClassType } from "./liveClassType";
 import { skillsType } from "./skillsType";
 import { jobOpportunityType } from './jobOppotunityType';
+import { durationType } from './durationType';
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -26,6 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     liveClassType,
     skillsType,
     jobOpportunityType,
+    durationType,
   ],
 };
 
@@ -40,3 +42,4 @@ export * from "./lessonCompletionType";
 export * from "./liveClassType";
 export * from "./skillsType";
 export * from "./jobOppotunityType";
+export * from "./durationType";

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { useRouter } from "next/navigation"
 import { Course } from "@/types/course"
+import { formatPrice } from "@/lib/utils"
 
 interface CourseModalProps {
   isOpen: boolean
@@ -19,8 +20,10 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
     onClose()
     // Navigate to the course details page
     // In a real app, you would use the actual course ID
-    router.push(`/courses/azure-data-engineering`)
+    router.push(`/courses/${course?.slug}`)
   }
+  const formattedPrice = formatPrice(course?.price);
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden">
@@ -39,7 +42,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             <div className="h-5 w-5 rounded-full bg-gray-200 flex items-center justify-center mr-2">
               <span className="text-xs">👤</span>
             </div>
-            {/* <span className="text-sm">{course.instructor}</span> */}
+            <span className="text-sm">{course?.instructor?.name}</span>
           </div>
 
           <div className="mb-6">
@@ -59,7 +62,7 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-6"
             onClick={handlePurchase}
         >
-            Purchase ({course?.price})
+            Purchase ({formattedPrice})
         </Button>
         </div>
       </DialogContent>

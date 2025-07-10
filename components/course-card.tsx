@@ -7,6 +7,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { CourseModal } from "./course-modal"
 import Image from "next/image"
 import { Course } from "@/types/course"
+import { formatPrice } from "@/lib/utils";
 
 interface CourseCardProps {
   course: Course
@@ -16,11 +17,8 @@ export function CourseCard({ course }: CourseCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Format price as NGN currency
-  const formattedPrice = new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: 'NGN'
-  }).format(course?.price)
-
+  const formattedPrice = formatPrice(course?.price);
+  
   return (
     <>
       <div 
@@ -45,16 +43,13 @@ export function CourseCard({ course }: CourseCardProps) {
 
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-primary">
-              {course?.category?.name || 'Full course'}
-            </span>
-            {course?.level && (
-              <div className="flex items-center gap-1">
-                <AlarmClock className="h-4 w-4 text-primary" />
-                <span className="text-xs text-primary">{course?.level}</span>
-              </div>
-            )}
+          <span className="text-xs font-bold text-primary">Full course</span>
+
+          <div className="flex items-center gap-1">
+            <AlarmClock className="h-4 w-4 text-primary" />
+            {/* <span className="text-xs text-primary">{duration}</span> */}
           </div>
+        </div>
           
           <h3 className="font-bold text-sm mb-2 line-clamp-2">{course?.title}</h3>
           

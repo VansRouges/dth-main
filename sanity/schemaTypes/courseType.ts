@@ -50,6 +50,12 @@ export const courseType = defineType({
       type: "reference",
       to: [{ type: "category" }],
     }),
+    defineField({
+      name: "duration",
+      title: "Duration",
+      type: "duration",
+      description: "Enter the duration of the course (hour and minutes)",
+    }),
     {
       name: "topRated",
       title: "Top Rated",
@@ -78,6 +84,12 @@ export const courseType = defineType({
     {
       name: "designedFor",
       title: "Who this course is designed for",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "whatYouWillLearn",
+      title: "What you'll learn",
       type: "array",
       of: [{ type: "string" }],
     },

@@ -20,7 +20,9 @@ export interface Instructor {
     _id: string;
     title: string;
     price: number;
+    slug: string;
     instructor: Instructor;
+    description?: string;
     category: Category;
     image?: {
       asset: {
@@ -28,6 +30,7 @@ export interface Instructor {
       };
     };
     previewVideo?: string;
+    designedFor?: string[];
     topRated?: boolean;
     level?: string;
     certification?: boolean;

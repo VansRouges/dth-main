@@ -93,3 +93,20 @@ function truncateMiddle(text: string, length: number, suffix: string, preserveWo
 
   return `${firstPart}${suffix}${secondPart}`;
 }
+
+/**
+ * Formats a price in NGN without trailing .00
+ * @param price - The price as a number or string
+ * @returns Formatted price string (e.g., NGN 12,000)
+ */
+export function formatPrice(price: number | string): string {
+  const num = typeof price === 'string' ? parseFloat(price) : price;
+  // Format with currency, then remove trailing .00 if present
+  const formatted = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(num);
+  return formatted;
+}

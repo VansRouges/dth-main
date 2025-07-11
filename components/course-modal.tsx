@@ -3,13 +3,13 @@ import { Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { useRouter } from "next/navigation"
-import { Course } from "@/types/course"
+import { GetCoursesQueryResult } from "@/sanity.types"
 import { formatPrice } from "@/lib/utils"
 
 interface CourseModalProps {
   isOpen: boolean
   onClose: () => void
-  course: Course
+  course: GetCoursesQueryResult[number] | null // Assuming course is an object from the GetCoursesQueryResult array
 }
 
 export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
@@ -32,7 +32,9 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
             <span className="text-sm font-medium text-orange-500">Full course</span>
             <div className="flex items-center text-orange-500">
               <Clock className="h-4 w-4 mr-1" />
-              {/* <span className="text-sm">{course.duration}</span> */}
+              <span className="text-sm">
+                {course?.duration ? `${course.duration.hour} hours ${course.duration.mins} mins` : '--'}
+              </span>
             </div>
           </div>
 
@@ -48,13 +50,13 @@ export function CourseModal({ isOpen, onClose, course }: CourseModalProps) {
           <div className="mb-6">
             <h3 className="font-bold mb-3">What you&#39;ll learn</h3>
             <ul className="space-y-3 list-disc pl-5">
-              <li className="text-sm">The course provides the entire toolbox you need to become a data scientist</li>
-              <li className="text-sm">
-                Fill up your resume with in demand data science skills: Statistical analysis, Python programming with
-                NumPy, pandas, matplotlib, and Seaborn, Advanced statistical analysis, Tableau, Machine Learning with
-                stats models and scikit-learn, Deep learning with TensorFlow
-              </li>
-              <li className="text-sm">Impress interviewers by showing an understanding of the data science field</li>
+              {course?.whatYouWillLearn && course.whatYouWillLearn.length > 0 ? (
+                course.whatYouWillLearn.map((item, idx) => (
+                  <li className="text-sm" key={idx}>{item}</li>
+                ))
+              ) : (
+                <li className="text-sm text-gray-500">No learning outcomes provided.</li>
+              )}
             </ul>
           </div>
 

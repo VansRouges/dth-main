@@ -21,5 +21,16 @@ export const instructorType = defineType({
       title: "Photo",
       type: "image",
     }),
+    defineField({
+      name: "yearsOfExperience",
+      title: "Years of Experience",
+      type: "number",
+      validation: (rule) => rule.min(0),
+    }),
+    defineField({
+      name: "currentlyWorksAt",
+      title: "Currently Works At",
+      type: "string",
+    }),
   ],
 });

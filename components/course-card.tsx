@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button"
 import { urlFor } from "@/sanity/lib/image";
 import { CourseModal } from "./course-modal"
 import Image from "next/image"
-import { Course } from "@/types/course"
+import { GetCoursesQueryResult } from "@/sanity.types"
 import { formatPrice } from "@/lib/utils";
 
 interface CourseCardProps {
-  course: Course
+  course: GetCoursesQueryResult[number]; // Assuming course is an object from the GetCoursesQueryResult array
 }
 
 export function CourseCard({ course }: CourseCardProps) {
@@ -43,13 +43,14 @@ export function CourseCard({ course }: CourseCardProps) {
 
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-bold text-primary">Full course</span>
-
-          <div className="flex items-center gap-1">
-            <AlarmClock className="h-4 w-4 text-primary" />
-            {/* <span className="text-xs text-primary">{duration}</span> */}
+            <span className="text-xs font-bold text-primary">Full course</span>
+            <div className="flex items-center gap-1">
+              <AlarmClock className="h-4 w-4 text-primary" />
+              <span className="text-xs text-primary">
+                {course?.duration ? `${course.duration.hour} hours ${course.duration.mins} mins` : '--'}
+              </span>
+            </div>
           </div>
-        </div>
           
           <h3 className="font-bold text-sm mb-2 line-clamp-2">{course?.title}</h3>
           

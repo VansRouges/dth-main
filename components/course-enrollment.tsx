@@ -1,86 +1,120 @@
+"use client";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
+import { VideoPlayer } from "@/components/VideoPlayer";
+import { Separator } from "@/components/ui/separator";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { GetCourseBySlugQueryResult } from "@/sanity.types";
 
-export const CourseEnrollment = () => {
+interface CourseEnrollmentProps {
+  price?: number;
+  previewVideo?: string;
+  course: GetCourseBySlugQueryResult;
+}
+
+function truncate(text: string | undefined, maxLength: number) {
+  return text && text.length > maxLength ? text.slice(0, maxLength - 1) + '…' : text;
+}
+
+export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollmentProps) => {
+  const [openModuleIndex, setOpenModuleIndex] = useState(0);
+
+  const handleToggle = (idx: number) => {
+    setOpenModuleIndex(idx === openModuleIndex ? -1 : idx);
+  };
+
   return (
-    <>
-      <div className="w-full max-w-md bg-white rounded-xl shadow-md p-6 space-y-6">
-        {/* Header */}
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold">Complete Course Enrolment</h2>
-        </div>
+    <div className="w-full max-w-md bg-white rounded-xl shadow-md p-4 space-y-6">
+      {/* Header */}
+      <div className="space-y-2">
+        <h2 className="text-xl font-bold">Complete Course Enrollment</h2>
+      </div>
 
-        {/* Action Buttons */}
-        <div className="space-y-3">
-          <Button className="w-full bg-[#104BC1] hover:bg-[#0B3589] font-semibold cursor-pointer h-12 text-lg">
-            Purchase (NGN 12,000.00)
-          </Button>
+      {/* Action Buttons */}
+      <div className="space-y-3">
+        <Button className="w-full bg-[#104BC1] hover:bg-[#0B3589] font-semibold cursor-pointer h-12 text-lg">
+          Purchase (NGN {price ? price.toLocaleString() : '0'})
+        </Button>
 
-          {/* Share button */}
-          <div className="flex font-semibold text-[#0F44B0] cursor-pointer space-x-2 justify-center items-center">
-            <span>Share</span>
-            <Image
-              width={320}
-              height={110}
-              src="/share.svg"
-              alt="share button"
-              className="w-6 h-6"
-            />
-          </div>
+        {/* Share button */}
+        <div className="flex font-semibold text-[#0F44B0] cursor-pointer space-x-2 justify-center items-center">
+          <span>Share</span>
+          <Image
+            width={320}
+            height={110}
+            src="/share.svg"
+            alt="share button"
+            className="w-6 h-6"
+          />
         </div>
-        
-        {/* Video Tutorial Section */}
+      </div>
+
+      {/* Separator */}
+      <Separator className="my-4 text-gray-400" />
+      
+      {/* Video Tutorial Section */}
+      {previewVideo && (
         <div className="space-y-3 bg-white p-1 rounded-xl">
           <div className="relative overflow-hidden">
             <div className="aspect-video relative">
-              <iframe
-                className="absolute inset-0 w-full h-full rounded-xl"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with your real video URL
-                title="Dashboard Tutorial Video"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
+              <VideoPlayer 
+                url={previewVideo} 
+                subtitles={[]}
+              />
             </div>
           </div>
           <div>
             <h3 className="font-semibold">Preview this course</h3>
           </div>
         </div>
+      )}
 
-        {/* Course Modules */}
+      {/* Course Modules */}
+      {course?.modules && course.modules.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-xl font-bold">Module 1: Introduction to Azure Data Engineering</h3>
-          <div className="space-y-2 pl-4">
-            <p className="text-gray-700">• Overview of Azure Data Engineering</p>
-            <p className="text-gray-700">• Introduction to Azure Cloud Services for Data</p>
-            <p className="text-gray-700">• Understanding Azure Storage Options (Blob Storage, Data Lake)</p>
-            <p className="text-gray-700">• Overview of ETL/ELT in Azure</p>
-            <p className="text-gray-700">• Introduction to Azure Data Factory (ADF)</p>
-            <p className="text-gray-700">• Data Ingestion Basics: Connecting to Various Data Sources</p>
-            <p className="text-gray-700">• Fundamentals of Azure SQL Database & Synapse Analytics</p>
-            <p className="text-gray-700">• Introduction to Azure Databricks and Apache Spark</p>
-            <p className="text-gray-700">• Security and Compliance Basics in Azure</p>
-            <p className="text-gray-700">• Hands-on Skill-Creating an Azure Account & Resource Groups</p>
-          </div>
-
-          <div className="pt-2">
-            <Link href="#" className="text-blue-600 hover:underline font-medium">
-              Assessments
-            </Link>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-xl font-bold">Module 2</h3>
-            <h3 className="text-xl font-bold">Module 3</h3>
-            <h3 className="text-xl font-bold">Module 4</h3>
-          </div>
+          {course.modules.map((module, idx) => (
+            <div key={module._id} className="mb-2">
+              <button
+                type="button"
+                className="flex items-center w-full text-left focus:outline-none"
+                onClick={() => handleToggle(idx)}
+              >
+                <span className="font-semibold text-[#081227] truncate max-w-[290px]">
+                  {truncate(module.title, 130)}
+                </span>
+                <span className="mr-2">
+                  {openModuleIndex === idx ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </span>
+              </button>
+              {openModuleIndex === idx && (
+                <div className="space-y-2 pl-2 mt-2">
+                  {module.lessons && module.lessons.length > 0 ? (
+                    module.lessons.map((lesson) => (
+                      <p className="text-[#999999]" key={lesson._id}>
+                        <Image
+                          src="/video-play.svg"
+                          alt="vide-play icon"
+                          className="inline-block w-4 h-4 mr-2"
+                          height={16}
+                          width={16}
+                          unoptimized
+                        />
+                        {lesson.title}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">No lessons available.</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-      </div>
+      )}
 
       {/* Invite Friends Section */}
-      <div className="space-y-3 rounded-xl bg-white p-4 my-3 border rounded-xl shadow-md">
+      <div className="space-y-3 rounded-xl bg-white p-4 my-3 border shadow-md">
         <div className="flex justify-center">
           <div className="flex flex-col space-y-3">
             <h3 className="font-bold">Invite Friends</h3>
@@ -100,7 +134,6 @@ export const CourseEnrollment = () => {
           Invite Friends
         </Button>
       </div>
-    </>
-    
+    </div>
   );
 };

@@ -219,12 +219,7 @@ export type Course = {
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "category";
   };
-  duration?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "duration";
-  };
+  duration?: Duration;
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -279,6 +274,8 @@ export type Instructor = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  yearsOfExperience?: number;
+  currentlyWorksAt?: string;
 };
 
 export type Duration = {
@@ -458,12 +455,7 @@ export type GetCourseByIdQueryResult = {
     icon?: string;
     color?: string;
   } | null;
-  duration?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "duration";
-  };
+  duration?: Duration;
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -541,12 +533,14 @@ export type GetCourseByIdQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    yearsOfExperience?: number;
+    currentlyWorksAt?: string;
   } | null;
 } | null;
 
 // Source: ./sanity/lib/courses/getCourseBySlug.ts
 // Variable: getCourseBySlugQuery
-// Query: *[_type == "course" && slug.current == $slug][0] {      ...,      "category": category->{...},      "instructor": instructor->{...},      "modules": modules[]-> {        ...,        "lessons": lessons[]-> {...}      }    }
+// Query: *[_type == "course" && slug.current == $slug][0] {      ...,      "category": category->{...},      "instructor": instructor->{...},      "modules": modules[]-> {        ...,        "lessons": lessons[]-> {...}      },      "jobOpportunities": jobOpportunities[]-> { _id, title, _createdAt },      "skillsCovered": skillsCovered[]-> { _id, name }    }
 export type GetCourseBySlugQueryResult = {
   _id: string;
   _type: "course";
@@ -582,31 +576,21 @@ export type GetCourseBySlugQueryResult = {
     icon?: string;
     color?: string;
   } | null;
-  duration?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "duration";
-  };
+  duration?: Duration;
   topRated?: boolean;
-  skillsCovered?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "skill";
-  }>;
+  skillsCovered: Array<{
+    _id: string;
+    name: string | null;
+  }> | null;
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
   whatYouWillLearn?: Array<string>;
-  jobOpportunities?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "jobOpportunity";
-  }>;
+  jobOpportunities: Array<{
+    _id: string;
+    title: string | null;
+    _createdAt: string;
+  }> | null;
   modules: Array<{
     _id: string;
     _type: "module";
@@ -665,12 +649,14 @@ export type GetCourseBySlugQueryResult = {
       crop?: SanityImageCrop;
       _type: "image";
     };
+    yearsOfExperience?: number;
+    currentlyWorksAt?: string;
   } | null;
 } | null;
 
 // Source: ./sanity/lib/courses/getCourses.ts
 // Variable: getCoursesQuery
-// Query: *[_type == "course"] {    ...,    "slug": slug.current,    "category": category->{...},    "instructor": instructor->{...}  }
+// Query: *[_type == "course"] {    ...,    "slug": slug.current,    "category": category->{...},    "instructor": instructor->{...},    "skillsCovered": skillsCovered[]->{...},    "jobOpportunities": jobOpportunities[]->{...},  }
 export type GetCoursesQueryResult = Array<{
   _id: string;
   _type: "course";
@@ -706,31 +692,28 @@ export type GetCoursesQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
-  duration?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "duration";
-  };
+  duration?: Duration;
   topRated?: boolean;
-  skillsCovered?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "skill";
-  }>;
+  skillsCovered: Array<{
+    _id: string;
+    _type: "skill";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    name?: string;
+  }> | null;
   level?: "Advanced" | "Beginner" | "Intermediate";
   certification?: boolean;
   designedFor?: Array<string>;
   whatYouWillLearn?: Array<string>;
-  jobOpportunities?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "jobOpportunity";
-  }>;
+  jobOpportunities: Array<{
+    _id: string;
+    _type: "jobOpportunity";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    title?: string;
+  }> | null;
   modules?: Array<{
     _ref: string;
     _type: "reference";
@@ -758,6 +741,8 @@ export type GetCoursesQueryResult = Array<{
       crop?: SanityImageCrop;
       _type: "image";
     };
+    yearsOfExperience?: number;
+    currentlyWorksAt?: string;
   } | null;
 }>;
 
@@ -799,12 +784,7 @@ export type SearchQueryResult = Array<{
     icon?: string;
     color?: string;
   } | null;
-  duration?: {
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    [internalGroqTypeReferenceTo]?: "duration";
-  };
+  duration?: Duration;
   topRated?: boolean;
   skillsCovered?: Array<{
     _ref: string;
@@ -851,6 +831,8 @@ export type SearchQueryResult = Array<{
       crop?: SanityImageCrop;
       _type: "image";
     };
+    yearsOfExperience?: number;
+    currentlyWorksAt?: string;
   } | null;
 }>;
 
@@ -952,12 +934,7 @@ export type ProgressQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
-    duration?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "duration";
-    };
+    duration?: Duration;
     topRated?: boolean;
     skillsCovered?: Array<{
       _ref: string;
@@ -1193,12 +1170,7 @@ export type GetCompletionsQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "category";
     };
-    duration?: {
-      _ref: string;
-      _type: "reference";
-      _weak?: boolean;
-      [internalGroqTypeReferenceTo]?: "duration";
-    };
+    duration?: Duration;
     topRated?: boolean;
     skillsCovered?: Array<{
       _ref: string;
@@ -1316,12 +1288,7 @@ export type GetEnrolledCoursesQueryResult = {
         icon?: string;
         color?: string;
       } | null;
-      duration?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "duration";
-      };
+      duration?: Duration;
       topRated?: boolean;
       skillsCovered?: Array<{
         _ref: string;
@@ -1368,6 +1335,8 @@ export type GetEnrolledCoursesQueryResult = {
           crop?: SanityImageCrop;
           _type: "image";
         };
+        yearsOfExperience?: number;
+        currentlyWorksAt?: string;
       } | null;
     } | null;
     amount?: number;
@@ -1426,8 +1395,8 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"course\" && _id == $id][0] {\n      ...,  // Spread all course fields\n      \"category\": category->{...},  // Expand the category reference, including all its fields\n      \"instructor\": instructor->{...},  // Expand the instructor reference, including all its fields\n      \"modules\": modules[]-> {  // Expand the array of module references\n        ...,  // Include all module fields\n        \"lessons\": lessons[]-> {...}  // For each module, expand its array of lesson references\n      }\n    }": GetCourseByIdQueryResult;
-    "*[_type == \"course\" && slug.current == $slug][0] {\n      ...,\n      \"category\": category->{...},\n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }": GetCourseBySlugQueryResult;
-    "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": GetCoursesQueryResult;
+    "*[_type == \"course\" && slug.current == $slug][0] {\n      ...,\n      \"category\": category->{...},\n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      },\n      \"jobOpportunities\": jobOpportunities[]-> { _id, title, _createdAt },\n      \"skillsCovered\": skillsCovered[]-> { _id, name }\n    }": GetCourseBySlugQueryResult;
+    "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...},\n    \"skillsCovered\": skillsCovered[]->{...},\n    \"jobOpportunities\": jobOpportunities[]->{...},\n  }": GetCoursesQueryResult;
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;

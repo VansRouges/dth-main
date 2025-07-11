@@ -1,4 +1,4 @@
-import { Check, MoveRight } from "lucide-react"
+// import { Check, MoveRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
@@ -29,7 +29,7 @@ export function OnboardingSidebar() {
         </div>
 
         {/* Complete Profile Section */}
-        <div className="space-y-4 border bg-white p-3 rounded-xl">
+        {/* <div className="space-y-4 border bg-white p-3 rounded-xl">
           <div className="space-y-1">
             <h3 className="font-semibold">Complete your Profile</h3>
             <div className="flex items-center gap-1">
@@ -56,7 +56,7 @@ export function OnboardingSidebar() {
                 </div>
                 <span className="text-sm font-medium">Add Work Experience</span>
               </div>
-              {/* <MoveRight className="h-4 w-4 text-gray-400" /> */}
+              <MoveRight className="h-4 w-4 text-gray-400" />
             </div>
 
             <div className="flex items-center justify-between">
@@ -79,7 +79,7 @@ export function OnboardingSidebar() {
               <MoveRight className="h-4 w-4 text-gray-400" />
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Invite Friends Section */}
         <div className="space-y-3 rounded-xl bg-white p-4 border">

@@ -99,14 +99,15 @@ function truncateMiddle(text: string, length: number, suffix: string, preserveWo
  * @param price - The price as a number or string
  * @returns Formatted price string (e.g., NGN 12,000)
  */
-export function formatPrice(price: number | string): string {
-  const num = typeof price === 'string' ? parseFloat(price) : price;
+export function formatPrice(price: number | undefined): string {
+  if (price === undefined) return "NGN 0";
+
   // Format with currency, then remove trailing .00 if present
   const formatted = new Intl.NumberFormat('en-NG', {
     style: 'currency',
     currency: 'NGN',
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(num);
+  }).format(price);
   return formatted;
 }

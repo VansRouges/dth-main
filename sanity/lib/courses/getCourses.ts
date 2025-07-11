@@ -6,7 +6,9 @@ export async function getCourses() {
     ...,
     "slug": slug.current,
     "category": category->{...},
-    "instructor": instructor->{...}
+    "instructor": instructor->{...},
+    "skillsCovered": skillsCovered[]->{...},
+    "jobOpportunities": jobOpportunities[]->{...},
   }`);
 
   const courses = await sanityFetch({ query: getCoursesQuery });

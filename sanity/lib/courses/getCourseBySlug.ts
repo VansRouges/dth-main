@@ -10,7 +10,9 @@ async function getCourseBySlug(slug: string) {
       "modules": modules[]-> {
         ...,
         "lessons": lessons[]-> {...}
-      }
+      },
+      "jobOpportunities": jobOpportunities[]-> { _id, title, _createdAt },
+      "skillsCovered": skillsCovered[]-> { _id, name }
     }`);
 
   const course = await sanityFetch({

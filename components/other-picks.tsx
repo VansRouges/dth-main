@@ -3,8 +3,14 @@ import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
+// import { Course } from "@/types/course"
+import { GetCoursesQueryResult } from "@/sanity.types"
 
-export function OtherPicks() {
+interface OtherPicksProps {
+  courses: GetCoursesQueryResult;
+}
+
+export function OtherPicks({ courses }: OtherPicksProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -19,31 +25,17 @@ export function OtherPicks() {
     }
   }
 
-  const courses = [
-    {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "12h20m",
-      showPurchaseButton: false,
-    },
-    {
-      title: "Azure Data Engineering Course with Certification",
-      instructor: "Agina Evans",
-      price: "NGN 12,000.00",
-      duration: "10h30m",
-      showPurchaseButton: true,
-    },
-
-  ]
+  const otherPickedCourses = courses.filter(course => course.topRated)
 
   return (
     <div className="mb-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
         <h2 className="text-xl font-bold">What Others Have been Learning</h2>
-        <a href="#" className="text-orange-500 font-semibold text-sm">
-          See more
-        </a>
+        {otherPickedCourses.length >= 4 && (
+          <a href="#" className="text-orange-500 font-semibold text-sm">
+            See more
+          </a>
+        )}
       </div>
 
       <div className="relative">
@@ -57,36 +49,44 @@ export function OtherPicks() {
             scrollSnapType: "x mandatory"
           }}
         >
-          {courses.map((course, index) => (
-            <div key={index} className="flex-shrink-0 w-[300px]">
-              <CourseCard {...course} />
+          {otherPickedCourses.length > 0 ? (
+            otherPickedCourses.map((course) => (
+              <div key={course._id} className="flex-shrink-0 w-[300px]">
+                <CourseCard course={course} />
+              </div>
+            ))
+          ) : (
+            <div className="text-gray-500">Can&#39;t find other picks.</div>
+          )}
+        </div>
+
+        {otherPickedCourses.length >= 4 && (
+          <>
+            <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
+              <Button 
+                onClick={scrollLeft} 
+                size="icon" 
+                variant="ghost" 
+                className="h-8 w-8 rounded-full bg-white shadow-md hover:bg-gray-100"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className="sr-only">Scroll left</span>
+              </Button>
             </div>
-          ))}
-        </div>
 
-        <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
-          <Button 
-            onClick={scrollLeft} 
-            size="icon" 
-            variant="ghost" 
-            className="h-8 w-8 rounded-full bg-white shadow-md hover:bg-gray-100"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Scroll left</span>
-          </Button>
-        </div>
-
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
-          <Button 
-            onClick={scrollRight} 
-            size="icon" 
-            variant="ghost" 
-            className="h-8 w-8 rounded-full bg-white shadow-md hover:bg-gray-100"
-          >
-            <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Scroll right</span>
-          </Button>
-        </div>
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
+              <Button 
+                onClick={scrollRight} 
+                size="icon" 
+                variant="ghost" 
+                className="h-8 w-8 rounded-full bg-white shadow-md hover:bg-gray-100"
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span className="sr-only">Scroll right</span>
+              </Button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

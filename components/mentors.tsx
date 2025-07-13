@@ -3,56 +3,22 @@ import { useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { MentorCard } from "@/components/mentor-card"
 import { Button } from "@/components/ui/button"
+import { GetInstructorsQueryResult } from "@/sanity.types"
 
-export function MentorPicks() {
+interface MentorsProps {
+  instructors: GetInstructorsQueryResult;
+}
+
+export function Mentors({ instructors }: MentorsProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: -300, behavior: "smooth" })
   }
 
   const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" })
-    }
+    scrollContainerRef.current?.scrollBy({ left: 300, behavior: "smooth" })
   }
-
-  const mentors = [
-    {
-      name: "Agina Evans",
-      experience: 10,
-      title: "Lead Software Engineer, Netflix",
-      price: "NGN 12,000",
-      sessionsCount: 3000,
-      reviewCount: 100,
-    },
-    {
-        name: "Bob Skylum",
-        experience: 10,
-        title: "Software Engineer, Google",
-        price: "NGN 12,000",
-        sessionsCount: 3000,
-        reviewCount: 100,
-    },
-    {
-        name: "Jack Shadow",
-        experience: 10,
-        title: "Senior Data Analyst, Google",
-        price: "NGN 12,000",
-        sessionsCount: 3000,
-        reviewCount: 100,
-    },
-    {
-        name: "Phil Skylum",
-        experience: 10,
-        title: "Senior Data Analyst, Meta Inc.",
-        price: "NGN 12,000",
-        sessionsCount: 3000,
-        reviewCount: 100,
-    },
-  ]
 
   return (
     <div className="my-8 w-full overflow-hidden">
@@ -74,9 +40,11 @@ export function MentorPicks() {
             scrollSnapType: "x mandatory"
           }}
         >
-          {mentors.map((mentor, index) => (
-            <div key={index} className="flex-shrink-0 w-[300px]">
-              <MentorCard {...mentor} />
+          {instructors.map((mentor) => (
+            <div key={mentor._id} className="flex-shrink-0 w-[300px]">
+              <MentorCard 
+                mentor={mentor}
+              />
             </div>
           ))}
         </div>

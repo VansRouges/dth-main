@@ -70,7 +70,7 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <div className="ml-auto">
+          <div className="ml-auto flex space-x-2">
             <SignedIn>
               <div className="flex space-x-2 ">
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">

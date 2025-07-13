@@ -4,43 +4,26 @@ import UserLayout from "@/components/layouts/user-layout";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { TopPicks } from "@/components/top-picks"
 import { OtherPicks } from "@/components/other-picks";
-import { MentorPicks } from "@/components/mentor-picks";
+import { Mentors } from "@/components/mentors"
 import { getCourses } from "@/sanity/lib/courses/getCourses";
+import { getInstructors } from "@/sanity/lib/instructors/getInstructors";
 import { GetCoursesQueryResult } from "@/sanity.types";
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
   const courses: GetCoursesQueryResult = await getCourses();
-  // Map rawCourses to ensure all required fields are present and not undefined
-  // const courses = rawCourses.map((course) => ({
-  //   ...course,
-  //   title: course.title ?? "",
-  //   price: course.price ?? 0,
-  //   slug: course.slug ?? "",
-  //   instructor: {
-  //     _id: course.instructor?._id ?? "",
-  //     _type: "instructor",
-  //     _createdAt: course.instructor?._createdAt ?? "",
-  //     _updatedAt: course.instructor?._updatedAt ?? "",
-  //     _rev: course.instructor?._rev ?? "",
-  //     name: course.instructor?.name ?? "",
-  //     bio: course.instructor?.bio ?? "",
-  //     photo: course.instructor?.photo,
-  //     yearsOfExperience: course.instructor?.yearsOfExperience,
-  //     currentlyWorksAt: course.instructor?.currentlyWorksAt,
-  //   },
-  //   // Add other fields with defaults if needed
-  // }));
+  const instructors = await getInstructors();
   console.log("courses:", courses)
+  console.log("instructors:", instructors)
   console.log("user:", user)
 
   return (
     <UserLayout> 
         <DashboardOverview userName={user?.fullName} coursesCount={4} mentoringCount={3} projectsCount={3} />
 
-        <TopPicks courses={courses} />
-        <MentorPicks />
-        <OtherPicks courses={courses} />
+        <TopPicks courses={courses} /> 
+        <Mentors instructors={instructors} />
+        <OtherPicks courses={courses} /> 
     </UserLayout>
   );
 };

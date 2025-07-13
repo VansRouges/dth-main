@@ -44,6 +44,7 @@ export function Mentors({ instructors }: MentorsProps) {
             <div key={mentor._id} className="flex-shrink-0 w-[300px]">
               <MentorCard 
                 mentor={mentor}
+                className="w-full max-w-xs" 
               />
             </div>
           ))}

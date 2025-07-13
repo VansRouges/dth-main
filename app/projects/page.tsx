@@ -4,6 +4,7 @@ import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
 import { useRouter } from "next/navigation";
 import SubscriptionPlans from "@/components/landing/subscription-plans";
+import Image from "next/image";
 
 export default function ProjectsPage() {
   const router = useRouter()
@@ -56,8 +57,16 @@ export default function ProjectsPage() {
                   Practice with Real-World Projects
                 </h1>
             </div>
-            <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[400px] relative">
+            <div className="aspect-square md:aspect-auto md:h-[400px] relative">
                 {/* Placeholder for hero image */}
+                <Image
+                  src="/landing/hero-7.png"
+                  alt="Person reacting"
+                  width={500}
+                  height={600}
+                  className="w-full h-full object-contain"
+                  priority
+                />
                 <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                 <span className="sr-only">Bootcamp hero image</span>
                 </div>

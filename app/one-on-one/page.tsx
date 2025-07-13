@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
+import Image from "next/image";
 
 export default function OneOnOnePage() {
     const router = useRouter()
@@ -92,8 +93,16 @@ export default function OneOnOnePage() {
                 Your Personalized Learning Experience
                 </h1>
             </div>
-            <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[400px] relative">
+            <div className="aspect-square md:aspect-auto md:h-[400px] relative">
                 {/* Placeholder for hero image */}
+                <Image
+                  src="/landing/hero-5.png"
+                  alt="Person reacting"
+                  width={500}
+                  height={600}
+                  className="w-full h-full object-contain"
+                  priority
+                />
                 <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                 <span className="sr-only">Bootcamp hero image</span>
                 </div>
@@ -135,26 +144,34 @@ export default function OneOnOnePage() {
               <p className="text-gray-600 text-lg">How DataTechHub leads in data education.</p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="bg-gray-200 rounded-lg aspect-square md:aspect-auto md:h-[350px] relative">
-                  {/* Placeholder for benefits image */}
-                  <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                  <span className="sr-only">Benefits illustration</span>
-                  </div>
-              </div>
+              <div className="grid md:grid-cols-2 gap-12 mx-auto">
+                <div className="aspect-square md:aspect-auto md:h-[350px] relative">
+                    {/* Placeholder for benefits image */}
+                    <Image
+                      src="/landing/hero-6.png"
+                      alt="Person reacting"
+                      width={500}
+                      height={600}
+                      className="w-full h-full object-contain"
+                      priority
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                    <span className="sr-only">Benefits illustration</span>
+                    </div>
+                </div>
 
-              <div className="space-y-6">
-                  {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                      <div className="w-5 h-5 flex justify-center items-center rounded-full bg-orange-500 mt-2 flex-shrink-0">
-                          <Check className="w-3 h-3 text-white font-extrabold" />
-                      </div>
-                      <div>
-                      <h3 className="font-semibold text-[#104BC1] text-lg">{benefit}</h3>
-                      </div>
-                  </div>
-                  ))}
-              </div>
+                <div className="space-y-6">
+                    {benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                        <div className="w-5 h-5 flex justify-center items-center rounded-full bg-orange-500 mt-2 flex-shrink-0">
+                            <Check className="w-3 h-3 text-white font-extrabold" />
+                        </div>
+                        <div>
+                        <h3 className="font-semibold text-[#104BC1] text-lg">{benefit}</h3>
+                        </div>
+                    </div>
+                    ))}
+                </div>
               </div>
           </div>
         </section>

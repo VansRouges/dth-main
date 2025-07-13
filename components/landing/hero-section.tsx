@@ -30,7 +30,7 @@ export default function HeroSection() {
             className="w-[470px] h-[550px] flex items-center justify-center overflow-hidden"  
           >
               <Image
-                src="/landing/placeholder.png"
+                src="/landing/hero-1.png"
                 alt="Person reacting"
                 width={500}
                 height={600}

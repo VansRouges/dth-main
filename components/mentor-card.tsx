@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { User, Briefcase, Calendar, MessageCircle } from "lucide-react";
+import { User, Calendar, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GetInstructorsQueryResult } from "@/sanity.types"
 import { urlFor } from "@/sanity/lib/image";

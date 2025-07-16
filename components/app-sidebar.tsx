@@ -19,7 +19,8 @@ import {
   ProjectsIcon,
   JobIcon,
   HackathonIcon,
-} from "@/constants/user-icons"
+} from "@/constants/user-icons";
+import { NavbarDarkLogo } from "./landing/resizeable-navbar";
 
 const navItems = [
   {
@@ -68,11 +69,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
               size="lg"
               asChild
             >
-              <Link href="/">
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-bold logo-font capitalize">DataTechHub</span>
-                </div>
-              </Link>
+              <div className="[&>a]:w-[170px]">
+                <NavbarDarkLogo />
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -86,7 +85,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton
                   className={cn(
                     "hover:bg-white group hover:text-[#104BC1] transition-colors",
-                    pathname === item.url ? "bg-[#104BC1] text-white hover:bg-[#104BC1] hover:text-white" : ""
+                    pathname === item.url
+                      ? "bg-[#104BC1] text-white hover:bg-[#104BC1] hover:text-white"
+                      : ""
                   )}
                   size="lg"
                   asChild
@@ -108,5 +109,5 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 }
 
 function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }

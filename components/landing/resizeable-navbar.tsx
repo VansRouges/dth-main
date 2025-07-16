@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import Image from "next/image"
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -55,6 +56,10 @@ interface MobileNavMenuProps {
   onClose: () => void;
 }
 
+interface LogoProps {
+  href?: string;
+}
+
 export const Navbar = ({ children, className }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll({
@@ -74,14 +79,17 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <motion.div
       ref={ref}
+      initial={{ opacity: 0 }}
       className={cn(
-        "sticky inset-x-0 top-10 z-40 w-[80%] h-16 rounded-2xl", // Removed bg-[#081227] from here
+        "sticky inset-x-0 top-10 z-40 w-[80%] h-16 rounded-2xl",
         className
       )}
       animate={{
-        backgroundColor: visible ? "rgba(0, 0, 0, 0)" : "rgba(8, 18, 39, 1)", // Transparent to #081227
+        opacity: 1,
+        backgroundColor: visible ? "rgba(0, 0, 0, 0)" : "rgba(8, 18, 39, 1)",
       }}
       transition={{
+        opacity: { duration: 1, ease: "easeOut" },
         duration: 0.3,
         ease: "easeInOut",
       }}
@@ -255,7 +263,6 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
-  // onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
@@ -290,14 +297,31 @@ export const MobileNavToggle = ({
   );
 };
 
-export const NavbarLogo = () => {
+export const NavbarLogo = ({href}: LogoProps) => {
   return (
     <a
-      href="#"
+      href={href || "#"}
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <img
+      <Image
         src="/landing/landing-logo.png"
+        alt="logo"
+        width={230}
+        height={230}
+        className="object-contain"
+      />
+    </a>
+  );
+};
+
+export const NavbarDarkLogo = ({href}: LogoProps) => {
+  return (
+    <a
+      href={href || "#"}
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
+    >
+      <Image
+        src="/landing/dark-logo.png"
         alt="logo"
         width={230}
         height={230}

@@ -16,7 +16,7 @@ export function HeroSection() {
   const leftContentRef = useRef(null);
   const rightContentRef = useRef(null);
 
-  const sectionInView = useInView(sectionRef, { once: false, amount: 0.3 });
+  // const sectionInView = useInView(sectionRef, { once: false, amount: 0.3 });
   const leftContentInView = useInView(leftContentRef, { once: false, amount: 0.5 });
   const rightContentInView = useInView(rightContentRef, { once: false, amount: 0.3 });
 

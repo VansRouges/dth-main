@@ -13,7 +13,6 @@ export default function SubscriptionPlans() {
     fadeInFromTop,
     fadeInFromBottom,
     scaleIn,
-    useVariants,
   } = useFramerAnimations();
 
   const benefits = [
@@ -60,7 +59,7 @@ export default function SubscriptionPlans() {
   const headerRef = useRef(null);
   const cardsRef = useRef(null);
 
-  const sectionInView = useInView(sectionRef, { once: false, amount: 0.3 });
+  // const sectionInView = useInView(sectionRef, { once: false, amount: 0.3 });
   const headerInView = useInView(headerRef, { once: false, amount: 0.5 });
   const cardsInView = useInView(cardsRef, { once: false, amount: 0.3 });
 
@@ -208,7 +207,7 @@ export default function SubscriptionPlans() {
                   animate={cardsInView ? "visible" : "hidden"}
                   {...scaleIn({ transition: { delay: 0.8, duration: 0.8 } })}
                 >
-                  <div className="text-4xl font-bold text-[#104BC1] mb-1">Let's talk</div>
+                  <div className="text-4xl font-bold text-[#104BC1] mb-1">Let&apos;s talk</div>
                   <p className="text-gray-600 text-sm">Price is based on Number of seats</p>
                 </motion.div>
 

@@ -166,10 +166,10 @@ export default function CompanyValues() {
                 </h3>
               </div>
               <p className="text-gray-700 text-lg leading-relaxed">
-                "To be the leading global platform for data education and
+                &quot;To be the leading global platform for data education and
                 consulting, nurturing the next generation of data professionals
                 and helping businesses harness the full potential of their
-                data."
+                data.&quot;
               </p>
             </motion.div>
 
@@ -196,10 +196,10 @@ export default function CompanyValues() {
                 </h3>
               </div>
               <p className="text-gray-700 text-lg leading-relaxed">
-                "To provide accessible, high-quality education and consulting
+                &quot;To provide accessible, high-quality education and consulting
                 services in data-driven technologies. We foster a vibrant
                 community of learners and experts, creating an environment where
-                knowledge, innovation, and collaboration thrive"
+                knowledge, innovation, and collaboration thrive&quot;
               </p>
             </motion.div>
           </motion.div>

@@ -95,8 +95,8 @@ export default function ContactSection() {
                   transition: { delay: 0.3, duration: 0.5 },
                 })}
               >
-                "Have questions or need support? We're here to help. Fill out
-                the form below, and we'll get back to you as soon as possible."
+                &quot;Have questions or need support? We&apos;re here to help. Fill out
+                the form below, and we&apos;ll get back to you as soon as possible.&quot;
               </motion.p>
             </div>
 

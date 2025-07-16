@@ -16,7 +16,7 @@ export function WhyChooseUs() {
   const imageRef = useRef(null);
   const featuresRef = useRef(null);
 
-  const sectionInView = useInView(sectionRef, { once: false, amount: 0.2 });
+  // const sectionInView = useInView(sectionRef, { once: false, amount: 0.2 });
   const headerInView = useInView(headerRef, { once: false, amount: 0.5 });
   const imageInView = useInView(imageRef, { once: false, amount: 0.3 });
   const featuresInView = useInView(featuresRef, { once: false, amount: 0.3 });

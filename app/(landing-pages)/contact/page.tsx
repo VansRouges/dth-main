@@ -1,4 +1,3 @@
-import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
 import ContactSection from "@/components/landing/contact-section";
 import AnimatedFooter from "@/components/landing/Animated-footer";

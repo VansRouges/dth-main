@@ -118,10 +118,10 @@ export default function FoundingMotivation() {
               className="text-gray-700 text-lg leading-relaxed italic"
               variants={paragraphVariants}
             >
-              "Our story is rooted in a passion for data and a vision to empower learners and organizations to harness
+              &quot;Our story is rooted in a passion for data and a vision to empower learners and organizations to harness
               the true potential of their data. We believe that anyone, regardless of their background, should have
               access to high-quality learning resources, real-world projects, and industry mentorship to accelerate
-              their growth and achieve success."
+              their growth and achieve success.&quot;
             </motion.p>
           </motion.div>
         </div>

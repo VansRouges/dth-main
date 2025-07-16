@@ -28,8 +28,6 @@ import {
   Kanban,
   Handshake,
 } from "lucide-react";
-import { useMotionValueEvent } from "motion/react";
-import { useFramerAnimations } from "@/hooks/use-framer-animate";
 
 interface NavigationProps {
   navItems: {
@@ -51,7 +49,6 @@ export default function Navigation({ navItems }: NavigationProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const { fadeInFromTop } = useFramerAnimations();
 
   return (
     <Navbar className="mx-auto">

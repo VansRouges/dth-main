@@ -13,12 +13,8 @@ export default function ProjectsPage() {
   const router = useRouter();
 
   const {
-    fadeInFromBottom,
     fadeInFromLeft,
     fadeInFromRight,
-    fadeInFromTop,
-    fadeOut,
-    useVariants,
   } = useFramerAnimations();
 
   const navItems = [

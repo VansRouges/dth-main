@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { EllipsisVertical } from "lucide-react"
+import Image from "next/image"
 
 interface Course {
   id: number
@@ -18,9 +19,10 @@ export function CourseCard({ course }: { course: Course }) {
         <EllipsisVertical className="w-6 h-6 cursor-pointer" />
       </div>
       <div className="aspect-video h-[45%]">
-        <img
+        <Image
           src={course.thumbnail || "/placeholder.svg"}
           alt={course.title}
+
           className="w-full h-full object-cover rounded-xl"
         />
       </div>

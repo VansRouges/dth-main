@@ -1,6 +1,6 @@
 // components/landing/navigation.tsx
-"use client"
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Navbar,
@@ -12,6 +12,7 @@ import {
   MobileNavHeader,
   MobileNavToggle,
   MobileNavMenu,
+  NavbarDarkLogo,
 } from "@/components/landing/resizeable-navbar";
 import {
   DropdownMenu,
@@ -19,7 +20,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, ChevronRight, BookCopy, UserRound, Kanban, Handshake } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronRight,
+  BookCopy,
+  UserRound,
+  Kanban,
+  Handshake,
+} from "lucide-react";
 
 interface NavigationProps {
   navItems: {
@@ -31,23 +39,33 @@ interface NavigationProps {
 export default function Navigation({ navItems }: NavigationProps) {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   return (
     <Navbar className="mx-auto">
       {/* Desktop Navigation */}
       <NavBody>
-        <NavbarLogo />
+        {scrolled ? <NavbarDarkLogo /> : <NavbarLogo href="/"/>}
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton 
-            variant="primary" 
+          <NavbarButton
+            variant="primary"
             onClick={() => router.push("/sign-in")}
           >
             Sign In
           </NavbarButton>
-          <NavbarButton 
-            variant="primary" 
-            className="bg-[#104BC1] text-white" 
+          <NavbarButton
+            variant="primary"
+            className="bg-[#104BC1] text-white"
             onClick={() => router.push("/sign-up")}
           >
             Register
@@ -94,7 +112,7 @@ export default function Navigation({ navItems }: NavigationProps) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          
+
           {navItems.slice(1).map((item, idx) => (
             <a
               key={`mobile-link-${idx}`}
@@ -105,7 +123,7 @@ export default function Navigation({ navItems }: NavigationProps) {
               <span className="block">{item.name}</span>
             </a>
           ))}
-          
+
           <div className="flex w-full flex-col gap-4">
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}

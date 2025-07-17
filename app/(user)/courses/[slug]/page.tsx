@@ -28,6 +28,7 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
   const course = await getCourseBySlug(slug);
   console.log("Course Details:", course);
   const user = await currentUser();
+  console.log(user)
   const publicMetadata = user?.publicMetadata;
   const role = publicMetadata?.role;
 

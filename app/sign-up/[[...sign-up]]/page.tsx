@@ -2,15 +2,16 @@ import Image from "next/image"
 import Link from "next/link"
 import { SignUp } from '@clerk/nextjs'
 import { Button } from "@/components/ui/button"
+import { NavbarDarkLogo } from "@/components/landing/resizeable-navbar"
 
 export default function SignUpPage() {
   return (
     <div className="bg-white min-h-screen md:h-screen md:overflow-hidden">
       <div className="container mx-auto px-4 py-8 h-full flex flex-col">
         <div className="flex justify-between items-center mb-8">
-            <Link href="/" className="text-blue-600 font-logo font-bold text-lg">
-                DataTechHub
-            </Link>
+          <div className="[&>a]:w-[200px]">
+            <NavbarDarkLogo />
+          </div>
             <Link href="/">
                 <Button 
                     variant="outline" 

@@ -1,49 +1,67 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { EllipsisVertical } from "lucide-react"
+"use client"
+import { AlarmClock, GraduationCap} from "lucide-react"
+import { Loader } from "@/components/ui/loader";
+// import { Button } from "@/components/ui/button"
+import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image"
+import { GetCoursesQueryResult } from "@/sanity.types"
+import { formatPrice } from "@/lib/utils";
 
-interface Course {
-  id: number
-  title: string
-  price: string
-  duration: string
-  lessons: number
-  thumbnail: string
+interface CourseCardProps {
+  course: GetCoursesQueryResult[number]; // Assuming course is an object from the GetCoursesQueryResult array
 }
 
-export function CourseCard({ course }: { course: Course }) {
-  return (
-    <Card key={course.id} className="overflow-hidden h-96 p-5 text-black">
-      <div className="flex justify-between">
-        <span>Course ID:</span>
-        <EllipsisVertical className="w-6 h-6 cursor-pointer" />
-      </div>
-      <div className="aspect-video h-[45%]">
-        <Image
-          src={course.thumbnail || "/placeholder.svg"}
-          alt={course.title}
+export function CourseCard({ course }: CourseCardProps) {
 
-          className="w-full h-full object-cover rounded-xl"
-        />
-      </div>
-      <CardContent>
-        <div className="flex justify-between items-center text-sm text-black">
-          <div className="flex items-center">
-            <span>Number of Modules: </span>
-            <span className="font-bold">{course.duration}</span>
+  // Format price as NGN currency
+  const formattedPrice = formatPrice(course?.price);
+  
+  return (
+    <>
+      <div 
+        className="group min-w-[280px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+      >
+        {/* Image/Preview Video Section */}
+        <div className="h-[120px] bg-[#D9D9D9] relative flex items-center justify-center">
+          {course?.image ? (
+            <Image
+              src={urlFor(course?.image).url() || ""}
+              alt={course?.title || "Course Image"}
+              fill
+              className="object-cover"
+            />
+          )  : (
+            <div className="h-full w-full flex items-center justify-center bg-muted">
+              <Loader size="lg" />
+            </div>
+          )}
+        </div>
+
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-bold text-primary">Full course</span>
+            <div className="flex items-center gap-1">
+              <AlarmClock className="h-4 w-4 text-primary" />
+              <span className="text-xs text-primary">
+                {course?.duration ? `${course.duration.hour} hours ${course.duration.mins} mins` : '--'}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center">
-            <span>Number of Lessons: </span>
-            <span className="font-bold">{course.lessons}</span>
+          
+          <h3 className="font-bold text-sm mb-2 line-clamp-2">{course?.title}</h3>
+          
+          <div className="flex items-center text-gray-900 mb-2 space-x-1">
+            <GraduationCap className="h-4 w-4" />
+            <span className="text-xs line-clamp-1">{course?.instructor?.name}</span>
+          </div>
+          
+          <div className="relative h-8">
+            <p className="absolute inset-0 font-bold text-sm group-hover:opacity-0 transition-opacity">
+              {formattedPrice}
+            </p>
           </div>
         </div>
-      </CardContent>
-      <CardHeader>
-        <CardTitle className="line-clamp-1 text-black font-semibold text-xl">{course.title}</CardTitle>
-        <CardDescription className="line-clamp-2 tracking-wide text-[#FF8800] text-lg font-bold">
-          {course.price}
-        </CardDescription>
-      </CardHeader>
-    </Card>
+      </div>
+    </>
   )
 }

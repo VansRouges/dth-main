@@ -8,35 +8,9 @@ import { Plus } from "lucide-react"
 import { CourseCard } from "./course-dashboard/CourseCard"
 import { LiveClassCard } from "./course-dashboard/LiveClassCard"
 import { AddCourseDialog } from "./course-dashboard/ AddCourseDialog"
-import { ScheduleClassDialog } from "./course-dashboard/ScheduleClassDialog"
+// import { ScheduleClassDialog } from "./course-dashboard/ScheduleClassDialog"
+import { GetCoursesQueryResult } from "@/sanity.types";
 
-// Mock data
-const courses = [
-  {
-    id: 1,
-    title: "Introduction to React",
-    price: "NGN 12,000.00",
-    duration: "4",
-    lessons: 12,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-  {
-    id: 2,
-    title: "Advanced JavaScript",
-    price: "NGN 12,000.00",
-    duration: "6",
-    lessons: 18,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-  {
-    id: 3,
-    title: "Node.js Backend Development",
-    price: "NGN 12,000.00",
-    duration: "8",
-    lessons: 24,
-    thumbnail: "/placeholder.svg?height=200&width=300",
-  },
-]
 
 const liveClasses = [
   {
@@ -71,9 +45,13 @@ const liveClasses = [
   },
 ]
 
-export default function CourseDashboard() {
+interface TopPicksProps {
+  courses: GetCoursesQueryResult;
+}
+
+export default function CourseDashboard({ courses }: TopPicksProps) {
   const [courseModalOpen, setCourseModalOpen] = useState(false)
-  const [liveClassModalOpen, setLiveClassModalOpen] = useState(false)
+  // const [liveClassModalOpen, setLiveClassModalOpen] = useState(false)
 
   
 
@@ -95,9 +73,15 @@ export default function CourseDashboard() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {courses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
+            {courses.length > 0 ? (
+              courses.map((course) => (
+                <div key={course._id} className="flex-shrink-0 w-[300px]">
+                  <CourseCard course={course} />
+                </div>
+              ))
+            ) : (
+              <div className="text-gray-500">No courses available.</div>
+            )}
           </div>
         </TabsContent>
 
@@ -119,7 +103,7 @@ export default function CourseDashboard() {
       </Tabs>
 
       <AddCourseDialog open={courseModalOpen} onOpenChange={setCourseModalOpen} />
-      <ScheduleClassDialog open={liveClassModalOpen} onOpenChange={setLiveClassModalOpen} courses={courses} />
+      {/* <ScheduleClassDialog open={liveClassModalOpen} onOpenChange={setLiveClassModalOpen} courses={courses} /> */}
     </div>
   )
 }

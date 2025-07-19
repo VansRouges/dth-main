@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { User, Calendar, MessageCircle } from "lucide-react";
+import { User, Calendar, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GetInstructorsQueryResult } from "@/sanity.types"
 import { urlFor } from "@/sanity/lib/image";
+import Link from "next/link";
 
 interface MentorCardProps {
   mentor: GetInstructorsQueryResult[number];
@@ -59,14 +60,17 @@ export function MentorCard({ mentor, className = "" }: MentorCardProps) {
         </div>
 
         {/* CTA Button */}
-        <Button 
-          variant="default" 
-          size="sm" 
-          className="w-full mt-2 transition-all duration-300 opacity-0 group-hover:opacity-100"
-        >
-          <MessageCircle className="h-4 w-4 mr-2" />
-          Connect
-        </Button>
+        <Link href={`/mentors/${mentor?.slug}`} passHref>
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="w-full mt-2 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:bg-accent/90 cursor-pointer"
+          >
+            <span className="flex items-center">
+              See more details <ChevronRight className="ml-2 h-4 w-4" />
+            </span>
+          </Button>
+        </Link>
       </div>
 
       {/* Hover Overlay */}

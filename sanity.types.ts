@@ -13,6 +13,29 @@
  */
 
 // Source: schema.json
+export type ProfileInsight = {
+  _id: string;
+  _type: "profileInsight";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  description?: string;
+};
+
+export type Experience = {
+  _id: string;
+  _type: "experience";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  company?: string;
+  startDate?: string;
+  endDate?: string;
+  highlights?: Array<string>;
+};
+
 export type JobOpportunity = {
   _id: string;
   _type: "jobOpportunity";
@@ -261,6 +284,7 @@ export type Instructor = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  slug?: Slug;
   bio?: string;
   photo?: {
     asset?: {
@@ -275,7 +299,22 @@ export type Instructor = {
     _type: "image";
   };
   yearsOfExperience?: number;
-  currentlyWorksAt?: string;
+  jobTitle?: string;
+  company?: string;
+  profileInsights?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "profileInsight";
+  }>;
+  experience?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "experience";
+  }>;
 };
 
 export type Duration = {
@@ -293,8 +332,6 @@ export type Category = {
   name?: string;
   slug?: Slug;
   description?: string;
-  icon?: string;
-  color?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -415,7 +452,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = JobOpportunity | Skill | LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Duration | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = ProfileInsight | Experience | JobOpportunity | Skill | LiveClass | LessonCompletion | Enrollment | Student | BlockContent | Lesson | Module | Course | Instructor | Duration | Category | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/lib/courses/getCourseById.ts
 // Variable: getCourseByIdQuery
@@ -452,8 +489,6 @@ export type GetCourseByIdQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
-    icon?: string;
-    color?: string;
   } | null;
   duration?: Duration;
   topRated?: boolean;
@@ -520,6 +555,7 @@ export type GetCourseByIdQueryResult = {
     _updatedAt: string;
     _rev: string;
     name?: string;
+    slug?: Slug;
     bio?: string;
     photo?: {
       asset?: {
@@ -534,7 +570,22 @@ export type GetCourseByIdQueryResult = {
       _type: "image";
     };
     yearsOfExperience?: number;
-    currentlyWorksAt?: string;
+    jobTitle?: string;
+    company?: string;
+    profileInsights?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "profileInsight";
+    }>;
+    experience?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "experience";
+    }>;
   } | null;
 } | null;
 
@@ -573,8 +624,6 @@ export type GetCourseBySlugQueryResult = {
     name?: string;
     slug?: Slug;
     description?: string;
-    icon?: string;
-    color?: string;
   } | null;
   duration?: Duration;
   topRated?: boolean;
@@ -636,6 +685,7 @@ export type GetCourseBySlugQueryResult = {
     _updatedAt: string;
     _rev: string;
     name?: string;
+    slug?: Slug;
     bio?: string;
     photo?: {
       asset?: {
@@ -650,7 +700,22 @@ export type GetCourseBySlugQueryResult = {
       _type: "image";
     };
     yearsOfExperience?: number;
-    currentlyWorksAt?: string;
+    jobTitle?: string;
+    company?: string;
+    profileInsights?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "profileInsight";
+    }>;
+    experience?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "experience";
+    }>;
   } | null;
 } | null;
 
@@ -689,8 +754,6 @@ export type GetCoursesQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
-    icon?: string;
-    color?: string;
   } | null;
   duration?: Duration;
   topRated?: boolean;
@@ -728,6 +791,7 @@ export type GetCoursesQueryResult = Array<{
     _updatedAt: string;
     _rev: string;
     name?: string;
+    slug?: Slug;
     bio?: string;
     photo?: {
       asset?: {
@@ -742,7 +806,22 @@ export type GetCoursesQueryResult = Array<{
       _type: "image";
     };
     yearsOfExperience?: number;
-    currentlyWorksAt?: string;
+    jobTitle?: string;
+    company?: string;
+    profileInsights?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "profileInsight";
+    }>;
+    experience?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "experience";
+    }>;
   } | null;
 }>;
 
@@ -781,8 +860,6 @@ export type SearchQueryResult = Array<{
     name?: string;
     slug?: Slug;
     description?: string;
-    icon?: string;
-    color?: string;
   } | null;
   duration?: Duration;
   topRated?: boolean;
@@ -818,6 +895,7 @@ export type SearchQueryResult = Array<{
     _updatedAt: string;
     _rev: string;
     name?: string;
+    slug?: Slug;
     bio?: string;
     photo?: {
       asset?: {
@@ -832,20 +910,36 @@ export type SearchQueryResult = Array<{
       _type: "image";
     };
     yearsOfExperience?: number;
-    currentlyWorksAt?: string;
+    jobTitle?: string;
+    company?: string;
+    profileInsights?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "profileInsight";
+    }>;
+    experience?: Array<{
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      _key: string;
+      [internalGroqTypeReferenceTo]?: "experience";
+    }>;
   } | null;
 }>;
 
-// Source: ./sanity/lib/instructors/getInstructors.ts
-// Variable: getInstructorsQuery
-// Query: *[_type == "instructor"] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    bio,    photo,    yearsOfExperience,    currentlyWorksAt  }
-export type GetInstructorsQueryResult = Array<{
+// Source: ./sanity/lib/instructors/getInstructorBySlug.ts
+// Variable: getInstructorBySlugQuery
+// Query: *[_type == "instructor" && slug.current == $slug][0] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    slug,    bio,    photo,    yearsOfExperience,    jobTitle,    company,    currentlyWorksAt,    "profileInsights": profileInsights[]-> {      _id,      title,      description    },    "experience": experience[]-> {      _id,      position,      company,      duration,      description    }  }
+export type GetInstructorBySlugQueryResult = {
   _id: string;
   _type: "instructor";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   name: string | null;
+  slug: Slug | null;
   bio: string | null;
   photo: {
     asset?: {
@@ -860,7 +954,49 @@ export type GetInstructorsQueryResult = Array<{
     _type: "image";
   } | null;
   yearsOfExperience: number | null;
-  currentlyWorksAt: string | null;
+  jobTitle: string | null;
+  company: string | null;
+  currentlyWorksAt: null;
+  profileInsights: Array<{
+    _id: string;
+    title: string | null;
+    description: string | null;
+  }> | null;
+  experience: Array<{
+    _id: string;
+    position: null;
+    company: string | null;
+    duration: null;
+    description: null;
+  }> | null;
+} | null;
+
+// Source: ./sanity/lib/instructors/getInstructors.ts
+// Variable: getInstructorsQuery
+// Query: *[_type == "instructor"] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    "slug": slug.current,    bio,    photo,    yearsOfExperience,    currentlyWorksAt  }
+export type GetInstructorsQueryResult = Array<{
+  _id: string;
+  _type: "instructor";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string | null;
+  slug: string | null;
+  bio: string | null;
+  photo: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  yearsOfExperience: number | null;
+  currentlyWorksAt: null;
 }>;
 
 // Source: ./sanity/lib/lessons/getCourseProgress.ts
@@ -1312,8 +1448,6 @@ export type GetEnrolledCoursesQueryResult = {
         name?: string;
         slug?: Slug;
         description?: string;
-        icon?: string;
-        color?: string;
       } | null;
       duration?: Duration;
       topRated?: boolean;
@@ -1349,6 +1483,7 @@ export type GetEnrolledCoursesQueryResult = {
         _updatedAt: string;
         _rev: string;
         name?: string;
+        slug?: Slug;
         bio?: string;
         photo?: {
           asset?: {
@@ -1363,7 +1498,22 @@ export type GetEnrolledCoursesQueryResult = {
           _type: "image";
         };
         yearsOfExperience?: number;
-        currentlyWorksAt?: string;
+        jobTitle?: string;
+        company?: string;
+        profileInsights?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "profileInsight";
+        }>;
+        experience?: Array<{
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          _key: string;
+          [internalGroqTypeReferenceTo]?: "experience";
+        }>;
       } | null;
     } | null;
     amount?: number;
@@ -1425,7 +1575,8 @@ declare module "@sanity/client" {
     "*[_type == \"course\" && slug.current == $slug][0] {\n      ...,\n      \"category\": category->{...},\n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      },\n      \"jobOpportunities\": jobOpportunities[]-> { _id, title, _createdAt },\n      \"skillsCovered\": skillsCovered[]-> { _id, name }\n    }": GetCourseBySlugQueryResult;
     "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...},\n    \"skillsCovered\": skillsCovered[]->{...},\n    \"jobOpportunities\": jobOpportunities[]->{...},\n  }": GetCoursesQueryResult;
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
-    "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt\n  }": GetInstructorsQueryResult;
+    "*[_type == \"instructor\" && slug.current == $slug][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    slug,\n    bio,\n    photo,\n    yearsOfExperience,\n    jobTitle,\n    company,\n    currentlyWorksAt,\n    \"profileInsights\": profileInsights[]-> {\n      _id,\n      title,\n      description\n    },\n    \"experience\": experience[]-> {\n      _id,\n      position,\n      company,\n      duration,\n      description\n    }\n  }": GetInstructorBySlugQueryResult;
+    "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    \"slug\": slug.current,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt\n  }": GetInstructorsQueryResult;
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;
     "*[_type == \"lessonCompletion\" && student._ref == $studentId && lesson._ref == $lessonId][0] {\n    ...\n  }": CompletionStatusQueryResult;

@@ -5,14 +5,14 @@ import { ChevronRight, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 interface BioSectionProps {
-  bio: string;
+  bio: string | undefined | null;
   truncateLength?: number;
 }
 
 export const BioSection = ({ bio, truncateLength = 250 }: BioSectionProps) => {
   const [showFullBio, setShowFullBio] = useState(false);
-  const needsTruncation = bio.length > truncateLength;
-  const displayBio = showFullBio ? bio : bio.substring(0, truncateLength) + (needsTruncation ? "..." : "");
+  const needsTruncation = !!bio && bio.length > truncateLength;
+  const displayBio = showFullBio ? bio : bio?.substring(0, truncateLength) + (needsTruncation ? "..." : "");
 
   return (
     <div>

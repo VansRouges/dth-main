@@ -246,21 +246,6 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
                   </div>
                 </div>
               </div>
-
-              {/* Ratings and Reviews */}
-              {/* <div className="container mx-auto p-4 rounded-xl bg-white flex justify-between items-center">
-                <h3 className="text-2xl font-bold mb-4">Ratings and Reviews</h3>
-                <button className="text-primary font-semibold hover:underline cursor-pointer">
-                  See more
-                </button>
-              </div> */}
-              
-                    
-              {/* About the Publisher */}
-              {/* <div className="container mx-auto p-4 rounded-xl bg-white flex justify-between items-center">
-                <h3 className="text-2xl font-bold mb-4">About the Publisher</h3>
-                <ChevronRight className="w-6 h-6 cursor-pointer" />
-              </div> */}
             </div>
           </main>
           

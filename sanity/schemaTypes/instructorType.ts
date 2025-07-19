@@ -12,6 +12,16 @@ export const instructorType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "name",
+        maxLength: 96,
+      },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "bio",
       title: "Bio",
       type: "text",
@@ -28,9 +38,26 @@ export const instructorType = defineType({
       validation: (rule) => rule.min(0),
     }),
     defineField({
-      name: "currentlyWorksAt",
-      title: "Currently Works At",
+      name: "jobTitle",
+      title: "Job Title",
       type: "string",
+    }),
+    defineField({
+      name: "company",
+      title: "Company",
+      type: "string",
+    }),
+    defineField({
+      name: "profileInsights",
+      title: "Profile Insights",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "profileInsight" }] }],
+    }),
+    defineField({
+      name: "experience",
+      title: "Experience",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "experience" }] }],
     }),
   ],
 });

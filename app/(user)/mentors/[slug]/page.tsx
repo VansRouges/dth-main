@@ -5,55 +5,24 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
 // import { Briefcase } from "lucide-react";
 import Image from "next/image";
-import { StarRating } from "@/components/mentor/star-rating";
+// import { StarRating } from "@/components/mentor/star-rating";
 import { BioSection } from "@/components/mentor/biosection";
 import { ChevronDown } from "lucide-react";
+import getInstructorBySlug from "@/sanity/lib/instructors/getInstructorBySlug";
 
 interface MentorDetailsPageProps {
-  params: {
-    id: string
-  }
+   params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function MentorDetailsPage({ params }: MentorDetailsPageProps) {
+  const { slug } = await params;
+  const mentor = await getInstructorBySlug(slug);
+  console.log("Mentor Details:", mentor);
   const user = await currentUser();
   
-  const mentor = {
-    id: params.id,
-    name: "Henry Osuji",
-    title: "Senior Data Analyst, Google",
-    starCount: 3,
-    stats: {
-      sessions: "1000 sessions",
-      reviews: "256 Reviews",
-      experience: "12 years"
-    },
-    bio: "Henry Osuji is a Data Analyst at Google, bringing over 12 years of rich experience in the ever-evolving landscape of data analytics. His career is characterized by a steadfast dedication to transforming complex datasets into actionable insights, driving strategic decisions at one of the world's leading technology companies. At Google, he has developed deep expertise in data mining, machine learning, advanced statistical analysis, and data visualization, contributing significantly to numerous key projects and initiatives. His technical skill set includes proficiency in SQL, Python, and cloud technologies", // full bio text
-    profileInsights: {
-      highlights: [
-        {
-          title: "Data Analysis & Strategy",
-          description: "Proven ability to translate data into actionable business insights."
-        },
-        {
-          title: "Machine Learning & Advanced Analytics",
-          description: "Deep understanding of cloud-based data platforms and technologies (Azure)."
-        }
-      ],
-      background: {
-        expertise: ["Data Analysis", "Data Interpretation", "Azure Cloud Data Services", "SQL Database"],
-        discipline: ["Data Science", "Business Intelligence", "Cloud Computing"],
-        industries: ["Data-Driven Product Development", "Information Technology"],
-        fluentIn: ["English", "Azure Cloud Platform", "Python (Advanced)", "SQL (Advanced)"]
-      },
-      technicalProficiency: {
-        summary: "Expert in SQL, Python, Azure, and data visualization tools.",
-        specialties: [
-          "Cloud Data Solutions: Experience in developing and implementing sophisticated analytical models"
-        ]
-      }
-    }
-  };
+
 
   return (
     <SidebarProvider
@@ -72,7 +41,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <div className="ml-auto">
+          <div className="ml-auto flex space-x-2">
             <SignedIn>
               <div className="flex space-x-2 ">
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
@@ -138,16 +107,16 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
               </div>
               <div className="w-full p-6 flex flex-col justify-center">
                 <div className="flex space-x-2 items-center">
-                  <h1 className="text-3xl font-extrabold">{mentor.name}</h1>
-                  <StarRating rating={mentor.starCount} />
+                  <h1 className="text-3xl font-extrabold">{mentor?.name}</h1>
+                  {/* <StarRating rating={mentor.starCount} /> */}
                 </div>
-                <p className="text-lg font-semibold text-primary mt-1">{mentor.title}</p>
+                <p className="text-lg font-semibold text-primary mt-1">{mentor?.jobTitle}</p>
                 <div className="flex flex-wrap gap-4 mt-3 text-gray-600">
                   <span className="flex items-center text-black">
-                    {mentor.stats.sessions}
+                    {/* {mentor.stats.sessions} */}
                   </span>
-                  <span className="text-primary">({mentor.stats.reviews})</span>
-                  <span className="font-bold text-black">Exp: {mentor.stats.experience}</span>
+                  {/* <span className="text-primary">({mentor.stats.reviews})</span> */}
+                  {/* <span className="font-bold text-black">Exp: {mentor.stats.experience}</span> */}
                 </div>
               </div>
             </div>
@@ -155,7 +124,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
             {/* About Mentor */}
             <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
               <h2 className="text-3xl font-extrabold mb-4">About Mentor</h2>
-              <BioSection bio={mentor.bio} />
+              <BioSection bio={mentor?.bio} />
             </div>
 
             {/* Profile Insights */}
@@ -163,21 +132,21 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
               <h2 className="text-3xl font-extrabold mb-6">Profile Insights</h2>
               
               {/* Highlights */}
-              <div className="space-y-4 mb-8">
+              {/* <div className="space-y-4 mb-8">
                 {mentor.profileInsights.highlights.map((item, index) => (
                   <div key={index} className="space-y-1">
                     <h3 className="text-xl font-semibold">{item.title}</h3>
                     <p className="text-gray-700">{item.description}</p>
                   </div>
                 ))}
-              </div>
+              </div> */}
 
               {/* Background */}
               <div className="mb-8">
                 <h3 className="text-2xl font-bold mb-4">Background</h3>
                 <div className="overflow-x-auto">
                   <table className="min-w-full border-collapse">
-                    <tbody>
+                    {/* <tbody>
                       <tr>
                         <td className="font-semibold py-2 pr-4 align-top">Expertise</td>
                         {mentor.profileInsights.background.expertise.map((item, i) => (
@@ -202,7 +171,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
                           <td key={i} className="py-2 px-4">{item}</td>
                         ))}
                       </tr>
-                    </tbody>
+                    </tbody> */}
                   </table>
                 </div>
               </div>
@@ -210,7 +179,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
               {/* Technical Proficiency */}
               <div>
                 <h3 className="text-2xl font-bold mb-4">Technical Proficiency</h3>
-                <p className="text-gray-700 mb-4">{mentor.profileInsights.technicalProficiency.summary}</p>
+                {/* <p className="text-gray-700 mb-4">{mentor.profileInsights.technicalProficiency.summary}</p>
                 <ul className="list-disc pl-5 space-y-2">
                   {mentor.profileInsights.technicalProficiency.specialties.map((item, index) => {
                     const [title, description] = item.split(': ');
@@ -220,7 +189,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
                       </li>
                     );
                   })}
-                </ul>
+                </ul> */}
               </div>
             </div>
           </div>

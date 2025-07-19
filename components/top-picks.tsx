@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button"
 import { GetCoursesQueryResult } from "@/sanity.types"
 
 interface TopPicksProps {
+  title: string;
   courses: GetCoursesQueryResult;
 }
 
-export function TopPicks({ courses }: TopPicksProps) {
+export function TopPicks({ title, courses }: TopPicksProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -27,7 +28,7 @@ export function TopPicks({ courses }: TopPicksProps) {
   return (
     <div className="my-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">Top picks for you</h2>
+        <h2 className="text-xl font-bold">{title}</h2>
         {topRatedCourses.length >= 4 && (
           <a href="#" className="text-orange-500 font-semibold text-sm">
             See more

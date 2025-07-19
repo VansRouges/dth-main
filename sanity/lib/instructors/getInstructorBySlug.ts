@@ -9,7 +9,7 @@ async function getInstructorBySlug(slug: string) {
     _updatedAt,
     _rev,
     name,
-    slug,
+    slug, 
     bio,
     photo,
     yearsOfExperience,
@@ -23,10 +23,11 @@ async function getInstructorBySlug(slug: string) {
     },
     "experience": experience[]-> {
       _id,
-      position,
+      title,
       company,
-      duration,
-      description
+      startDate,
+      endDate,
+      highlights
     }
   }`);
 

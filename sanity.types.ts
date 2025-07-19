@@ -931,7 +931,7 @@ export type SearchQueryResult = Array<{
 
 // Source: ./sanity/lib/instructors/getInstructorBySlug.ts
 // Variable: getInstructorBySlugQuery
-// Query: *[_type == "instructor" && slug.current == $slug][0] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    slug,    bio,    photo,    yearsOfExperience,    jobTitle,    company,    currentlyWorksAt,    "profileInsights": profileInsights[]-> {      _id,      title,      description    },    "experience": experience[]-> {      _id,      position,      company,      duration,      description    }  }
+// Query: *[_type == "instructor" && slug.current == $slug][0] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    slug,     bio,    photo,    yearsOfExperience,    jobTitle,    company,    currentlyWorksAt,    "profileInsights": profileInsights[]-> {      _id,      title,      description    },    "experience": experience[]-> {      _id,      title,      company,      startDate,      endDate,      highlights    }  }
 export type GetInstructorBySlugQueryResult = {
   _id: string;
   _type: "instructor";
@@ -964,10 +964,11 @@ export type GetInstructorBySlugQueryResult = {
   }> | null;
   experience: Array<{
     _id: string;
-    position: null;
+    title: string | null;
     company: string | null;
-    duration: null;
-    description: null;
+    startDate: string | null;
+    endDate: string | null;
+    highlights: Array<string> | null;
   }> | null;
 } | null;
 
@@ -1575,7 +1576,7 @@ declare module "@sanity/client" {
     "*[_type == \"course\" && slug.current == $slug][0] {\n      ...,\n      \"category\": category->{...},\n      \"instructor\": instructor->{...},\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      },\n      \"jobOpportunities\": jobOpportunities[]-> { _id, title, _createdAt },\n      \"skillsCovered\": skillsCovered[]-> { _id, name }\n    }": GetCourseBySlugQueryResult;
     "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...},\n    \"skillsCovered\": skillsCovered[]->{...},\n    \"jobOpportunities\": jobOpportunities[]->{...},\n  }": GetCoursesQueryResult;
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
-    "*[_type == \"instructor\" && slug.current == $slug][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    slug,\n    bio,\n    photo,\n    yearsOfExperience,\n    jobTitle,\n    company,\n    currentlyWorksAt,\n    \"profileInsights\": profileInsights[]-> {\n      _id,\n      title,\n      description\n    },\n    \"experience\": experience[]-> {\n      _id,\n      position,\n      company,\n      duration,\n      description\n    }\n  }": GetInstructorBySlugQueryResult;
+    "*[_type == \"instructor\" && slug.current == $slug][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    slug, \n    bio,\n    photo,\n    yearsOfExperience,\n    jobTitle,\n    company,\n    currentlyWorksAt,\n    \"profileInsights\": profileInsights[]-> {\n      _id,\n      title,\n      description\n    },\n    \"experience\": experience[]-> {\n      _id,\n      title,\n      company,\n      startDate,\n      endDate,\n      highlights\n    }\n  }": GetInstructorBySlugQueryResult;
     "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    \"slug\": slug.current,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt\n  }": GetInstructorsQueryResult;
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;

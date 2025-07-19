@@ -6,6 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 // import { Briefcase } from "lucide-react";
 import Image from "next/image";
 // import { StarRating } from "@/components/mentor/star-rating";
+import { urlFor } from "@/sanity/lib/image";
 import { BioSection } from "@/components/mentor/biosection";
 import { ChevronDown } from "lucide-react";
 import getInstructorBySlug from "@/sanity/lib/instructors/getInstructorBySlug";
@@ -96,27 +97,37 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
             {/* Mentor Profile */}
             <div className="container mx-auto flex items-center p-6 rounded-xl bg-white shadow-sm">
               <div className="rounded-full bg-red-400 w-24 h-24 flex-shrink-0 overflow-hidden">
-                <Image
-                  src="/dummy-mentor.png"
-                  alt="Mentor image"
-                  width={3200}
-                  height={1000}
-                  className="object-cover w-full h-full"
-                  priority
-                />
+                {mentor?.photo ? (
+                  <Image
+                    src={urlFor(mentor.photo).url()}
+                    alt={mentor.name || "Mentor"}
+                    fill
+                    className="object-cover w-[50%] h-[50%]"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <Image
+                    src="/dummy-mentor.png"
+                    alt="Mentor image"
+                    width={3200}
+                    height={1000}
+                    className="object-cover w-full h-full"
+                    priority
+                  />
+                )}
               </div>
               <div className="w-full p-6 flex flex-col justify-center">
                 <div className="flex space-x-2 items-center">
                   <h1 className="text-3xl font-extrabold">{mentor?.name}</h1>
                   {/* <StarRating rating={mentor.starCount} /> */}
                 </div>
-                <p className="text-lg font-semibold text-primary mt-1">{mentor?.jobTitle}</p>
+                <p className="text-lg font-semibold text-primary mt-1">{mentor?.jobTitle} <span className="text-black">At</span> {mentor?.company}</p>
                 <div className="flex flex-wrap gap-4 mt-3 text-gray-600">
                   <span className="flex items-center text-black">
                     {/* {mentor.stats.sessions} */}
                   </span>
                   {/* <span className="text-primary">({mentor.stats.reviews})</span> */}
-                  {/* <span className="font-bold text-black">Exp: {mentor.stats.experience}</span> */}
+                  <span className="font-bold text-black">Exp: {mentor?.yearsOfExperience}</span>
                 </div>
               </div>
             </div>

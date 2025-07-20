@@ -298,7 +298,7 @@ export const SliderBufferRange = React.forwardRef<
     orientation?: "horizontal" | "vertical";
     className?: string;
   }
->(({ bufferedEnd, max, size = "md", orientation = "horizontal", className }, ref) => {
+>(({ bufferedEnd, max, orientation = "horizontal", className }, ref) => {
   const bufferedPercentage = (bufferedEnd / max) * 100;
   
   return (

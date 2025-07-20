@@ -11,8 +11,8 @@ import { CourseCard } from "@/components/course-card"
 export default function CoursesPage() {
   const [courses, setCourses] = useState<GetCoursesQueryResult>([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("")
-  const [selectedDifficulty, setSelectedDifficulty] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [selectedDifficulty, setSelectedDifficulty] = useState("all")
   const [isLoading, setIsLoading] = useState(true)
 
   // Extract unique categories and difficulties from courses
@@ -43,11 +43,11 @@ export default function CoursesPage() {
       course.description?.toLowerCase().includes(searchTerm.toLowerCase())
 
     const matchesCategory = 
-      !selectedCategory || 
+      selectedCategory === "all" || 
       course.category?.name?.toLowerCase() === selectedCategory.toLowerCase()
 
     const matchesDifficulty = 
-      !selectedDifficulty || 
+      selectedDifficulty === "all" || 
       course.level?.toLowerCase() === selectedDifficulty.toLowerCase()
 
     return matchesSearch && matchesCategory && matchesDifficulty
@@ -95,7 +95,7 @@ export default function CoursesPage() {
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Categories</SelectItem>
+                  <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}
@@ -108,7 +108,7 @@ export default function CoursesPage() {
                   <SelectValue placeholder="All Levels" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All Levels</SelectItem>
+                  <SelectItem value="all">All Levels</SelectItem>
                   {difficulties.map((difficulty) => (
                     <SelectItem key={difficulty} value={difficulty}>
                       {difficulty}
@@ -146,8 +146,8 @@ export default function CoursesPage() {
               className="mt-4"
               onClick={() => {
                 setSearchTerm("")
-                setSelectedCategory("")
-                setSelectedDifficulty("")
+                setSelectedCategory("all")
+                setSelectedDifficulty("all")
               }}
             >
               Clear all filters

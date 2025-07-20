@@ -9,6 +9,7 @@ export async function getInstructors() {
     _updatedAt,
     _rev,
     name,
+    "slug": slug.current,
     bio,
     photo,
     yearsOfExperience,

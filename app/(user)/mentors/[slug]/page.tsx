@@ -3,57 +3,22 @@ import { SignedIn, UserButton } from "@clerk/nextjs";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
-// import { Briefcase } from "lucide-react";
 import Image from "next/image";
-import { StarRating } from "@/components/mentor/star-rating";
-import { BioSection } from "@/components/mentor/biosection";
 import { ChevronDown } from "lucide-react";
+import { urlFor } from "@/sanity/lib/image";
+import getInstructorBySlug from "@/sanity/lib/instructors/getInstructorBySlug";
+import { BioSection } from "@/components/mentor/biosection";
 
 interface MentorDetailsPageProps {
-  params: {
-    id: string
-  }
+  params: Promise<{
+    slug: string;
+  }>;
 }
 
 export default async function MentorDetailsPage({ params }: MentorDetailsPageProps) {
+  const { slug } = await params;
+  const mentor = await getInstructorBySlug(slug);
   const user = await currentUser();
-  
-  const mentor = {
-    id: params.id,
-    name: "Henry Osuji",
-    title: "Senior Data Analyst, Google",
-    starCount: 3,
-    stats: {
-      sessions: "1000 sessions",
-      reviews: "256 Reviews",
-      experience: "12 years"
-    },
-    bio: "Henry Osuji is a Data Analyst at Google, bringing over 12 years of rich experience in the ever-evolving landscape of data analytics. His career is characterized by a steadfast dedication to transforming complex datasets into actionable insights, driving strategic decisions at one of the world's leading technology companies. At Google, he has developed deep expertise in data mining, machine learning, advanced statistical analysis, and data visualization, contributing significantly to numerous key projects and initiatives. His technical skill set includes proficiency in SQL, Python, and cloud technologies", // full bio text
-    profileInsights: {
-      highlights: [
-        {
-          title: "Data Analysis & Strategy",
-          description: "Proven ability to translate data into actionable business insights."
-        },
-        {
-          title: "Machine Learning & Advanced Analytics",
-          description: "Deep understanding of cloud-based data platforms and technologies (Azure)."
-        }
-      ],
-      background: {
-        expertise: ["Data Analysis", "Data Interpretation", "Azure Cloud Data Services", "SQL Database"],
-        discipline: ["Data Science", "Business Intelligence", "Cloud Computing"],
-        industries: ["Data-Driven Product Development", "Information Technology"],
-        fluentIn: ["English", "Azure Cloud Platform", "Python (Advanced)", "SQL (Advanced)"]
-      },
-      technicalProficiency: {
-        summary: "Expert in SQL, Python, Azure, and data visualization tools.",
-        specialties: [
-          "Cloud Data Solutions: Experience in developing and implementing sophisticated analytical models"
-        ]
-      }
-    }
-  };
 
   return (
     <SidebarProvider
@@ -72,13 +37,13 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <div className="ml-auto">
+          <div className="ml-auto flex space-x-2">
             <SignedIn>
               <div className="flex space-x-2 ">
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
                   <Image
                     src="/bell.svg"
-                    alt="notificatons"
+                    alt="notifications"
                     width={32}
                     height={32}
                     className="object-cover w-5 h-5 rounded-full"
@@ -87,7 +52,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
                   <Image
                     src="/information.svg"
-                    alt="notificatons"
+                    alt="information"
                     width={32}
                     height={32}
                     className="object-cover w-5 h-5 rounded-full"
@@ -107,7 +72,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
           {/* Main Content Area - Takes full width on mobile, 3/4 on desktop */}
-          <div className="min-h-screen space-y-6">
+          <div className="min-h-screen space-y-6 w-full">
             {/* Banner */}
             <div className="relative overflow-hidden rounded-xl mr-14 w-[90%]">
               <Image
@@ -125,102 +90,120 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
             </div>
 
             {/* Mentor Profile */}
-            <div className="container mx-auto flex items-center p-6 rounded-xl bg-white shadow-sm">
-              <div className="rounded-full bg-red-400 w-24 h-24 flex-shrink-0 overflow-hidden">
-                <Image
-                  src="/dummy-mentor.png"
-                  alt="Mentor image"
-                  width={3200}
-                  height={1000}
-                  className="object-cover w-full h-full"
-                  priority
-                />
+            <div className="container mx-auto flex flex-col md:flex-row items-start p-6 rounded-xl bg-white shadow-sm gap-6">
+              <div className="rounded-full bg-gray-100 w-32 h-32 flex-shrink-0 overflow-hidden relative">
+                {mentor?.photo ? (
+                  <Image
+                    src={urlFor(mentor.photo).url()}
+                    alt={mentor?.name || "Mentor"}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-500">
+                      {mentor?.name?.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
-              <div className="w-full p-6 flex flex-col justify-center">
-                <div className="flex space-x-2 items-center">
-                  <h1 className="text-3xl font-extrabold">{mentor.name}</h1>
-                  <StarRating rating={mentor.starCount} />
+              <div className="w-full">
+                <div className="flex flex-col md:flex-row md:items-center gap-4">
+                  <h1 className="text-3xl font-extrabold">{mentor?.name}</h1>
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                      {mentor?.yearsOfExperience}+ years experience
+                    </span>
+                  </div>
                 </div>
-                <p className="text-lg font-semibold text-primary mt-1">{mentor.title}</p>
-                <div className="flex flex-wrap gap-4 mt-3 text-gray-600">
-                  <span className="flex items-center text-black">
-                    {mentor.stats.sessions}
-                  </span>
-                  <span className="text-primary">({mentor.stats.reviews})</span>
-                  <span className="font-bold text-black">Exp: {mentor.stats.experience}</span>
-                </div>
+                <p className="text-lg font-semibold text-primary mt-2">
+                  {mentor?.jobTitle} at {mentor?.company}
+                </p>
+                
+                {mentor?.bio && (
+                  <div className="mt-4">
+                    <BioSection bio={mentor?.bio} />
+                  </div>
+                )}
               </div>
-            </div>
-
-            {/* About Mentor */}
-            <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
-              <h2 className="text-3xl font-extrabold mb-4">About Mentor</h2>
-              <BioSection bio={mentor.bio} />
             </div>
 
             {/* Profile Insights */}
-            <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
-              <h2 className="text-3xl font-extrabold mb-6">Profile Insights</h2>
-              
-              {/* Highlights */}
-              <div className="space-y-4 mb-8">
-                {mentor.profileInsights.highlights.map((item, index) => (
-                  <div key={index} className="space-y-1">
-                    <h3 className="text-xl font-semibold">{item.title}</h3>
-                    <p className="text-gray-700">{item.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              {/* Background */}
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold mb-4">Background</h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full border-collapse">
-                    <tbody>
-                      <tr>
-                        <td className="font-semibold py-2 pr-4 align-top">Expertise</td>
-                        {mentor.profileInsights.background.expertise.map((item, i) => (
-                          <td key={i} className="py-2 px-4 border-b border-gray-200">{item}</td>
-                        ))}
-                      </tr>
-                      <tr>
-                        <td className="font-semibold py-2 pr-4 align-top">Discipline</td>
-                        {mentor.profileInsights.background.discipline.map((item, i) => (
-                          <td key={i} className="py-2 px-4 border-b border-gray-200">{item}</td>
-                        ))}
-                      </tr>
-                      <tr>
-                        <td className="font-semibold py-2 pr-4 align-top">Industries</td>
-                        {mentor.profileInsights.background.industries.map((item, i) => (
-                          <td key={i} className="py-2 px-4 border-b border-gray-200">{item}</td>
-                        ))}
-                      </tr>
-                      <tr>
-                        <td className="font-semibold py-2 pr-4 align-top">Fluent In</td>
-                        {mentor.profileInsights.background.fluentIn.map((item, i) => (
-                          <td key={i} className="py-2 px-4">{item}</td>
-                        ))}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Technical Proficiency */}
-              <div>
-                <h3 className="text-2xl font-bold mb-4">Technical Proficiency</h3>
-                <p className="text-gray-700 mb-4">{mentor.profileInsights.technicalProficiency.summary}</p>
-                <ul className="list-disc pl-5 space-y-2">
-                  {mentor.profileInsights.technicalProficiency.specialties.map((item, index) => {
-                    const [title, description] = item.split(': ');
+            {mentor?.profileInsights && mentor.profileInsights.length > 0 && (
+              <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
+                <h2 className="text-3xl font-extrabold mb-6">Profile Insights</h2>
+                
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {mentor.profileInsights.map((insight, index) => {
+                    // Map index to one of the four colors
+                    const colors = ['#28A745', '#E63946', '#104BC1', '#E8C400'];
+                    const color = colors[index % colors.length];
+                    
                     return (
-                      <li key={index} className="text-gray-700">
-                        <span className="font-semibold">{title}:</span> {description}
-                      </li>
+                      <div key={insight._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 
+                          className="text-xl font-semibold mb-2"
+                          style={{ color }}
+                        >
+                          {insight.title}
+                        </h3>
+                        <p className="text-gray-700">{insight.description}</p>
+                      </div>
                     );
                   })}
-                </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Experience */}
+            {mentor?.experience && mentor.experience.length > 0 && (
+              <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
+                <h2 className="text-3xl font-extrabold mb-6">Professional Experience</h2>
+                
+                <div className="space-y-8">
+                  {mentor.experience.map((exp) => (
+                    <div key={exp._id} className="border-b border-gray-200 pb-8 last:border-b-0">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
+                        <div>
+                          <h3 className="text-xl font-semibold">{exp.title || 'Role not specified'}</h3>
+                          <p className="text-primary font-bold">{exp.company}</p>
+                        </div>
+                        {(exp.startDate || exp.endDate) && (
+                          <div className="text-gray-500">
+                            {exp.startDate} {exp.startDate && exp.endDate ? ' - ' : ''} {exp.endDate}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {exp.highlights && exp.highlights.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="font-semibold mb-2">Key Responsibilities & Achievements:</h4>
+                          <ul className="list-disc pl-5 space-y-1">
+                            {exp.highlights.map((highlight, index) => (
+                              <li key={index} className="text-gray-700">
+                                {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Book Session CTA */}
+            <div className="container mx-auto p-6 rounded-xl bg-blue-50 shadow-sm">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                  <h2 className="text-2xl font-bold">Ready to learn from {mentor?.name}?</h2>
+                  <p className="text-gray-700 mt-2">Book a 1:1 session to get personalized guidance</p>
+                </div>
+                <button className="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors cursor-pointer">
+                  Book Session
+                </button>
               </div>
             </div>
           </div>

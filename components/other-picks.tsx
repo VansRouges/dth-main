@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button"
 import { GetCoursesQueryResult } from "@/sanity.types"
 
 interface OtherPicksProps {
+  title: string;
   courses: GetCoursesQueryResult;
 }
 
-export function OtherPicks({ courses }: OtherPicksProps) {
+export function OtherPicks({ title, courses }: OtherPicksProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -30,7 +31,7 @@ export function OtherPicks({ courses }: OtherPicksProps) {
   return (
     <div className="mb-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">What Others Have been Learning</h2>
+        <h2 className="text-xl font-bold">{title}</h2>
         {otherPickedCourses.length >= 4 && (
           <a href="#" className="text-orange-500 font-semibold text-sm">
             See more

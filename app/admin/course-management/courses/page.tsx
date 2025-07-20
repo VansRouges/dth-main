@@ -4,10 +4,13 @@ import { currentUser } from '@clerk/nextjs/server';
 import { checkAdminAccess } from "@/lib/utils";
 import Image from "next/image";
 import CourseDashboard from "@/components/admin/course-dashboard";
+import { getCourses } from "@/sanity/lib/courses/getCourses";
+import { GetCoursesQueryResult } from "@/sanity.types";
 
 
 const Courses: NextPage = async () => {
   const user = await currentUser();
+  const allCourses: GetCoursesQueryResult = await getCourses();
 
   if (!checkAdminAccess(user)) {
     redirect("/");
@@ -33,7 +36,7 @@ const Courses: NextPage = async () => {
       </div>
 
 
-      <CourseDashboard />
+      <CourseDashboard courses={allCourses} />
     </>
   );
 };

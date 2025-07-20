@@ -2,16 +2,16 @@ import Image from "next/image"
 
 interface DashboardOverviewProps {
   userName: string | undefined | null
-  coursesCount: number
+  coursesEnrolled: number
   mentoringCount: number
   projectsCount: number
 }
 
 export function DashboardOverview({
-  userName = "Henry Osuji",
-  coursesCount = 0,
-  mentoringCount = 0,
-  projectsCount = 0,
+  userName,
+  coursesEnrolled,
+  mentoringCount,
+  projectsCount,
 }: DashboardOverviewProps) {
   return (
     <div className="relative">
@@ -48,7 +48,7 @@ export function DashboardOverview({
               className="object-cover w-32 h-32 absolute bottom-0 right-0"
             />
             <p className="text-6xl font-bold absolute top-1/2 mt-4 left-8 transform -translate-y-1/2">
-            {coursesCount}
+            {coursesEnrolled}
             </p>
           </div>
           {/* Mentoring */}

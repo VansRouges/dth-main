@@ -2,7 +2,6 @@ import { useState, useRef } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Upload, Copy, Check, ExternalLink } from "lucide-react"
-// import { uploadCourseVideo } from "@/supabase/supabase"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Progress } from "@/components/ui/progress"
@@ -127,7 +126,7 @@ export function AddCourseDialog({ open, onOpenChange }: AddCourseDialogProps) {
                 asChild
                 className="text-blue-700 border-blue-300 hover:bg-blue-100 bg-transparent"
               >
-                <a href="https://dth.sanity.io" target="_blank" rel="noopener noreferrer">
+                <a href="https://dth.sanity.studio/studio/structure/" target="_blank" rel="noopener noreferrer">
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Open Sanity Studio
                 </a>

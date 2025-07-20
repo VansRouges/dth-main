@@ -111,3 +111,13 @@ export function formatPrice(price: number | undefined): string {
   }).format(price);
   return formatted;
 }
+
+export const formatTime = (time: number): string => {
+    if (isNaN(time) || time < 0) return "0:00";
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
+    const seconds = Math.floor(time % 60);
+    return hours > 0
+      ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+      : `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  }

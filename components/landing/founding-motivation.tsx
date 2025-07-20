@@ -8,6 +8,8 @@ import { useFramerAnimations } from '@/hooks/use-framer-animate'
 export default function FoundingMotivation() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
 
   const {
     fadeInFromLeft,
@@ -37,30 +39,115 @@ export default function FoundingMotivation() {
       src: "/landing/learning-1.png",
       alt: "Collaborative work session in progress",
     },
+    {
+      src: "/landing/learning-3.png",
+      alt: "Team meeting with sticky notes brainstorming",
+    },
+    {
+      src: "/landing/learning-1.png",
+      alt: "Collaborative work session in progress",
+    },
+    {
+      src: "/landing/learning-3.png",
+      alt: "Team meeting with sticky notes brainstorming",
+    },
+    {
+      src: "/landing/learning-1.png",
+      alt: "Collaborative work session in progress",
+    },
   ]
+
+  const slidesPerView = 4;
+  const slideWidth = 100 / slidesPerView;
+  const maxIndex = carouselImages.length - slidesPerView;
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
+      prevIndex >= maxIndex ? 0 : prevIndex + 1
     )
-  }, [carouselImages.length])
+  }, [maxIndex])
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? carouselImages.length - 1 : prevIndex - 1
+      prevIndex <= 0 ? maxIndex : prevIndex - 1
     )
-  }
+  }, [maxIndex])
 
   const goToSlide = (index: number) => {
-    setCurrentIndex(index)
+    if (index >= 0 && index <= maxIndex) {
+      setCurrentIndex(index)
+    }
+  }
+
+  // Swipe detection
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(0)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      nextSlide()
+    } else if (isRightSwipe) {
+      prevSlide()
+    }
+  }
+
+  const [mouseStart, setMouseStart] = useState(0)
+  const [mouseEnd, setMouseEnd] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    setMouseEnd(0)
+    setMouseStart(e.clientX)
+  }
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    setMouseEnd(e.clientX)
+  }
+
+  const onMouseUp = () => {
+    if (!isDragging) return
+    setIsDragging(false)
+    
+    if (!mouseStart || !mouseEnd) return
+    
+    const distance = mouseStart - mouseEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+
+    if (isLeftSwipe) {
+      nextSlide()
+    } else if (isRightSwipe) {
+      prevSlide()
+    }
+  }
+
+  const onMouseLeave = () => {
+    setIsDragging(false)
+    setIsPaused(false)
   }
 
   useEffect(() => {
-    if (!isPaused) {
+    if (!isPaused && !isDragging) {
       const interval = setInterval(nextSlide, 5000)
       return () => clearInterval(interval)
     }
-  }, [nextSlide, isPaused])
+  }, [nextSlide, isPaused, isDragging])
 
   const contentStaggerVariants = {
     hidden: { opacity: 0 },
@@ -126,65 +213,77 @@ export default function FoundingMotivation() {
           </motion.div>
         </div>
 
-        {/* Enhanced Carousel */}
+        {/* Carousel */}
         <motion.div 
           ref={carouselRef}
           className="mt-16 relative"
           onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
+          onMouseLeave={onMouseLeave}
           initial="hidden"
           animate={carouselInView ? "visible" : "hidden"}
           {...fadeInFromBottom({ transition: { delay: 0.4, duration: 0.2 } })}
         >
-          <div className="relative overflow-hidden rounded-2xl h-96">
+          <div 
+            className="relative overflow-hidden w-full rounded-2xl h-96 cursor-grab active:cursor-grabbing"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            style={{ userSelect: 'none' }}
+          >
             {/* Slides */}
-            <div className="flex h-full transition-transform duration-700 ease-in-out"
-              style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+            <div 
+              className="flex gap-4 h-full transition-transform duration-700 ease-in-out"
+              style={{ transform: `translateX(-${currentIndex * slideWidth}%)` }}
+            >
               {carouselImages.map((image, index) => (
-                <div key={index} className="w-full flex-shrink-0 h-full">
-                  <div className="relative w-full h-full">
+                <div key={index} className="flex-shrink-0 h-full" style={{ width: `${slideWidth}%` }}>
+                  <div className="relative w-full h-full px-2">
                     <Image
                       src={image.src}
                       alt={image.alt}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-lg pointer-events-none"
                       priority={index === currentIndex}
+                      draggable={false}
                     />
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* Navigation Arrows */}
-            <motion.button 
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all"
-              aria-label="Previous slide"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, x: -20 }}
-              animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </motion.button>
-            <motion.button 
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all"
-              aria-label="Next slide"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, x: 20 }}
-              animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-              transition={{ delay: 0.6, duration: 0.2 }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </motion.button>
           </div>
+
+          {/* Navigation Arrows */}
+          <motion.button 
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all z-10"
+            aria-label="Previous slide"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </motion.button>
+          <motion.button 
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all z-10"
+            aria-label="Next slide"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x: 20 }}
+            animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+            transition={{ delay: 0.6, duration: 0.2 }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </motion.button>
 
           {/* Indicators */}
           <motion.div 
@@ -202,7 +301,7 @@ export default function FoundingMotivation() {
               },
             }}
           >
-            {carouselImages.map((_, index) => (
+            {Array.from({ length: maxIndex + 1 }, (_, index) => (
               <motion.button
                 key={index}
                 onClick={() => goToSlide(index)}

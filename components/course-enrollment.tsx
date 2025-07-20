@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { VideoPlayer } from "@/components/VideoPlayer";
+import { VideoPlayer } from "@/components/video-player/VideoPlayer";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { GetCourseBySlugQueryResult } from "@/sanity.types";
@@ -14,10 +14,16 @@ interface CourseEnrollmentProps {
 }
 
 function truncate(text: string | undefined, maxLength: number) {
-  return text && text.length > maxLength ? text.slice(0, maxLength - 1) + '…' : text;
+  return text && text.length > maxLength
+    ? text.slice(0, maxLength - 1) + "…"
+    : text;
 }
 
-export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollmentProps) => {
+export const CourseEnrollment = ({
+  price,
+  previewVideo,
+  course,
+}: CourseEnrollmentProps) => {
   const [openModuleIndex, setOpenModuleIndex] = useState(0);
 
   const handleToggle = (idx: number) => {
@@ -25,7 +31,7 @@ export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollme
   };
 
   return (
-    <div className="w-full max-w-md bg-white rounded-xl shadow-md p-4 space-y-6">
+    <div className="w-full bg-white rounded-xl shadow-md p-4 space-y-6">
       {/* Header */}
       <div className="space-y-2">
         <h2 className="text-xl font-bold">Complete Course Enrollment</h2>
@@ -34,7 +40,7 @@ export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollme
       {/* Action Buttons */}
       <div className="space-y-3">
         <Button className="w-full bg-[#104BC1] hover:bg-[#0B3589] font-semibold cursor-pointer h-12 text-lg">
-          Purchase (NGN {price ? price.toLocaleString() : '0'})
+          Purchase (NGN {price ? price.toLocaleString() : "0"})
         </Button>
 
         {/* Share button */}
@@ -52,16 +58,13 @@ export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollme
 
       {/* Separator */}
       <Separator className="my-4 text-gray-400" />
-      
+
       {/* Video Tutorial Section */}
       {previewVideo && (
         <div className="space-y-3 bg-white p-1 rounded-xl">
           <div className="relative overflow-hidden">
             <div className="aspect-video relative">
-              <VideoPlayer 
-                url={previewVideo} 
-                subtitles={[]}
-              />
+              <VideoPlayer url={previewVideo} subtitles={[]} />
             </div>
           </div>
           <div>
@@ -84,7 +87,11 @@ export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollme
                   {truncate(module.title, 130)}
                 </span>
                 <span className="mr-2">
-                  {openModuleIndex === idx ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                  {openModuleIndex === idx ? (
+                    <ChevronUp className="w-4 h-4" />
+                  ) : (
+                    <ChevronDown className="w-4 h-4" />
+                  )}
                 </span>
               </button>
               {openModuleIndex === idx && (
@@ -119,7 +126,8 @@ export const CourseEnrollment = ({ price, previewVideo, course }: CourseEnrollme
           <div className="flex flex-col space-y-3">
             <h3 className="font-bold">Invite Friends</h3>
             <p className="text-sm mt-1">
-              Invite <span className="text-[#0F44B0]">friends</span> and get access to free courses
+              Invite <span className="text-[#0F44B0]">friends</span> and get
+              access to free courses
             </p>
           </div>
           <Image

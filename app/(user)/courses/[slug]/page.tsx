@@ -105,11 +105,11 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
 
         {/* Main Content */}
         <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
-          {/* Main Content Area - Takes full width on mobile, 3/4 on desktop */}
-          <main className="w-full lg:w-3/4 flex-1">
+          {/* Main Content Area - Takes full width on mobile, flexible on desktop */}
+          <main className="w-full lg:flex-1 min-w-0">
             <div className="min-h-screen space-y-6">
               {/* Banner */}
-              <div className="relative overflow-hidden rounded-xl mr-14 w-[90%]">
+              <div className="relative overflow-hidden rounded-bl-[80px] rounded-tr-[80px] rounded-tl-lg rounded-br-lg mr-20 bg-green- h-40 w-full max-w-[100%]">
                 <Image
                   src="/course-banner.svg"
                   alt="Learning Management Dashboard"
@@ -249,13 +249,15 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
             </div>
           </main>
           
-          {/* Course Enrollment Sidebar - Hidden on mobile, visible on desktop (1/4 width) */}
-          <aside className="w-full lg:w-1/4 max-w-md lg:max-w-full">
-            <CourseEnrollment 
-              price={course?.price}
-              previewVideo={course?.previewVideo}
-              course={course}
-            />
+          {/* Course Enrollment Sidebar */}
+          <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
+            <div className="lg:sticky lg:top-4">
+              <CourseEnrollment 
+                price={course?.price}
+                previewVideo={course?.previewVideo}
+                course={course}
+              />
+            </div>
           </aside>
         </div>
       </SidebarInset>

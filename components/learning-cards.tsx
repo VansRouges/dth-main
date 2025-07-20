@@ -2,14 +2,20 @@
 import { Book, GraduationCap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { GetCoursesQueryResult, GetEnrolledCoursesQueryResult } from "@/sanity.types"
+
 
 interface LearningCardProps {
-  title: string
-  instructor: string
-  progress: number
+  title?: string
+  course:
+    | GetCoursesQueryResult[number]
+    | NonNullable<
+        NonNullable<GetEnrolledCoursesQueryResult>["enrolledCourses"][number]["course"]
+      >;
+  progress: number;
 }
 
-export function LearningCard({ title, instructor, progress }: LearningCardProps) {
+export function LearningCard({ title, course, progress }: LearningCardProps) {
   return (
     <div className="group w-full flex-shrink-0 rounded-lg p-5 cursor-pointer bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
       {/* Course Thumbnail Placeholder */}
@@ -25,11 +31,11 @@ export function LearningCard({ title, instructor, progress }: LearningCardProps)
         {/* Instructor */}
         <div className="flex items-center space-x-1 text-gray-600 text-sm">
           <GraduationCap className="h-4 w-4" />
-          <span className="truncate">{instructor}</span>
+          <span className="truncate">{course?.instructor?.name}</span>
         </div>
 
         {/* Progress */}
-        {progress > 0 && (
+        {progress !== undefined && progress > 0 && (
           <div className="space-y-1">
             <Progress value={progress} className="h-2" />
             <p className="text-primary text-xs font-medium">

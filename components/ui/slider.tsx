@@ -2,17 +2,16 @@ import React from "react";
 import * as Slider from "@radix-ui/react-slider";
 import { cva, type VariantProps } from "class-variance-authority";
 
-// Enhanced slider variants for video control
 const sliderVariants = cva(
   "relative flex items-center cursor-pointer group",
   {
     variants: {
       size: {
-        xs: "h-4 w-full", // Extra small for minimal UI
+        xs: "h-4 w-full", 
         sm: "h-6 w-full",
         md: "h-8 w-full", 
         lg: "h-10 w-full",
-        xl: "h-12 w-full"  // Extra large for better touch targets
+        xl: "h-12 w-full"
       },
       orientation: {
         horizontal: "flex-row",
@@ -504,7 +503,6 @@ export const VideoSlider: React.FC<VideoSliderProps> = ({
   );
 };
 
-// Usage example for your video controller
 export const VideoControllerSlider: React.FC<{
   currentTime: number;
   duration: number;

@@ -11,6 +11,8 @@ interface CourseEnrollmentProps {
   price?: number;
   previewVideo?: string;
   course: GetCourseBySlugQueryResult;
+  userId?: string;
+  userEmail?: string;
 }
 
 function truncate(text: string | undefined, maxLength: number) {
@@ -23,6 +25,8 @@ export const CourseEnrollment = ({
   price,
   previewVideo,
   course,
+  userId,
+  userEmail,
 }: CourseEnrollmentProps) => {
   const [openModuleIndex, setOpenModuleIndex] = useState(0);
 
@@ -39,7 +43,21 @@ export const CourseEnrollment = ({
 
       {/* Action Buttons */}
       <div className="space-y-3">
-        <Button className="w-full bg-[#104BC1] hover:bg-[#0B3589] font-semibold cursor-pointer h-12 text-lg">
+        <Button
+          className="w-full bg-[#104BC1] hover:bg-[#0B3589] font-semibold cursor-pointer h-12 text-lg"
+          onClick={async () => {
+            const res = await fetch("/api/paystack/init", {
+              method: "POST",
+              body: JSON.stringify({
+                courseId: course?._id,
+                email: userEmail,        // from Clerk context or props
+                clerkId: userId,         // from Clerk context or props
+              }),
+            });
+            const { url } = await res.json();
+            window.location.href = url;
+          }}
+        >
           Purchase (NGN {price ? price.toLocaleString() : "0"})
         </Button>
 

@@ -37,50 +37,6 @@ const StatsCard = ({
   </div>
 );
 
-const MeetingBanner = () => (
-  <div className="relative overflow-hidden rounded-xl w-full bg-white h-[40%] mx-5">
-    <Image
-      src="/my-learning/Shapes.png"
-      alt="Meeting Banner"
-      fill
-      className="object-cover"
-    />
-    <div className="absolute inset-0 p-6 flex justify-center">
-      <div className="w-2/3">            
-        <div className="font-bold flex space-x-1 items-center">
-          <AlarmClock className="w-6 h-6" />
-          <p>10:00AM - 12:00AM</p>
-        </div>
-        <div className="my-2">
-          <h2 className="text-3xl font-bold">Azure Data Engineering Course with Certification</h2>
-          <div className="flex space-x-1 my-2 items-center">
-            <GraduationCap className="h-6 w-6" />
-            <p>Agina Evans</p>
-          </div>
-          <p className="line-clamp-3">
-            Unlock the power of data-driven decision-making with our Advanced Strategic Analysis Course. 
-            Designed for professionals and business leaders, this course delves into the frameworks, 
-            methodologies, and tools used to evaluate complex challenges...
-          </p>
-        </div>
-        <Button className="bg-[#104BC1] w-[50%] h-14 my-3 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-xl">
-          Join Now
-        </Button>
-      </div>
-      <div className="w-1/3 flex justify-center">
-        <Image
-          src="/my-learning/chats.svg"
-          alt="Meeting Chats"
-          width={320}
-          height={100}
-          className="object-cover w-[80%]"
-          priority
-        />
-      </div>
-    </div>
-  </div>
-);
-
 export default async function LearningPage() {
   const user = await currentUser();
   if (!user?.id) return redirect("/");
@@ -103,8 +59,8 @@ export default async function LearningPage() {
       <div className="space-y-6 min-h-screen">
 
         {/* Stats Cards Section */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-7 px-4">
-          <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 mt-7 px-4">
+          <div className="flex space-x-3 w-full col-span-3 px-4 py-2 flex-1">
             <StatsCard 
               title="Currently Enrolled" 
               value={3} 
@@ -128,7 +84,8 @@ export default async function LearningPage() {
             />
           </div>
           
-          <div className="flex items-end">
+          {/* Learning Management Button */}
+          <div className="col-span-1 w-full py-2 px-4">
             <Link 
               href="/learning-management"
               className="bg-[#104BC1] w-full h-14 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-md"
@@ -139,7 +96,45 @@ export default async function LearningPage() {
         </div>
 
         {/* Meeting Banner */}
-        <MeetingBanner />
+        <div className="relative overflow-hidden rounded-xl w- bg-white h-[40%] mx-5">
+          <Image
+            src="/my-learning/Shapes.png"
+            alt="Meeting Banner"
+            width={320}
+            height={100}
+            className="object-cover w-full h-full"
+          />
+
+          <div className="absolute inset-0 p-6 bg-red- flex justify-center">
+            <div className="w-2/3 bg-green-">            
+              <div className="font-bold flex space-x-1">
+                <AlarmClock className="w-6 h-6" />
+                <p>10:00AM - 12:00AM</p>
+              </div>
+              <div className="my-2">
+                <h2 className="text-3xl font-bold">Azure Data Engineering Course with Certification</h2>
+                <div className="flex space-x-1 my-2">
+                  <GraduationCap className="h-6 w-6" />
+                  <p>Agina Evans</p>
+                </div>
+                <p>
+                  Unlock the power of data-driven decision-making with our Advanced Strategic Analysis Course. Designed for professionals and business leaders, this course delves into the frameworks, methodologies, and tools used to evaluate complex challenges, predict market trends, and craft winning strategies...    
+                </p>
+              </div>
+              <Button className="bg-[#104BC1] w-[50%] h-14 my-3 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-xl">Join Now</Button>
+            </div>
+            <div className="w-1/3 bg-blue- flex justify-center">
+              <Image
+                src="/my-learning/chats.svg"
+                alt="Meeting Banner"
+                width={320}
+                height={100}
+                className="object-cover w-[80%]"
+
+              />
+            </div>
+          </div>
+        </div>
 
         {/* Learning Cards Section */}
         <div className="p-4">

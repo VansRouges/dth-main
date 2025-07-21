@@ -29,7 +29,7 @@ export async function GET(req: Request) {
     const student = await createStudentIfNotExists({ 
         email, 
         clerkId
-    });
+    }); 
 
   await createEnrollment(student._id);
 

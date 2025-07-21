@@ -57,8 +57,9 @@ export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult }) {
   }, []);
 
   const handleCourseSelect = useCallback(
-    (course: string | null) => {
-      router.push(`/courses/${course}`);
+    (courseSlug: string | null) => {
+      if (!courseSlug) return;
+      router.push(`/courses/${courseSlug}`);
       setIsOpen(false);
       setSearchInput("");
     },

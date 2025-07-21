@@ -100,8 +100,8 @@ export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult }) {
           {searchedCourses.length > 0 ? (
             searchedCourses.map((course) => (
               <div
-                key={course.title}
-                onClick={() => handleCourseSelect(course?.slug)}
+                key={course._id}
+                onClick={() => course?.slug && handleCourseSelect(course.slug)}
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm border-b border-gray-100 last:border-b-0"
               >
                 {course.title}

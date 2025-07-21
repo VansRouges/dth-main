@@ -4,6 +4,14 @@ import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useRef } from "react";
 
+/**
+ * Renders a searchable dropdown input for filtering and selecting courses.
+ *
+ * Displays a search bar that filters the provided course data based on user input (minimum 3 characters), matching against course title, instructor name, or description. Shows a dropdown list of matching courses, allowing navigation to a selected course's page. The dropdown closes when clicking outside or clearing the input.
+ *
+ * @param data - The list of courses to search and display in the dropdown.
+ * @returns A React component providing course search and selection functionality.
+ */
 export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult }) {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");

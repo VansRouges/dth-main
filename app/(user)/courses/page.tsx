@@ -8,6 +8,13 @@ import { BookOpen, Search, Filter } from "lucide-react"
 import { GetCoursesQueryResult } from "@/sanity.types"
 import { CourseCard } from "@/components/course-card"
 
+/**
+ * Displays a searchable and filterable list of courses with category and difficulty filters.
+ *
+ * Fetches course data from the API on mount, allows users to search by course title, instructor, or description, and filter by category or difficulty. Shows a loading indicator while fetching, displays the filtered course grid, and provides a UI to clear all filters if no results are found.
+ *
+ * @returns The rendered courses page React component.
+ */
 export default function CoursesPage() {
   const [courses, setCourses] = useState<GetCoursesQueryResult>([])
   const [searchTerm, setSearchTerm] = useState("")

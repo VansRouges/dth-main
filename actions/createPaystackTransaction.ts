@@ -4,7 +4,14 @@ import axios from "axios";
 import baseUrl from "@/lib/baseUrl";
 import getCourseById from '@/sanity/lib/courses/getCourseById';
 
-export async function createPaystackTransaction(courseId: string, userId: string, userEmail: string) {
+export async function createPaystackTransaction({courseId, userId, userEmail, firstName, lastName, imageUrl} : {
+  courseId: string;
+  userId: string;
+  userEmail: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+}) {
   const course = await getCourseById(courseId);
   if (!course) throw new Error("Course not found");
 
@@ -18,6 +25,9 @@ export async function createPaystackTransaction(courseId: string, userId: string
         email: userEmail,
         courseId: course._id,
         clerkId: userId, // Assuming userId is the Clerk ID
+        firstName,
+        lastName,
+        imageUrl,
       },
     },
     {

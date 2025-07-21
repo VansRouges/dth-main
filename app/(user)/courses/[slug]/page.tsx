@@ -258,6 +258,9 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
                 course={course}
                 userId={user?.id}
                 userEmail={user?.emailAddresses[0]?.emailAddress}
+                firstName={user?.firstName || ''}
+                lastName={user?.lastName || ''}
+                imageUrl={user?.imageUrl || ''}
               />
             </div>
           </aside>

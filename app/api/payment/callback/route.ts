@@ -25,13 +25,24 @@ export async function GET(req: Request) {
 
   const email = data.customer.email;
   const clerkId = data.metadata.clerkId;
+  const firstName = data.metadata.firstName;
+  const lastName = data.metadata.lastName;
+    const imageUrl = data.metadata.imageUrl;
 
-    const student = await createStudentIfNotExists({ 
-        email, 
-        clerkId
-    }); 
+  const student = await createStudentIfNotExists({
+    email,
+    clerkId,
+    firstName,
+    lastName,
+    imageUrl
+  });
 
-  await createEnrollment(student._id);
+  await createEnrollment({
+    studentId: student._id,
+    courseId,
+    paymentId: reference,
+    amount: data.amount,
+  });
 
   return NextResponse.redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`);
 }

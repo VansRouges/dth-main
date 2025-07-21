@@ -13,6 +13,9 @@ interface CourseEnrollmentProps {
   course: GetCourseBySlugQueryResult;
   userId?: string;
   userEmail?: string;
+  firstName?: string;
+  lastName?: string;
+  imageUrl?: string;
 }
 
 function truncate(text: string | undefined, maxLength: number) {
@@ -27,6 +30,9 @@ export const CourseEnrollment = ({
   course,
   userId,
   userEmail,
+  firstName,
+  lastName,
+  imageUrl,
 }: CourseEnrollmentProps) => {
   const [openModuleIndex, setOpenModuleIndex] = useState(0);
 
@@ -52,6 +58,9 @@ export const CourseEnrollment = ({
                 courseId: course?._id,
                 email: userEmail,        // from Clerk context or props
                 clerkId: userId,         // from Clerk context or props
+                firstName: firstName, // from Clerk context or props
+                lastName: lastName,   // from Clerk context or props
+                imageUrl: imageUrl,   // from Clerk context or props
               }),
             });
             const { url } = await res.json();

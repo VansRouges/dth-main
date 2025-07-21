@@ -41,18 +41,21 @@ export default async function LearningPage() {
   const user = await currentUser();
   if (!user?.id) return redirect("/");
 
-  const [enrolledCourses, coursesWithProgress] = await Promise.all([
-    getEnrolledCourses(user.id),
-    getEnrolledCourses(user.id).then(courses => 
-      Promise.all(
-        courses.map(async ({ course }) => {
-          if (!course) return null;
-          const progress = await getCourseProgress(user.id, course._id);
-          return { course, progress: progress.courseProgress };
-        })
-      )
-    )
-  ]);
+  const enrolledCourses = await getEnrolledCourses(user.id);
+  console.log("Enrolled Courses:", enrolledCourses);
+
+  // Get progress for each enrolled course
+  const coursesWithProgress = await Promise.all(
+    enrolledCourses.map(async ({ course }) => {
+      if (!course) return null;
+      const progress = await getCourseProgress(user.id, course._id);
+      return {
+        course,
+        progress: progress.courseProgress,
+      };
+    })
+  );
+  console.log("Courses with Progress:", coursesWithProgress);
 
   return (
     <LearningLayout>
@@ -83,7 +86,7 @@ export default async function LearningPage() {
               iconPath="/my-learning/cert.svg" 
             />
           </div>
-          
+
           {/* Learning Management Button */}
           <div className="col-span-1 w-full py-2 px-4">
             <Link 
@@ -165,6 +168,7 @@ export default async function LearningPage() {
                     title={item.course.title}
                     course={item.course}
                     progress={item.progress}
+                    href={`/my-learning/${item.course._id}`}
                   />
                 )
               ))}

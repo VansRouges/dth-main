@@ -8,13 +8,15 @@ import { ChevronDown } from "lucide-react"
 import { SidebarInset, SidebarProvider } from "../ui/sidebar";
 import { OnboardingSidebar } from "../onboarding-sidebar";
 import Image from "next/image";
-import { SearchBar } from "../SearchBar";
+import { DashboardSearchBar } from "../DashboardSearchBar";
+import { GetCoursesQueryResult } from "@/sanity.types";
 
 interface UserLayoutProps {
   children: ReactNode;
+  data: GetCoursesQueryResult
 }
 
-export default async function UserLayout({ children }: UserLayoutProps) {
+export default async function UserLayout({ children, data }: UserLayoutProps) {
   const user = await currentUser();
   const publicMetadata = user?.publicMetadata;
   const role = publicMetadata?.role;
@@ -53,7 +55,7 @@ export default async function UserLayout({ children }: UserLayoutProps) {
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
           {/* <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" /> */}
-          <SearchBar />
+          <DashboardSearchBar data={data} />
           <div className="ml-auto flex space-x-3">
             <SignedIn>
               <div className="flex space-x-2 ">

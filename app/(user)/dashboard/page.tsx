@@ -46,13 +46,18 @@ const UserDashboardPage: NextPage = async () => {
     return !normalizedUserInterests.includes(normalizedCategory);
   });
 
+  
+
+
   console.log("Matched courses:", matchedCourses);
   console.log("Other courses:", otherCourses);
   console.log("Instructors:", instructors);
   console.log("User:", user);
+  console.log("User interest:", userInterests);
+  console.log("All Courses:", allCourses);
 
   return (
-    <UserLayout> 
+    <UserLayout data={allCourses}> 
       <DashboardOverview 
         userName={user?.fullName} 
         coursesEnrolled={enrolledCourses.length} 

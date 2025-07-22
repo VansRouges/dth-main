@@ -6,11 +6,9 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Plus } from "lucide-react"
 import { CourseCard } from "./course-dashboard/CourseCard"
-import { LiveClassCard } from "./course-dashboard/LiveClassCard"
-import { AddCourseDialog } from "./course-dashboard/ AddCourseDialog"
-// import { ScheduleClassDialog } from "./course-dashboard/ScheduleClassDialog"
+import AdminLiveClasses from "./course-dashboard/AdminLiveClasses"
+import { AddCourseDialog } from "./course-dashboard/AddCourseDialog"
 import { GetCoursesQueryResult, GetLiveClassesQueryResult } from "@/sanity.types";
-
 
 interface TopPicksProps {
   courses: GetCoursesQueryResult;
@@ -19,11 +17,6 @@ interface TopPicksProps {
 
 export default function CourseDashboard({ courses, liveClasses }: TopPicksProps) {
   const [courseModalOpen, setCourseModalOpen] = useState(false)
-  console.log("Live Classes:", liveClasses)
-  // console.log("Courses:", courses)
-  // const [liveClassModalOpen, setLiveClassModalOpen] = useState(false")
-
-  
 
   return (
     <div className="container mx-auto p-6">
@@ -55,21 +48,12 @@ export default function CourseDashboard({ courses, liveClasses }: TopPicksProps)
           </div>
         </TabsContent>
 
-        <TabsContent value="live-classes" className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-semibold">Live Classes</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {liveClasses.map((liveClass) => (
-              <LiveClassCard key={liveClass._id} liveClass={liveClass} />
-            ))}
-          </div>
+        <TabsContent value="live-classes">
+          <AdminLiveClasses liveClasses={liveClasses} />
         </TabsContent>
       </Tabs>
 
       <AddCourseDialog open={courseModalOpen} onOpenChange={setCourseModalOpen} />
-      {/* <ScheduleClassDialog open={liveClassModalOpen} onOpenChange={setLiveClassModalOpen} courses={courses} /> */}
     </div>
   )
 }

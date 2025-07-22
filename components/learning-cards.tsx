@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { GetCoursesQueryResult, GetEnrolledCoursesQueryResult } from "@/sanity.types"
 import Link from "next/link"
+import Image from "next/image"
+import { urlFor } from "@/sanity/lib/image"
+import { Loader } from "@/components/ui/loader";
 
 
 interface LearningCardProps {
@@ -25,9 +28,20 @@ export function LearningCard({ title, course, progress, href }: LearningCardProp
       className="group hover:no-underline flex"
     >
       <div className="group w-full flex-shrink-0 rounded-lg p-5 cursor-pointer bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow border border-gray-100">
-        {/* Course Thumbnail Placeholder */}
-        <div className="h-[120px] bg-gray-100 flex items-center rounded-xl justify-center">
-          <Book className="h-12 w-12 text-gray-400 group-hover:text-gray-600 transition-colors" />
+        {/* Image/Preview Video Section */}
+        <div className="h-[120px] bg-[#D9D9D9] relative flex items-center justify-center rounded-xl">
+          {course?.image ? (
+            <Image
+              src={urlFor(course?.image).url() || ""}
+              alt={course?.title || "Course Image"}
+              fill
+              className="object-cover rounded-xl"
+            />
+          )  : (
+            <div className="h-full w-full flex items-center justify-center bg-muted">
+              <Loader size="lg" />
+            </div>
+          )}
         </div>
 
         {/* Course Content */}

@@ -34,6 +34,18 @@ export const liveClassType = defineType({
       description: "Enter time in 12-hour format (e.g., 2:30 PM)",
     }),
     defineField({
+      name: "duration",
+      title: "Duration",
+      type: "string",
+      description: "Duration of the class (e.g., '2 hours')",
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "text",
+      description: "A brief description of the live class",
+    }),
+    defineField({
       name: "facilitator",
       title: "Facilitator",
       type: "reference",

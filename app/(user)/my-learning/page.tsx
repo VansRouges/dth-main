@@ -8,7 +8,7 @@ import { getCourseProgress } from "@/sanity/lib/lessons/getCourseProgress";
 import Link from "next/link";
 import { AlarmClock, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getLiveClassesByCourseId } from "@/sanity/lib/liveClasses/getLiveClassesByCourseId"; // import the function
+import { getLiveClassesByCourseId } from "@/sanity/lib/liveClasses/getLiveClassesByCourseId"; 
 
 const StatsCard = ({ 
   title, 
@@ -160,21 +160,22 @@ export default async function LearningPage() {
                   <AlarmClock className="w-6 h-6" />
                   <p>{closestWeekendClass.time}</p>
                 </div>
-                <div className="my-9">
+                <div className="my-4">
                   <h2 className="text-3xl font-bold">{closestWeekendClass.title}</h2>
                   <div className="flex space-x-1 my-2">
                     <GraduationCap className="h-6 w-6" />
                     <p>{closestWeekendClass.facilitator.name}</p>
                   </div>
-                  <p>
-                    {closestWeekendClass.course.description}
-                  </p>
+                  <p>{closestWeekendClass?.description}</p>
+                  <p className="my-3"><strong>Duration: </strong>{closestWeekendClass?.duration} hours</p>
                 </div>
-                <Button 
-                  className="bg-[#104BC1] w-[50%] h-14 my-3 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-xl"
-                >
-                  Join Now
-                </Button>
+                <Link href={closestWeekendClass?.meetingLink} target="_blank">
+                  <Button 
+                    className="bg-[#104BC1] w-[50%] h-14 my-3 font-semibold hover:bg-[#0B3589] cursor-pointer tracking-widest flex items-center justify-center text-white rounded-xl"
+                  >
+                    Join Now
+                  </Button>
+                </Link>
               </div>
               <div className="w-1/3 bg-blue- flex justify-center">
                 <Image

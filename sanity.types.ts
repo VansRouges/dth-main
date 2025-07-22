@@ -1405,7 +1405,7 @@ export type GetCompletionsQueryResult = {
 
 // Source: ./sanity/lib/liveClasses/getLiveClasses.ts
 // Variable: getLiveClassesQuery
-// Query: *[_type == "liveClass"] {    _id,    _type,    _createdAt,    _updatedAt,    title,    "slug": slug.current,    date,    time,    duration,    description,    "course": course->{        _id,        title    },    facilitator->{      _id,      name    }  }
+// Query: *[_type == "liveClass"] {    _id,    _type,    _createdAt,    _updatedAt,    title,    "slug": slug.current,    date,    time,    duration,    description,    meetingLink,    "course": course->{        _id,        title    },    facilitator->{      _id,      name    }  }
 export type GetLiveClassesQueryResult = Array<{
   _id: string;
   _type: "liveClass";
@@ -1417,6 +1417,7 @@ export type GetLiveClassesQueryResult = Array<{
   time: string | null;
   duration: number | null;
   description: string | null;
+  meetingLink: string | null;
   course: {
     _id: string;
     title: string | null;
@@ -1429,7 +1430,7 @@ export type GetLiveClassesQueryResult = Array<{
 
 // Source: ./sanity/lib/liveClasses/getLiveClassesByCourseId.ts
 // Variable: getLiveClassesByCourseIdQuery
-// Query: *[_type == "liveClass" && references($courseId)] {      _id,      _type,      _createdAt,      _updatedAt,      title,      "slug": slug.current,      date,      time,      duration,      description,      "course": course->{        _id,        title      },      facilitator->{        _id,        name      }    }
+// Query: *[_type == "liveClass" && references($courseId)] {      _id,      _type,      _createdAt,      _updatedAt,      title,      "slug": slug.current,      date,      time,      duration,      description,      meetingLink,      "course": course->{        _id,        title      },      facilitator->{        _id,        name      }    }
 export type GetLiveClassesByCourseIdQueryResult = Array<{
   _id: string;
   _type: "liveClass";
@@ -1441,6 +1442,7 @@ export type GetLiveClassesByCourseIdQueryResult = Array<{
   time: string | null;
   duration: number | null;
   description: string | null;
+  meetingLink: string | null;
   course: {
     _id: string;
     title: string | null;
@@ -1631,8 +1633,8 @@ declare module "@sanity/client" {
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;
     "*[_type == \"lessonCompletion\" && student._ref == $studentId && lesson._ref == $lessonId][0] {\n    ...\n  }": CompletionStatusQueryResult;
-    "*[_type == \"liveClass\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    title,\n    \"slug\": slug.current,\n    date,\n    time,\n    duration,\n    description,\n    \"course\": course->{\n        _id,\n        title\n    },\n    facilitator->{\n      _id,\n      name\n    }\n  }": GetLiveClassesQueryResult;
-    "\n    *[_type == \"liveClass\" && references($courseId)] {\n      _id,\n      _type,\n      _createdAt,\n      _updatedAt,\n      title,\n      \"slug\": slug.current,\n      date,\n      time,\n      duration,\n      description,\n      \"course\": course->{\n        _id,\n        title\n      },\n      facilitator->{\n        _id,\n        name\n      }\n    }\n  ": GetLiveClassesByCourseIdQueryResult;
+    "*[_type == \"liveClass\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    title,\n    \"slug\": slug.current,\n    date,\n    time,\n    duration,\n    description,\n    meetingLink,\n    \"course\": course->{\n        _id,\n        title\n    },\n    facilitator->{\n      _id,\n      name\n    }\n  }": GetLiveClassesQueryResult;
+    "\n    *[_type == \"liveClass\" && references($courseId)] {\n      _id,\n      _type,\n      _createdAt,\n      _updatedAt,\n      title,\n      \"slug\": slug.current,\n      date,\n      time,\n      duration,\n      description,\n      meetingLink,\n      \"course\": course->{\n        _id,\n        title\n      },\n      facilitator->{\n        _id,\n        name\n      }\n    }\n  ": GetLiveClassesByCourseIdQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0] {\n    \"enrolledCourses\": *[_type == \"enrollment\" && student._ref == ^._id] {\n      ...,\n      \"course\": course-> {\n        ...,\n        \"slug\": slug.current,\n        \"category\": category->{...},\n        \"instructor\": instructor->{...}\n      }\n    }\n  }": GetEnrolledCoursesQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]": GetStudentByClerkIdQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]._id": StudentQueryResult;

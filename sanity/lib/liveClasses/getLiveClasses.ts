@@ -13,6 +13,7 @@ export async function getLiveClasses() {
     time,
     duration,
     description,
+    meetingLink,
     "course": course->{
         _id,
         title

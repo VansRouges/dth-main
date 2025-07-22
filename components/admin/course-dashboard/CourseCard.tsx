@@ -56,7 +56,7 @@ export function CourseCard({ course }: CourseCardProps) {
           </div>
           
           <div className="relative h-8">
-            <p className="absolute inset-0 font-bold text-sm group-hover:opacity-0 transition-opacity">
+            <p className="absolute inset-0 font-bold text-sm">
               {formattedPrice}
             </p>
           </div>

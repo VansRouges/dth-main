@@ -14,6 +14,7 @@ export async function getLiveClassesByCourseId(courseId: string) {
       time,
       duration,
       description,
+      meetingLink,
       "course": course->{
         _id,
         title

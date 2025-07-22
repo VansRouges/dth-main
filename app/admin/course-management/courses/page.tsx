@@ -6,11 +6,13 @@ import Image from "next/image";
 import CourseDashboard from "@/components/admin/course-dashboard";
 import { getCourses } from "@/sanity/lib/courses/getCourses";
 import { GetCoursesQueryResult } from "@/sanity.types";
+import { getLiveClasses } from "@/sanity/lib/liveClasses/getLiveClasses";
 
 
 const Courses: NextPage = async () => {
   const user = await currentUser();
   const allCourses: GetCoursesQueryResult = await getCourses();
+  const allLiveClasses = await getLiveClasses()
 
   if (!checkAdminAccess(user)) {
     redirect("/");
@@ -36,7 +38,7 @@ const Courses: NextPage = async () => {
       </div>
 
 
-      <CourseDashboard courses={allCourses} />
+      <CourseDashboard courses={allCourses} liveClasses={allLiveClasses}  />
     </>
   );
 };

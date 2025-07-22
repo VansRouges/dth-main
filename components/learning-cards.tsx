@@ -1,5 +1,5 @@
 "use client"
-import { Book, GraduationCap } from "lucide-react"
+import { GraduationCap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { GetCoursesQueryResult, GetEnrolledCoursesQueryResult } from "@/sanity.types"

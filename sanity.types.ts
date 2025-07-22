@@ -63,7 +63,7 @@ export type LiveClass = {
   title?: string;
   date?: string;
   time?: string;
-  duration?: string;
+  duration?: number;
   description?: string;
   facilitator?: {
     _ref: string;
@@ -1415,7 +1415,7 @@ export type GetLiveClassesQueryResult = Array<{
   slug: null;
   date: string | null;
   time: string | null;
-  duration: string | null;
+  duration: number | null;
   description: string | null;
   course: {
     _id: string;
@@ -1439,7 +1439,7 @@ export type GetLiveClassesByCourseIdQueryResult = Array<{
   slug: null;
   date: string | null;
   time: string | null;
-  duration: string | null;
+  duration: number | null;
   description: string | null;
   course: {
     _id: string;

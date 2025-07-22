@@ -36,8 +36,8 @@ export const liveClassType = defineType({
     defineField({
       name: "duration",
       title: "Duration",
-      type: "string",
-      description: "Duration of the class (e.g., '2 hours')",
+      type: "number",
+      description: "Duration of the class",
     }),
     defineField({
       name: "description",

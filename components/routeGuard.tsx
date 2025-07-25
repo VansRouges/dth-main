@@ -139,16 +139,16 @@ export function RouteGuard({ children }: RouteGuardProps) {
   }, [isSignedIn, authLoaded, publicMetadata, isLoading, isInitialized, router, pathname]);
 
   // Show loading while initializing
-  if (!authLoaded || !isInitialized || isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          <p className="text-sm text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+//   if (!authLoaded || !isInitialized || isLoading) {
+//     return (
+//       <div className="flex items-center justify-center min-h-screen bg-white">
+//         <div className="flex flex-col items-center space-y-4">
+//           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+//           <p className="text-sm text-gray-600">Loading...</p>
+//         </div>
+//       </div>
+//     );
+//   }
 
   return <>{children}</>;
 }

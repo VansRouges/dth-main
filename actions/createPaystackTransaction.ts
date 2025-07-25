@@ -20,7 +20,7 @@ export async function createPaystackTransaction({courseId, userId, userEmail, fi
     {
       email: userEmail,
       amount: course?.price && Math.round(course.price * 100), // Paystack expects amount in kobo
-      callback_url: `${baseUrl}/api/payment/callback?courseId=${course._id}`,
+      callback_url: `${baseUrl}/api/paystack/callback?courseId=${course._id}`,
       metadata: {
         email: userEmail,
         courseId: course._id,

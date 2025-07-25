@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
@@ -9,27 +8,8 @@ import { OnboardingHeader } from "@/components/onboarding/OnboardingHeader";
 import { OnboardingForm } from "@/components/onboarding/OnboardingForm";
 
 export default function OnBoardingPage() {
-  const { isLoaded, user } = useUser();
+  const { user } = useUser();
   const router = useRouter();
-  const publicMetadata = user?.publicMetadata;
-  const role = publicMetadata?.role;
-
-  useEffect(() => {
-    if (isLoaded && publicMetadata && Object.keys(publicMetadata).length > 0) {
-      switch (role) {
-        case "admin":
-          router.push("/admin");
-          break;
-        case "instructor":
-          router.push("/instructor");
-          break;
-        case "user":
-        default:
-          router.push("/dashboard");
-          break;
-      }
-    }
-  }, [isLoaded, publicMetadata, role, router]);
 
   interface OnboardingFormData {
     currentJob: string;

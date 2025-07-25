@@ -4,7 +4,7 @@ import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useRef } from "react";
 
-export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult }) {
+export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult | undefined }) {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);

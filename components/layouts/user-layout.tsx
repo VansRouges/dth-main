@@ -16,6 +16,14 @@ interface UserLayoutProps {
   data: GetCoursesQueryResult
 }
 
+/**
+ * Renders the authenticated user layout with role-based redirects and a sidebar structure.
+ *
+ * Redirects users to onboarding if profile metadata is missing, or to admin/instructor dashboards based on their role. Displays a sidebar, header with search and user controls, and a main content area with an optional onboarding sidebar.
+ *
+ * @param children - The main content to display within the layout
+ * @param data - Course data used by the dashboard search bar
+ */
 export default async function UserLayout({ children, data }: UserLayoutProps) {
   const user = await currentUser();
   const publicMetadata = user?.publicMetadata;

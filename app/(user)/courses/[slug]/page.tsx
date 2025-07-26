@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import { Suspense } from "react";
 import { CourseData, CourseEnrollments } from "./course-data";
+import getCourseBySlug from "@/sanity/lib/courses/getCourseBySlug";
 
 interface CoursePageProps {
   params: Promise<{
@@ -221,8 +222,8 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
 
               <Suspense fallback={<CourseLoadingSkeleton />}>
                 <CourseData
-                  slug={slug}
-                />{" "}
+                  course={await getCourseBySlug(slug)}
+                />
               </Suspense>
             </div>
           </main>
@@ -230,10 +231,10 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
           {/* Course Enrollment Sidebar */}
           <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
             <div className="lg:sticky lg:top-4">
-              <Suspense fallback={CourseEnrollmentSkeleton()}>
+              <Suspense fallback={<CourseEnrollmentSkeleton />}>
                 <CourseEnrollments
+                  course={await getCourseBySlug(slug)}
                   user={user}
-                  slug={slug}
                 />
               </Suspense>
             </div>

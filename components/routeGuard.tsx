@@ -1,10 +1,10 @@
-// components/guards/route-guard.tsx
 'use client';
 
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { useUserStore } from '@/stores/useUserStore';
+import { ROUTES } from '@/lib/data';
 
 interface RouteGuardProps {
   children: React.ReactNode;
@@ -15,6 +15,7 @@ export function RouteGuard({ children }: RouteGuardProps) {
   const { publicMetadata, isLoading, isInitialized } = useUserStore();
   const router = useRouter();
   const pathname = usePathname();
+  const { public: publicUrl, auth, onboarding, dashboards } = ROUTES;
 
   useEffect(() => {
     // Wait for both auth and user store to be ready
@@ -23,15 +24,15 @@ export function RouteGuard({ children }: RouteGuardProps) {
     }
 
     const role = publicMetadata?.role;
-
-    const publicRoutes = ['/', '/about', '/contact', '/bootcamps', '/one-on-one', '/business', '/projects'];
-    const authRoutes = ['/sign-in', '/sign-up'];
-    const onboardingRoute = '/onboarding';
+    const publicRoutes = publicUrl;
+    const authRoutes = auth;
+    const onboardingRoute = onboarding;
     
-    const isPublicRoute = publicRoutes.includes(pathname);
-    const isAuthRoute = authRoutes.includes(pathname);
+    const isPublicRoute = publicRoutes?.includes(pathname);
+    const isAuthRoute = authRoutes?.includes(pathname);
     const isOnboardingRoute = pathname === onboardingRoute;
     const isHomepage = pathname === '/';
+    const isLoadingRoute = pathname === '/loading';
 
     // Handle unauthenticated users
     if (!isSignedIn) {
@@ -42,19 +43,21 @@ export function RouteGuard({ children }: RouteGuardProps) {
       return;
     }
 
+    // Handle authenticated users
     if (isSignedIn) {
-      if (isAuthRoute) {
+      // Handle loading route specifically
+      if (isLoadingRoute) {
         if (publicMetadata && role) {
           switch (role) {
             case 'admin':
-              router.push('/admin');
+              router.push(dashboards?.admin);
               break;
             case 'instructor':
-              router.push('/instructor');
+              router.push(dashboards?.instructor);
               break;
             case 'user':
             default:
-              router.push('/dashboard');
+              router.push(dashboards?.user);
               break;
           }
         } else {
@@ -63,9 +66,31 @@ export function RouteGuard({ children }: RouteGuardProps) {
         return;
       }
 
+      // Handle auth routes (sign-in, sign-up pages when already signed in)
+      if (isAuthRoute) {
+        if (publicMetadata && role) {
+          switch (role) {
+            case 'admin':
+              router.push(dashboards?.admin);
+              break;
+            case 'instructor':
+              router.push(dashboards?.instructor);
+              break;
+            case 'user':
+            default:
+              router.push(dashboards?.user);
+              break;
+          }
+        } else {
+          router.push('/onboarding');
+        }
+        return;
+      }
+
+      // Handle users without role/metadata
       if (!publicMetadata || !role) {
         if (!isOnboardingRoute) {
-          router.push('/onboarding');
+          router.push(onboarding);
           return;
         }
         return;
@@ -75,14 +100,14 @@ export function RouteGuard({ children }: RouteGuardProps) {
       if (isOnboardingRoute && publicMetadata && role) {
         switch (role) {
           case 'admin':
-            router.push('/admin');
+            router.push(dashboards?.admin);
             break;
           case 'instructor':
-            router.push('/instructor');
+            router.push(dashboards?.instructor);
             break;
           case 'user':
           default:
-            router.push('/dashboard');
+            router.push(dashboards?.user);
             break;
         }
         return;
@@ -92,14 +117,14 @@ export function RouteGuard({ children }: RouteGuardProps) {
       if (isHomepage && role) {
         switch (role) {
           case 'admin':
-            router.push('/admin');
+            router.push(dashboards?.admin);
             break;
           case 'instructor':
-            router.push('/instructor');
+            router.push(dashboards?.instructor);
             break;
           case 'user':
           default:
-            router.push('/dashboard');
+            router.push(dashboards?.user);
             break;
         }
         return;
@@ -114,8 +139,8 @@ export function RouteGuard({ children }: RouteGuardProps) {
 
         if (role === 'instructor') {
           // Prevent instructors from accessing admin routes
-          if (pathname.startsWith('/admin')) {
-            router.push('/instructor');
+          if (pathname.startsWith(dashboards?.admin)) {
+            router.push(dashboards?.instructor);
             return;
           }
           return;
@@ -124,31 +149,43 @@ export function RouteGuard({ children }: RouteGuardProps) {
         // Regular user access control
         if (role === 'user') {
           // Prevent users from accessing admin or instructor routes
-          if (pathname.startsWith('/admin')) {
-            router.push('/dashboard');
+          if (pathname.startsWith(dashboards?.admin)) {
+            router.push(dashboards?.user);
             return;
           }
-          if (pathname.startsWith('/instructor')) {
-            router.push('/dashboard');
+          if (pathname.startsWith(dashboards?.instructor)) {
+            router.push(dashboards?.user);
             return;
           }
           return;
         }
       }
     }
-  }, [isSignedIn, authLoaded, publicMetadata, isLoading, isInitialized, router, pathname]);
+  }, [isSignedIn, authLoaded, publicMetadata, isLoading, isInitialized, router, pathname, publicUrl, auth, onboarding, dashboards]);
 
-  // Show loading while initializing
-//   if (!authLoaded || !isInitialized || isLoading) {
-//     return (
-//       <div className="flex items-center justify-center min-h-screen bg-white">
-//         <div className="flex flex-col items-center space-y-4">
-//           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-//           <p className="text-sm text-gray-600">Loading...</p>
-//         </div>
-//       </div>
-//     );
-//   }
+  const isPublicRoute = publicUrl?.includes(pathname);
+  const isAuthRoute = auth?.includes(pathname);
+
+  // ONLY show loading during actual login/logout processes:
+  // Show loading ONLY when on auth routes (sign-in/sign-up pages) and auth is loading
+  // Do NOT show on protected routes during refresh or anywhere else
+  const shouldShowLoading = !authLoaded && isAuthRoute;
+
+  if (shouldShowLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center space-y-4 p-8 bg-white rounded-lg shadow-sm">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+          <div className="text-center">
+            <p className="text-lg font-medium text-gray-900">Authenticating</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Please wait while we verify your credentials...
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return <>{children}</>;
 }

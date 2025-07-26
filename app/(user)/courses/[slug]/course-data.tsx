@@ -11,15 +11,13 @@ import getCourseBySlug from "@/sanity/lib/courses/getCourseBySlug";
 import { formatDistanceToNow } from "date-fns";
 import { NextPage } from "next";
 import { User } from "@clerk/nextjs/server";
+import { GetCourseBySlugQueryResult } from "@/sanity.types";
 
 interface CourseDataProps {
-  slug: string;
+  course: GetCourseBySlugQueryResult;
 }
 
-export async function CourseData({ slug }: CourseDataProps) {
-  const course = await getCourseBySlug(slug);
-  console.log("Course Details:", course);
-
+export async function CourseData({ course }: CourseDataProps) {
   let updatedAgo = "";
   if (course?._updatedAt) {
     updatedAgo = formatDistanceToNow(new Date(course._updatedAt), {
@@ -42,7 +40,7 @@ export async function CourseData({ slug }: CourseDataProps) {
             </div>
           </div>
         </main>
-        <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
+        <aside className="w-full lg:w-80 lg:flex-shrink-0 lg:flex-grow-0">
           <div className="lg:sticky lg:top-4">
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <p className="text-gray-500">Course not available</p>
@@ -120,7 +118,7 @@ export async function CourseData({ slug }: CourseDataProps) {
         {/* Who the Course is Designed For */}
         <div className="container mx-auto px-4 py-8 rounded-xl bg-white">
           <div className="max-w-4xl">
-            <h2 className="text-3xl font-extrabold my-">
+            <h2 className="text-3xl font-extrabold">
               Who the Course is Designed For
             </h2>
             <h3 className="text-md font-semibold mb-4 text-gray-800">
@@ -129,7 +127,7 @@ export async function CourseData({ slug }: CourseDataProps) {
             <div className="">
               <ul className="space-y-3">
                 {course?.designedFor?.map((item: string, index: number) => (
-                  <li key={index} className="flex items-start">
+                  <li key={item} className="flex items-start">
                     <span className="w-6 h-6 rounded-full bg-green-500 flex justify-center items-center mt-2 p-1 mr-2">
                       <Check className="h-5 w-5 text-white" />
                     </span>
@@ -194,10 +192,10 @@ export async function CourseData({ slug }: CourseDataProps) {
 }
 
 export const CourseEnrollments: NextPage<{
-  slug: string;
+  course: GetCourseBySlugQueryResult
   user: User | null;
-}> = async ({ slug, user }) => {
-  const course = await getCourseBySlug(slug);
+}> = ({ course, user }) => {
+
 
   return (
     <CourseEnrollment
@@ -205,7 +203,7 @@ export const CourseEnrollments: NextPage<{
       previewVideo={course?.previewVideo}
       course={course}
       userId={user?.id}
-      userEmail={user?.emailAddresses[0]?.emailAddress}
+      userEmail={user?.emailAddresses?.[0]?.emailAddress}
       firstName={user?.firstName || ""}
       lastName={user?.lastName || ""}
       imageUrl={user?.imageUrl || ""}

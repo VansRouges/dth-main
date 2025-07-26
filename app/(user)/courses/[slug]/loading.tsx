@@ -9,8 +9,12 @@ import {
   ChevronDown
 } from "lucide-react";
 
+interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
 // Skeleton component for reusable shimmer effect
-const Skeleton = ({ className = "", ...props }) => {
+const Skeleton = ({ className = "", ...props }: SkeletonProps) => {
   return (
     <div
       className={`animate-pulse bg-gray-200 rounded ${className}`}

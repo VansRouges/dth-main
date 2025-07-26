@@ -55,7 +55,6 @@ export default async function RootLayout({
         <ClerkProvider>
           <UserProvider
             initialUser={userForStore}
-            initialPublicMetadata={user?.publicMetadata}
           >
             <RouteGuard>
               {children}

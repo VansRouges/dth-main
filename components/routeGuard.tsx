@@ -163,7 +163,6 @@ export function RouteGuard({ children }: RouteGuardProps) {
     }
   }, [isSignedIn, authLoaded, publicMetadata, isLoading, isInitialized, router, pathname, publicUrl, auth, onboarding, dashboards]);
 
-  const isPublicRoute = publicUrl?.includes(pathname);
   const isAuthRoute = auth?.includes(pathname);
 
   // ONLY show loading during actual login/logout processes:

@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Filter, Calendar, Users, BookOpen, Plus, Grid, List } from "lucide-react";
+import { Search, Filter, Calendar, Users, BookOpen, Grid, List } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -45,76 +45,54 @@ export default function AdminLiveClasses({ liveClasses }: AdminLiveClassesProps)
   }).length;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border/40 bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-card/20">
-        <div className="container mx-auto px-6 py-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="animate-slide-in">
-              <h1 className="text-3xl font-bold text-foreground bg-gradient-primary bg-clip-text">
-                Live Classes Admin
-              </h1>
-              <p className="text-muted-foreground mt-2">
-                Manage and monitor all scheduled live classes
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: '200ms' }}>
-              <Button className="bg-primary hover:bg-primary/90">
-                <Plus className="h-4 w-4 mr-2" />
-                New Class
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen">
 
       {/* Stats Cards */}
       <div className="container mx-auto px-6 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-card border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow">
+          <div className="bg-white border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <BookOpen className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{totalClasses}</p>
-                <p className="text-sm text-muted-foreground">Total Classes</p>
+                <p className="text-2xl font-bold text-black">{totalClasses}</p>
+                <p className="text-sm text-black">Total Classes</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-card border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow" style={{ animationDelay: '100ms' }}>
+          <div className="bg-white border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow" style={{ animationDelay: '100ms' }}>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-success/10 rounded-lg">
-                <Calendar className="h-6 w-6 text-success" />
+              <div className="p-2 bg-green-500/10 rounded-lg">
+                <Calendar className="h-6 w-6 text-green-500" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{todayClasses}</p>
-                <p className="text-sm text-muted-foreground">Today&#39;s Classes</p>
+                <p className="text-2xl font-bold text-black">{todayClasses}</p>
+                <p className="text-sm text-black">Today&#39;s Classes</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-card border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow" style={{ animationDelay: '200ms' }}>
+          <div className="bg-white border border-border/40 rounded-lg p-6 shadow-card animate-fade-in hover:shadow-elevated transition-shadow" style={{ animationDelay: '200ms' }}>
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-info/10 rounded-lg">
-                <Users className="h-6 w-6 text-info" />
+              <div className="p-2 bg-blue-500/10 rounded-lg">
+                <Users className="h-6 w-6 text-blue-500" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{courses.length}</p>
-                <p className="text-sm text-muted-foreground">Active Courses</p>
+                <p className="text-2xl font-bold text-black">{courses.length}</p>
+                <p className="text-sm text-black">Active Courses</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-card border border-border/40 rounded-lg p-6 shadow-card mb-8 animate-fade-in" style={{ animationDelay: '300ms' }}>
+        <div className="bg-white border border-border/40 rounded-lg p-6 shadow-card mb-8 animate-fade-in" style={{ animationDelay: '300ms' }}>
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-black" />
               <Input
                 placeholder="Search classes, facilitators, or descriptions..."
                 value={searchTerm}
@@ -126,7 +104,7 @@ export default function AdminLiveClasses({ liveClasses }: AdminLiveClassesProps)
             {/* Course Filter */}
             <Select value={filterCourse} onValueChange={setFilterCourse}>
               <SelectTrigger className="w-full lg:w-[200px]">
-                <Filter className="h-4 w-4 mr-2" />
+                <Filter className="h-4 w-4 mr-2 text-black" />
                 <SelectValue placeholder="Filter by course" />
               </SelectTrigger>
               <SelectContent>
@@ -140,7 +118,7 @@ export default function AdminLiveClasses({ liveClasses }: AdminLiveClassesProps)
             </Select>
 
             {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 bg-muted rounded-lg p-1">
+            <div className="flex items-center gap-2 bg-white rounded-lg p-1">
               <Button
                 variant={viewMode === "grid" ? "default" : "ghost"}
                 size="sm"

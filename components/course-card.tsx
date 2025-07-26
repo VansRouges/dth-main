@@ -20,9 +20,10 @@ export function CourseCard({ course }: CourseCardProps) {
   const formattedPrice = formatPrice(course?.price);
   
   return (
-    <>
-      <div 
-        className="group min-w-[280px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+     <>
+      <div
+        className="group min-w-[280px] w-[280px] h-[300px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+        // ^^^ ADDED: w-[280px] and h-[300px] (adjust height as needed)
         onClick={() => setIsModalOpen(true)}
       >
         {/* Image/Preview Video Section */}
@@ -34,14 +35,14 @@ export function CourseCard({ course }: CourseCardProps) {
               fill
               className="object-cover"
             />
-          )  : (
+          ) : (
             <div className="h-full w-full flex items-center justify-center bg-muted">
-              <Loader size="lg" />
+              <Loader size={'lg'} className="text-gray-400" /> {/* Loader needs a size */}
             </div>
           )}
         </div>
 
-        <div className="p-4">
+        <div className="p-4 h-[60%]">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-bold text-primary">Full course</span>
             <div className="flex items-center gap-1">
@@ -51,16 +52,19 @@ export function CourseCard({ course }: CourseCardProps) {
               </span>
             </div>
           </div>
-          
+
+          {/* This h3 will ensure content stays within 2 lines. */}
           <h3 className="font-bold text-sm mb-2 line-clamp-2">{course?.title}</h3>
-          
+
           <div className="flex items-center text-gray-900 mb-2 space-x-1">
             <GraduationCap className="h-4 w-4" />
             <span className="text-xs line-clamp-1">{course?.instructor?.name}</span>
           </div>
-          
-          <div className="relative h-8">
-            <Button className="absolute inset-0 w-full tracking-wider font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity">
+
+          <div className="relative h-8 flex items-center justify-center"> 
+            <Button
+              className="absolute left-0 top-4 w-full tracking-wider font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity"
+            >
               Purchase ({formattedPrice})
             </Button>
             <p className="absolute inset-0 font-bold text-sm group-hover:opacity-0 transition-opacity">
@@ -70,6 +74,7 @@ export function CourseCard({ course }: CourseCardProps) {
         </div>
       </div>
 
+      {/* Course Modal */}
       <CourseModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

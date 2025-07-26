@@ -1,8 +1,8 @@
 // components/layouts/user-layout.tsx
+'use client';
+
 import { ReactNode } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { AppSidebar } from "../app-sidebar";
 import { ChevronDown } from "lucide-react"
 import { SidebarInset, SidebarProvider } from "../ui/sidebar";
@@ -10,32 +10,15 @@ import { OnboardingSidebar } from "../onboarding-sidebar";
 import Image from "next/image";
 import { DashboardSearchBar } from "../DashboardSearchBar";
 import { GetCoursesQueryResult } from "@/sanity.types";
+import { useUserStore } from "@/stores/useUserStore";
 
 interface UserLayoutProps {
   children: ReactNode;
-  data: GetCoursesQueryResult
+  data?: GetCoursesQueryResult;
 }
 
-export default async function UserLayout({ children, data }: UserLayoutProps) {
-  const user = await currentUser();
-  const publicMetadata = user?.publicMetadata;
-  const role = publicMetadata?.role;
-
-  // If no publicMetadata or it's empty, send to onboarding
-  if (!publicMetadata) {
-    redirect('/onboarding');
-  }
-
-  // Role-based routing
-  switch (role) {
-    case 'admin':
-      redirect('/admin');
-    case 'instructor':
-      redirect('/instructor');
-    case 'user':
-    default:
-      break;
-  }
+export default function UserLayout({ children, data }: UserLayoutProps) {
+  const { user } = useUserStore();
 
   return (
     <SidebarProvider
@@ -54,15 +37,14 @@ export default async function UserLayout({ children, data }: UserLayoutProps) {
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
         {/* Navigation */}
         <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          {/* <SidebarTrigger className="ml-1 text-gray-700 hover:text-gray-700 cursor-pointer hover:bg-white" /> */}
           <DashboardSearchBar data={data} />
           <div className="ml-auto flex space-x-3">
             <SignedIn>
-              <div className="flex space-x-2 ">
+              <div className="flex space-x-2">
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
                   <Image
                     src="/bell.svg"
-                    alt="notificatons"
+                    alt="notifications"
                     width={32}
                     height={32}
                     className="object-cover w-5 h-5 rounded-full"
@@ -71,7 +53,7 @@ export default async function UserLayout({ children, data }: UserLayoutProps) {
                 <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
                   <Image
                     src="/information.svg"
-                    alt="notificatons"
+                    alt="information"
                     width={32}
                     height={32}
                     className="object-cover w-5 h-5 rounded-full"
@@ -89,13 +71,13 @@ export default async function UserLayout({ children, data }: UserLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="grid grid-cols-4 bg-blue-">
-          <main className="bg-red- w-full col-span-4 md:col-span-3 px-4 py-2 flex-1">
+        <div className="grid grid-cols-4">
+          <main className="w-full col-span-4 md:col-span-3 px-4 py-2 flex-1">
             {children}
           </main>
           
           {/* Onboarding Sidebar (Right) - Hidden on mobile, visible on large screens */}
-          <div className="hidden lg:block mx-auto bg-green- col-span-1">
+          <div className="hidden lg:block mx-auto col-span-1">
             <OnboardingSidebar />
           </div>
         </div>

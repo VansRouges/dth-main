@@ -2,7 +2,6 @@
 import { ReactNode } from "react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import { AppSidebar } from "../app-sidebar";
 import { ChevronDown } from "lucide-react"
 import { SidebarInset, SidebarProvider } from "../ui/sidebar";
@@ -16,25 +15,7 @@ interface UserLayoutProps {
 
 export default async function ManagementLayout({ children }: UserLayoutProps) {
   const user = await currentUser();
-  const publicMetadata = user?.publicMetadata;
-  const role = publicMetadata?.role;
-
-  // If no publicMetadata or it's empty, send to onboarding
-  if (!publicMetadata) {
-    redirect('/onboarding');
-  }
-
-  // Role-based routing
-  switch (role) {
-    case 'admin':
-      redirect('/admin');
-    case 'instructor':
-      redirect('/instructor');
-    case 'user':
-    default:
-      break;
-  }
-
+  
   return (
     <SidebarProvider
       style={

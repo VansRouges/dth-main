@@ -1,3 +1,4 @@
+// app/dashboard/page.tsx
 import { type NextPage } from "next";
 import { currentUser } from "@clerk/nextjs/server";
 import UserLayout from "@/components/layouts/user-layout";
@@ -8,26 +9,36 @@ import { Mentors } from "@/components/mentors"
 import { getCourses } from "@/sanity/lib/courses/getCourses";
 import { getInstructors } from "@/sanity/lib/instructors/getInstructors";
 import { getEnrolledCourses } from "@/sanity/lib/student/getEnrolledCourses";
-import { GetCoursesQueryResult } from "@/sanity.types";
+
+const normalizeString = (str: string) =>
+  str.toLowerCase().replace(/\s+/g, '-');
 
 const UserDashboardPage: NextPage = async () => {
   const user = await currentUser();
-  const allCourses: GetCoursesQueryResult = await getCourses();
-  const enrolledCourses = await getEnrolledCourses(user?.id || "");
-  const instructors = await getInstructors();
   
-  // Normalize category names and user interests for comparison
-  const normalizeString = (str: string) => 
-    str.toLowerCase().replace(/\s+/g, '-');
+  const getUserInterests = () => {
+    const userInterests = user?.publicMetadata?.interested;
+    if (Array.isArray(userInterests)) return userInterests as string[];
+    if (userInterests && typeof userInterests === 'string') return [userInterests];
+    return [];
+  };
+  
+  const getNormalizedUserInterests = () => {
+    return getUserInterests().map(interest => normalizeString(interest));
+  };
 
-  // Get user interests from public metadata
-  const userInterests = user?.publicMetadata?.interested;
-  const normalizedUserInterests = Array.isArray(userInterests)
-    ? userInterests.map(interest => normalizeString(interest))
-    : userInterests
-      ? [normalizeString(userInterests as string)]
-      : [];
+  // const userInterests = getNormalizedUserInterests();
+  
+  // Fetch all data in parallel
+  const [allCourses, instructors, enrolledCourses] = await Promise.all([
+    getCourses(),
+    getInstructors(),
+    getEnrolledCourses(user?.id || ""),
+  ]);
 
+  // Filter courses based on user interests (server-side)
+  const normalizedUserInterests = getNormalizedUserInterests();
+  
   // Filter courses based on user interests
   const matchedCourses = allCourses.filter(course => {
     const categoryName = course.category?.name;
@@ -46,36 +57,26 @@ const UserDashboardPage: NextPage = async () => {
     return !normalizedUserInterests.includes(normalizedCategory);
   });
 
-  
-
-
-  console.log("Matched courses:", matchedCourses);
-  console.log("Other courses:", otherCourses);
-  console.log("Instructors:", instructors);
-  console.log("User:", user);
-  console.log("User interest:", userInterests);
-  console.log("All Courses:", allCourses);
-
   return (
-    <UserLayout data={allCourses}> 
-      <DashboardOverview 
-        userName={user?.fullName} 
-        coursesEnrolled={enrolledCourses.length} 
-        mentoringCount={0} 
-        projectsCount={0} 
+    <UserLayout data={allCourses}>
+      <DashboardOverview
+        userName={user?.fullName}
+        coursesEnrolled={enrolledCourses.length}
+        mentoringCount={0}
+        projectsCount={0}
       />
-
+      
       {matchedCourses.length > 0 && (
-        <TopPicks 
+        <TopPicks
           title={`Recommended for You (Based on your interests)`}
-          courses={matchedCourses} 
+          courses={matchedCourses}
         />
       )}
       
       <Mentors instructors={instructors} />
       
-      <OtherPicks 
-        courses={otherCourses} 
+      <OtherPicks
+        courses={otherCourses}
         title={matchedCourses.length > 0 ? "Other Courses You Might Like" : "Featured Courses"}
       />
     </UserLayout>

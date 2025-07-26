@@ -7,7 +7,6 @@ import {
   Check,
   Briefcase,
 } from "lucide-react";
-import getCourseBySlug from "@/sanity/lib/courses/getCourseBySlug";
 import { formatDistanceToNow } from "date-fns";
 import { NextPage } from "next";
 import { User } from "@clerk/nextjs/server";
@@ -126,7 +125,7 @@ export async function CourseData({ course }: CourseDataProps) {
             </h3>
             <div className="">
               <ul className="space-y-3">
-                {course?.designedFor?.map((item: string, index: number) => (
+                {course?.designedFor?.map((item: string) => (
                   <li key={item} className="flex items-start">
                     <span className="w-6 h-6 rounded-full bg-green-500 flex justify-center items-center mt-2 p-1 mr-2">
                       <Check className="h-5 w-5 text-white" />

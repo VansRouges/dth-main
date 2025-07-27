@@ -50,8 +50,8 @@ const CourseManagement: NextPage = async () => {
 
   return (
     <>
-       {/* Banner */}
-       <div className="relative overflow-hidden rounded-xl mr-14 w-[75%]">
+      {/* Banner */}
+      <div className="relative overflow-hidden rounded-xl mr-14 w-[75%]">
         <Image
           src="/course-banner.svg"
           alt="Admin Dashboard"

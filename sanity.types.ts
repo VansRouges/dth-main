@@ -317,6 +317,9 @@ export type Instructor = {
     _key: string;
     [internalGroqTypeReferenceTo]?: "experience";
   }>;
+  email?: string;
+  phoneNumber?: string;
+  location?: string;
 };
 
 export type Duration = {
@@ -588,6 +591,9 @@ export type GetCourseByIdQueryResult = {
       _key: string;
       [internalGroqTypeReferenceTo]?: "experience";
     }>;
+    email?: string;
+    phoneNumber?: string;
+    location?: string;
   } | null;
 } | null;
 
@@ -718,6 +724,9 @@ export type GetCourseBySlugQueryResult = {
       _key: string;
       [internalGroqTypeReferenceTo]?: "experience";
     }>;
+    email?: string;
+    phoneNumber?: string;
+    location?: string;
   } | null;
 } | null;
 
@@ -824,6 +833,9 @@ export type GetCoursesQueryResult = Array<{
       _key: string;
       [internalGroqTypeReferenceTo]?: "experience";
     }>;
+    email?: string;
+    phoneNumber?: string;
+    location?: string;
   } | null;
 }>;
 
@@ -928,6 +940,9 @@ export type SearchQueryResult = Array<{
       _key: string;
       [internalGroqTypeReferenceTo]?: "experience";
     }>;
+    email?: string;
+    phoneNumber?: string;
+    location?: string;
   } | null;
 }>;
 
@@ -976,7 +991,7 @@ export type GetInstructorBySlugQueryResult = {
 
 // Source: ./sanity/lib/instructors/getInstructors.ts
 // Variable: getInstructorsQuery
-// Query: *[_type == "instructor"] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    "slug": slug.current,    bio,    photo,    yearsOfExperience,    currentlyWorksAt  }
+// Query: *[_type == "instructor"] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    name,    "slug": slug.current,    bio,    photo,    yearsOfExperience,    currentlyWorksAt,    email,    phoneNumber,    location  }
 export type GetInstructorsQueryResult = Array<{
   _id: string;
   _type: "instructor";
@@ -1000,6 +1015,9 @@ export type GetInstructorsQueryResult = Array<{
   } | null;
   yearsOfExperience: number | null;
   currentlyWorksAt: null;
+  email: string | null;
+  phoneNumber: string | null;
+  location: string | null;
 }>;
 
 // Source: ./sanity/lib/lessons/getCourseProgress.ts
@@ -1567,6 +1585,9 @@ export type GetEnrolledCoursesQueryResult = {
           _key: string;
           [internalGroqTypeReferenceTo]?: "experience";
         }>;
+        email?: string;
+        phoneNumber?: string;
+        location?: string;
       } | null;
     } | null;
     amount?: number;
@@ -1629,7 +1650,7 @@ declare module "@sanity/client" {
     "*[_type == \"course\"] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...},\n    \"skillsCovered\": skillsCovered[]->{...},\n    \"jobOpportunities\": jobOpportunities[]->{...},\n  }": GetCoursesQueryResult;
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
     "*[_type == \"instructor\" && slug.current == $slug][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    slug, \n    bio,\n    photo,\n    yearsOfExperience,\n    jobTitle,\n    company,\n    currentlyWorksAt,\n    \"profileInsights\": profileInsights[]-> {\n      _id,\n      title,\n      description\n    },\n    \"experience\": experience[]-> {\n      _id,\n      title,\n      company,\n      startDate,\n      endDate,\n      highlights\n    }\n  }": GetInstructorBySlugQueryResult;
-    "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    \"slug\": slug.current,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt\n  }": GetInstructorsQueryResult;
+    "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    \"slug\": slug.current,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt,\n    email,\n    phoneNumber,\n    location\n  }": GetInstructorsQueryResult;
     "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;
     "*[_type == \"lessonCompletion\" && student._ref == $studentId && lesson._ref == $lessonId][0] {\n    ...\n  }": CompletionStatusQueryResult;

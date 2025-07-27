@@ -59,5 +59,21 @@ export const instructorType = defineType({
       type: "array",
       of: [{ type: "reference", to: [{ type: "experience" }] }],
     }),
+    defineField({
+      name: "email",
+      title: "Email",
+      type: "string",
+      validation: (rule) => rule.email(),
+    }),
+    defineField({
+      name: "phoneNumber",
+      title: "Phone Number",
+      type: "string",
+    }),
+    defineField({
+      name: "location",
+      title: "Location",
+      type: "string",
+    }),
   ],
 });

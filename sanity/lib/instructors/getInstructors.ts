@@ -13,7 +13,10 @@ export async function getInstructors() {
     bio,
     photo,
     yearsOfExperience,
-    currentlyWorksAt
+    currentlyWorksAt,
+    email,
+    phoneNumber,
+    location
   }`);
 
   const instructors = await sanityFetch({ query: getInstructorsQuery });

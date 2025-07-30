@@ -1,7 +1,6 @@
 // app/dashboard/page.tsx
 import { type NextPage } from "next";
 import { currentUser } from "@clerk/nextjs/server";
-import UserLayout from "@/components/layouts/user-layout";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { TopPicks } from "@/components/top-picks"
 import { OtherPicks } from "@/components/other-picks";
@@ -58,7 +57,7 @@ const UserDashboardPage: NextPage = async () => {
   });
 
   return (
-    <UserLayout data={allCourses}>
+    <main>
       <DashboardOverview
         userName={user?.fullName}
         coursesEnrolled={enrolledCourses.length}
@@ -79,7 +78,7 @@ const UserDashboardPage: NextPage = async () => {
         courses={otherCourses}
         title={matchedCourses.length > 0 ? "Other Courses You Might Like" : "Featured Courses"}
       />
-    </UserLayout>
+    </main>
   );
 };
 

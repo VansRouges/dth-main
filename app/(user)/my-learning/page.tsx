@@ -103,7 +103,7 @@ export default async function LearningPage() {
   console.log("Closest Weekend Class: ", closestWeekendClass)
 
   return (
-    <LearningLayout>
+    <>
       <div className="space-y-6 min-h-screen">
 
         {/* Stats Cards Section */}
@@ -227,6 +227,6 @@ export default async function LearningPage() {
           )}
         </div>
       </div>
-    </LearningLayout>
+    </>
   );
 }

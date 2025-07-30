@@ -1,9 +1,7 @@
 import Image from "next/image"
-// import { LearningCard } from "@/components/learning-cards"
 import Link from "next/link"
 import { AlarmClock, GraduationCap } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import MentorshipLayout from "@/components/layouts/mentorship-layout"
 import { MentorshipCard } from "@/components/mentorship-card"
 
 const courses = [
@@ -35,7 +33,7 @@ const courses = [
 
 export default function LearningPage() {
   return (
-    <MentorshipLayout>
+    <>
       <div className="bg-blue- space-y-6 h-screen">
 
         {/* Cards */}
@@ -147,6 +145,6 @@ export default function LearningPage() {
           ))}
         </div>
       </div>
-    </MentorshipLayout>
+    </>
   )
 }

@@ -1,6 +1,4 @@
 import { type NextPage } from "next";
-// import { currentUser } from "@clerk/nextjs/server";
-import ManagementLayout from "@/components/layouts/management-layout";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -51,7 +49,7 @@ const LearningManagement: NextPage = async () => {
   ];
 
   return (
-    <ManagementLayout>
+    <>
       {/* Banner */}
       <div className="relative overflow-hidden rounded-xl mr-14 w-[75%]">
         <Image
@@ -99,7 +97,7 @@ const LearningManagement: NextPage = async () => {
           </Link>
         ))}
       </div>
-    </ManagementLayout>
+    </>
   );
 };
 

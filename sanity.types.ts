@@ -1612,6 +1612,22 @@ export type GetStudentByClerkIdQueryResult = {
   imageUrl?: string;
 } | null;
 
+// Source: ./sanity/lib/student/getStudents.ts
+// Variable: getStudentsQuery
+// Query: *[_type == "student"] {    _id,    _type,    _createdAt,    _updatedAt,    _rev,    firstName,    lastName,    email,    clerkId,    imageUrl  }
+export type GetStudentsQueryResult = Array<{
+  _id: string;
+  _type: "student";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  clerkId: string | null;
+  imageUrl: string | null;
+}>;
+
 // Source: ./sanity/lib/student/isEnrolledInCourse.ts
 // Variable: studentQuery
 // Query: *[_type == "student" && clerkId == $clerkId][0]._id
@@ -1658,6 +1674,7 @@ declare module "@sanity/client" {
     "\n    *[_type == \"liveClass\" && references($courseId)] {\n      _id,\n      _type,\n      _createdAt,\n      _updatedAt,\n      title,\n      \"slug\": slug.current,\n      date,\n      time,\n      duration,\n      description,\n      meetingLink,\n      \"course\": course->{\n        _id,\n        title\n      },\n      facilitator->{\n        _id,\n        name\n      }\n    }\n  ": GetLiveClassesByCourseIdQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0] {\n    \"enrolledCourses\": *[_type == \"enrollment\" && student._ref == ^._id] {\n      ...,\n      \"course\": course-> {\n        ...,\n        \"slug\": slug.current,\n        \"category\": category->{...},\n        \"instructor\": instructor->{...}\n      }\n    }\n  }": GetEnrolledCoursesQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]": GetStudentByClerkIdQueryResult;
+    "*[_type == \"student\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    firstName,\n    lastName,\n    email,\n    clerkId,\n    imageUrl\n  }": GetStudentsQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]._id": StudentQueryResult;
     "*[_type == \"enrollment\" && student._ref == $studentId && course._ref == $courseId][0]": EnrollmentQueryResult;
   }

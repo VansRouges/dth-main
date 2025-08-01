@@ -23,8 +23,8 @@ export function Mentors({ instructors }: MentorsProps) {
   return (
     <div className="my-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">Top Mentors Pick</h2>
-        <a href="#" className="text-orange-500 font-semibold text-sm">
+        <h2 className="text-[17px] sm:text-xl font-bold">Top Mentors Pick</h2>
+        <a href="#" className="text-orange-500 font-semibold text-xs sm:text-sm">
           See more
         </a>
       </div>
@@ -41,10 +41,10 @@ export function Mentors({ instructors }: MentorsProps) {
           }}
         >
           {instructors.map((mentor) => (
-            <div key={mentor._id} className="flex-shrink-0 w-[300px]">
+            <div key={mentor._id} className="flex-shrink-0 w-full sm:w-[300px]">
               <MentorCard 
                 mentor={mentor}
-                className="w-full max-w-xs" 
+                className="w-full sm:max-w-xs" 
               />
             </div>
           ))}

@@ -2,7 +2,7 @@ import { GetCoursesQueryResult } from "@/sanity.types";
 import { ReactNode } from "react";
 import { SearchBar } from "../SearchBar";
 import { DashboardSearchBar } from "../DashboardSearchBar";
-import { SidebarInset, SidebarProvider } from "../ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import { AppSidebar } from "../app-sidebar";
 import { OnboardingSidebar } from "../onboarding-sidebar";
 
@@ -52,12 +52,12 @@ export default function GenericUserLayout({
         );
       case "dashboard-route":
         return (
-          <div className="grid grid-cols-4">
-            <main className="w-full col-span-4 md:col-span-3 px-4 py-2 flex-1">
-              {children}
-            </main>
-            <div className="hidden lg:block mx-auto col-span-1">
-              <OnboardingSidebar />
+          <div className="grid grid-cols-1 min-[1224px]:grid-cols-[1fr_320px] h-full">
+            <main className="px-4 py-2 overflow-y-auto">{children}</main>
+            <div className="border-l border-gray-200">
+              <div className="sticky top-0">
+                <OnboardingSidebar />
+              </div>
             </div>
           </div>
         );
@@ -84,8 +84,11 @@ export default function GenericUserLayout({
     >
       <AppSidebar />
       <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
-        <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          {renderSearchBar()}
+        <header className="flex h-16 bg-inherit items-center justify-between px-4">
+           {/* <div className="flex items-center gap-4"> */}
+            <SidebarTrigger className="md:hidden hover:bg-white hover:text-black cursor-pointer mr-4" />
+            {renderSearchBar()}
+          {/* </div> */}
           <div className="ml-auto flex space-x-3">{signedInWrapper}</div>
         </header>
 

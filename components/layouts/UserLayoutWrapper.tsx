@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname } from "next/navigation"; // Client-side hook
-import { useMemo } from "react"; // To memoize derived values
+import { usePathname } from "next/navigation"; 
+import { useMemo } from "react";
 import GenericUserLayout, {
   RouteType,
 } from "@/components/layouts/GenericUserLayout";
@@ -46,7 +46,7 @@ export default function UserLayoutWrapper({
       mainContent: currentMainContent,
       data: coursesData,
     };
-  }, [pathname, courses]); // Re-calculate when pathname changes
+  }, [pathname, courses]);
 
   return (
     <GenericUserLayout

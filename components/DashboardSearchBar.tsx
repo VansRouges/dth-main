@@ -67,8 +67,8 @@ export function DashboardSearchBar({ data }: { data: GetCoursesQueryResult | und
   );
 
   return (
-    <div className="relative w-full max-w-md" ref={dropdownRef}>
-      <div className="flex items-center bg-white rounded-full px-4 py-2 shadow-sm w-full">
+    <div className="relative w-full mr-4" ref={dropdownRef}>
+      <div className="flex items-center bg-white rounded-full px-4 py-2 shadow-sm md:w-1/2 w-full sm:min-w-64 max-w-lg min-w-0">
         <div className="flex flex-1 items-center space-x-2">
           <Search className="h-5 w-5 text-gray-500" />
           <input

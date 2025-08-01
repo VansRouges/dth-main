@@ -1,12 +1,7 @@
-// app/mentors/[id]/page.tsx
-import { SignedIn, UserButton } from "@clerk/nextjs";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset } from "@/components/ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
 import { Suspense } from "react";
-import { MentorData } from "../mentor-content";
+import { MentorData } from "./mentor-content";
 
 interface MentorDetailsPageProps {
   params: Promise<{
@@ -104,7 +99,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
 
         {/* Main Content */}
     
-            <div className="relative overflow-hidden rounded-xl mr-14 w-[90%]">
+            <div className="relative overflow-hidden rounded-xl rounded-bl-[80px] lg:rounded-bl-[100px] lg:rounded-tr-[100px] rounded-tr-[80px] mt-10 h-50 md:h-40 w-[100%]">
               <Image
                 src="/course-banner.svg"
                 alt="Learning Management Dashboard"
@@ -113,8 +108,8 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
                 className="object-cover w-full h-full"
                 priority
               />
-              <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Book Session Now</h1>
+              <div className="absolute inset-0 lg:ml-5 text-white p-6 flex flex-col justify-center">
+                <h1 className="max-[360px]:text-[23px] text-3xl sm:text-3xl md:text-4xl font-bold">Book Session Now</h1>
                 <p className="my-3">Hi {user?.fullName}, you&#39;re welcome</p>
               </div>
             </div>

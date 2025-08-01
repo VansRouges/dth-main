@@ -142,38 +142,38 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
   const user = await currentUser();
 
   return (
-          <><main className="w-full lg:flex-1 min-w-0">
-      <div className="min-h-screen space-y-6">
-        {/* Banner */}
-        <div className="relative overflow-hidden rounded-bl-[80px] rounded-tr-[80px] rounded-tl-lg rounded-br-lg mr-20 bg-green- h-40 w-full max-w-[100%]">
-          <Image
-            src="/course-banner.svg"
-            alt="Learning Management Dashboard"
-            width={1200}
-            height={200}
-            className="object-cover w-full h-full"
-            priority />
+    <>
+      <main className="w-full lg:flex-1 min-w-0">
+        <div className="min-h-screen space-y-6">
+          {/* Banner */}
+          <div className="relative overflow-hidden rounded-xl rounded-bl-[80px] lg:rounded-bl-[100px] lg:rounded-tr-[100px] rounded-tr-[80px] mt-10 h-50 md:h-40 w-[100%]">
+            <Image
+              src="/course-banner.svg"
+              alt="Learning Management Dashboard"
+              width={1200}
+              height={200}
+              className="object-cover w-full h-full"
+              priority
+            />
 
-          <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
-            <h1 className="text-3xl font-bold">My Learning</h1>
-            <p className="my-3">
-              Hi {user?.fullName}, you&#39;re welcome
-            </p>
+            <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
+              <h1 className="text-3xl font-bold">My Learning</h1>
+              <p className="my-3">Hi {user?.fullName}, you&#39;re welcome</p>
+            </div>
           </div>
-        </div>
 
-        <Suspense fallback={<CourseLoadingSkeleton />}>
-          <CourseData
-            course={await getCourseBySlug(slug)} />
-        </Suspense>
-      </div>
-    </main>
+          <Suspense fallback={<CourseLoadingSkeleton />}>
+            <CourseData course={await getCourseBySlug(slug)} />
+          </Suspense>
+        </div>
+      </main>
       <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
         <div className="lg:sticky lg:top-4">
           <Suspense fallback={<CourseEnrollmentSkeleton />}>
             <CourseEnrollments
               course={await getCourseBySlug(slug)}
-              user={user} />
+              user={user}
+            />
           </Suspense>
         </div>
       </aside>

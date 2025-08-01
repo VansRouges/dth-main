@@ -44,15 +44,15 @@ export async function MentorData({ slug }: MentorDataProps) {
           )}
         </div>
         <div className="w-full">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <h1 className="text-3xl font-extrabold">{mentor?.name}</h1>
+          <div className="flex flex-wrap flex-col md:flex-row md:items-center gap-4">
+            <h1 className="text-xl lg:text-3xl font-extrabold">{mentor?.name}</h1>
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
                 {mentor?.yearsOfExperience}+ years experience
               </span>
             </div>
           </div>
-          <p className="text-lg font-semibold text-primary mt-2">
+          <p className="text-base lg:text-xl font-semibold text-primary mt-2">
             {mentor?.jobTitle} at {mentor?.company}
           </p>
           
@@ -67,7 +67,7 @@ export async function MentorData({ slug }: MentorDataProps) {
       {/* Profile Insights */}
       {mentor?.profileInsights && mentor.profileInsights.length > 0 && (
         <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
-          <h2 className="text-3xl font-extrabold mb-6">Profile Insights</h2>
+          <h2 className="text-xl lg:text-3xl font-extrabold mb-6">Profile Insights</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mentor.profileInsights.map((insight, index) => {
@@ -78,7 +78,7 @@ export async function MentorData({ slug }: MentorDataProps) {
               return (
                 <div key={insight._id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                   <h3 
-                    className="text-xl font-semibold mb-2"
+                    className="text-base lg:text-xl font-semibold mb-2"
                     style={{ color }}
                   >
                     {insight.title}
@@ -94,14 +94,14 @@ export async function MentorData({ slug }: MentorDataProps) {
       {/* Experience */}
       {mentor?.experience && mentor.experience.length > 0 && (
         <div className="container mx-auto p-6 rounded-xl bg-white shadow-sm">
-          <h2 className="text-3xl font-extrabold mb-6">Professional Experience</h2>
+          <h2 className="text-xl lg:text-3xl font-extrabold mb-6">Professional Experience</h2>
           
           <div className="space-y-8">
             {mentor.experience.map((exp) => (
               <div key={exp._id} className="border-b border-gray-200 pb-8 last:border-b-0">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                   <div>
-                    <h3 className="text-xl font-semibold">{exp.title || 'Role not specified'}</h3>
+                    <h3 className="text-base lg:text-xl font-semibold">{exp.title || 'Role not specified'}</h3>
                     <p className="text-primary font-bold">{exp.company}</p>
                   </div>
                   {(exp.startDate || exp.endDate) && (
@@ -131,9 +131,9 @@ export async function MentorData({ slug }: MentorDataProps) {
 
       {/* Book Session CTA */}
       <div className="container mx-auto p-6 rounded-xl bg-blue-50 shadow-sm">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col justify-start md:flex-row md:justify-between items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold">Ready to learn from {mentor?.name}?</h2>
+            <h2 className="text-xl lg:text-2xl font-bold">Ready to learn from {mentor?.name}?</h2>
             <p className="text-gray-700 mt-2">Book a 1:1 session to get personalized guidance</p>
           </div>
           <button className="bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors cursor-pointer">

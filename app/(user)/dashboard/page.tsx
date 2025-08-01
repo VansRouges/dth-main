@@ -66,10 +66,12 @@ const UserDashboardPage: NextPage = async () => {
       />
       
       {matchedCourses.length > 0 && (
+        <div className="mt-28 sm:mt-0">
         <TopPicks
           title={`Recommended for You (Based on your interests)`}
           courses={matchedCourses}
-        />
+          />
+          </div>
       )}
       
       <Mentors instructors={instructors} />

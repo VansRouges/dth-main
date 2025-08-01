@@ -20,7 +20,7 @@ export const BioSection = ({ bio, truncateLength = 250 }: BioSectionProps) => {
       {needsTruncation && (
         <button 
           onClick={() => setShowFullBio(!showFullBio)}
-          className="text-primary font-semibold flex items-center cursor-pointer"
+          className="text-primary text-[14px] lg:text-xl font-semibold flex items-center cursor-pointer"
         >
           {showFullBio ? (
             <>

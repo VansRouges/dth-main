@@ -22,22 +22,22 @@ export function CourseCard({ course }: CourseCardProps) {
   return (
      <>
       <div
-        className="group min-w-[280px] w-[280px] h-[300px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
-        // ^^^ ADDED: w-[280px] and h-[300px] (adjust height as needed)
+        className="group sm:w-[100%] h-[400px] sm:h-[300px] flex-shrink-0 rounded-lg bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
         onClick={() => setIsModalOpen(true)}
       >
         {/* Image/Preview Video Section */}
-        <div className="h-[120px] bg-[#D9D9D9] relative flex items-center justify-center">
+        <div className="sm:h-[120px] h-[200px] bg-[#D9D9D9] relative flex items-center justify-center">
           {course?.image ? (
             <Image
               src={urlFor(course?.image).url() || ""}
               alt={course?.title || "Course Image"}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
             />
           ) : (
             <div className="h-full w-full flex items-center justify-center bg-muted">
-              <Loader size={'lg'} className="text-gray-400" /> {/* Loader needs a size */}
+              <Loader size={'lg'} className="text-gray-400" />
             </div>
           )}
         </div>
@@ -63,11 +63,11 @@ export function CourseCard({ course }: CourseCardProps) {
 
           <div className="relative h-8 flex items-center justify-center"> 
             <Button
-              className="absolute left-0 top-4 w-full tracking-wider font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-0 top-4 w-full tracking-wider font-semibold bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 sm:opacity-0 group-hover:opacity-100 transition-opacity"
             >
               Purchase ({formattedPrice})
             </Button>
-            <p className="absolute inset-0 font-bold text-sm group-hover:opacity-0 transition-opacity">
+            <p className="absolute inset-0 font-bold text-sm opacity-0 sm:opacity-100 group-hover:opacity-0 transition-opacity">
               {formattedPrice}
             </p>
           </div>

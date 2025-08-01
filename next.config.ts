@@ -26,6 +26,14 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'utfs.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'flagcdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
       }
     ],
   },

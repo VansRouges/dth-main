@@ -1,12 +1,42 @@
 "use client";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { OnboardingStepProps } from "@/types";
 import { Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import getCountries, { Country } from "@/sanity/lib/countries/getCountries";
+import { useState, useEffect } from "react";
+import Image from "next/image"
 
-export function OnboardingStep2({ formData, errors, handleChange, isSubmitting }: OnboardingStepProps) {
+export function OnboardingStep2({
+  formData,
+  errors,
+  handleChange,
+}: OnboardingStepProps) {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const countriesData = await getCountries();
+        setCountries(countriesData);
+      } catch (error) {
+        console.error("Failed to fetch countries:", error);
+        setCountries([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -17,7 +47,9 @@ export function OnboardingStep2({ formData, errors, handleChange, isSubmitting }
           value={formData.interestedProjects}
           onValueChange={(value) => handleChange("interestedProjects", value)}
         >
-          <SelectTrigger className={`w-full ${errors.interestedProjects ? "border-red-500" : ""}`}>
+          <SelectTrigger
+            className={`w-full ${errors.interestedProjects ? "border-red-500" : ""}`}
+          >
             <SelectValue placeholder="Select projects" />
           </SelectTrigger>
           <SelectContent>
@@ -44,7 +76,9 @@ export function OnboardingStep2({ formData, errors, handleChange, isSubmitting }
           value={formData.skillLevel}
           onValueChange={(value) => handleChange("skillLevel", value)}
         >
-          <SelectTrigger className={`w-full ${errors.skillLevel ? "border-red-500" : ""}`}>
+          <SelectTrigger
+            className={`w-full ${errors.skillLevel ? "border-red-500" : ""}`}
+          >
             <SelectValue placeholder="Select skill level" />
           </SelectTrigger>
           <SelectContent>
@@ -67,17 +101,56 @@ export function OnboardingStep2({ formData, errors, handleChange, isSubmitting }
         <Select
           value={formData.country}
           onValueChange={(value) => handleChange("country", value)}
+          disabled={isLoading}
         >
-          <SelectTrigger className={`w-full ${errors.country ? "border-red-500" : ""}`}>
-            <SelectValue placeholder="Select country" />
+          <SelectTrigger
+            className={`w-full ${errors.country ? "border-red-500" : ""}`}
+          >
+            <SelectValue
+              placeholder={
+                isLoading ? "Loading countries..." : "Select country"
+              }
+            />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="uk">UK</SelectItem>
-            <SelectItem value="nigeria">Nigeria</SelectItem>
-            <SelectItem value="usa">United States</SelectItem>
-            <SelectItem value="canada">Canada</SelectItem>
-            <SelectItem value="germany">Germany</SelectItem>
-            <SelectItem value="other">Other</SelectItem>
+            {isLoading ? (
+              <div className="flex items-center justify-center p-4">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span className="ml-2">Loading countries...</span>
+              </div>
+            ) : countries.length > 0 ? (
+              countries.map((country: Country) => (
+                <SelectItem
+                  key={country?.name?.toLowerCase()}
+                  value={country?.name?.toLowerCase()}
+                >
+                  <div className="flex gap-2 items-center">
+                    <Image
+                      src={country?.flag}
+                      width={17}
+                      height={15}
+                      alt={`${country?.name} flag`}
+                      className="rounded-sm object-cover w-auto h-auto flex-shrink-0"
+                      loading="lazy"
+                      onError={(e) => {
+                        // Hide broken images
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                    <div className="capitalize truncate">{country?.name}</div>
+                  </div>
+                </SelectItem>
+              ))
+            ) : (
+              <>
+                <SelectItem value="uk">🇬🇧 United Kingdom</SelectItem>
+                <SelectItem value="nigeria">🇳🇬 Nigeria</SelectItem>
+                <SelectItem value="usa">🇺🇸 United States</SelectItem>
+                <SelectItem value="canada">🇨🇦 Canada</SelectItem>
+                <SelectItem value="germany">🇩🇪 Germany</SelectItem>
+                <SelectItem value="other">🌍 Other</SelectItem>
+              </>
+            )}
           </SelectContent>
         </Select>
         {errors.country && (
@@ -87,24 +160,7 @@ export function OnboardingStep2({ formData, errors, handleChange, isSubmitting }
         )}
       </div>
 
-      <div className="flex gap-4">
-        <Button
-          type="submit"
-          className={cn(
-            "flex-1 py-6 bg-[#104BC1] hover:bg-blue-700 text-white",
-            isSubmitting && "opacity-50 cursor-not-allowed"
-          )}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <Loader2 className="animate-spin" /> Processing...
-            </span>
-          ) : (
-            "Complete Registration"
-          )}
-        </Button>
-      </div>
+      <div className="flex gap-4"></div>
     </div>
   );
 }

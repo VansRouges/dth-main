@@ -190,3 +190,9 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.cl-userButton-root {
+  max-width: 32px !important;
+  max-height: 32px !important;
+  overflow: hidden !important;
+}

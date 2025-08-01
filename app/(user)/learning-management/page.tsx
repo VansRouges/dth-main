@@ -12,7 +12,6 @@ interface ManagementCard {
 }
 
 const LearningManagement: NextPage = async () => {
-  
   const managementCards: ManagementCard[] = [
     {
       title: "Assessments",
@@ -47,11 +46,12 @@ const LearningManagement: NextPage = async () => {
       iconBgColor: "bg-[#EB501733]"
     }
   ];
+  
 
   return (
     <>
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-xl mr-14 w-[75%]">
+      <div className="relative overflow-hidden rounded-xl md:rounded-tr-[70px] rounded-tr-[50px] md:rounded-bl-[70px] rounded-bl-[50px] w-full mr-14 lg:w-[75%] h-40">
         <Image
           src="/management/management.svg"
           alt="Learning Management Dashboard"

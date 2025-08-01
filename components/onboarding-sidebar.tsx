@@ -83,7 +83,7 @@ export function OnboardingSidebar() {
 
         {/* Invite Friends Section */}
         <div className="space-y-3 rounded-xl bg-white p-4 border">
-          <div className="flex justify-center">
+          <div className="flex">
             <div className="flex flex-col space-y-3">
               <h3 className="font-bold">Invite Friends</h3>
               <p className="text-sm mt-1">

@@ -3,11 +3,11 @@ import Image from "next/image";
 function ComingSoon() {
     return(
         <>
-            <div className="min-h-screen bg-inherit flex flex-col"> 
+            <div className="min-h-screen bg-inherit flex flex-col p-8"> 
                 <main className="flex-1 container mx-auto px-4 py-12 flex flex-col items-center justify-center text-center">
                 <div className="max-w-3xl mx-auto">
 
-                    <h2 className="text-4xl md:text-5xl font-extrabold mb-4">Coming Soon</h2>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">Coming Soon</h2>
                     <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
                     We&#39;re building a revolutionary learning platform for data professionals. Get ready to enhance your skills
                     with DataTechHub.

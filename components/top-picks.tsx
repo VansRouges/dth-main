@@ -5,6 +5,7 @@ import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
 // import { Course } from "@/types/course"
 import { GetCoursesQueryResult } from "@/sanity.types"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface TopPicksProps {
   title: string;
@@ -12,6 +13,7 @@ interface TopPicksProps {
 }
 
 export function TopPicks({ title, courses }: TopPicksProps) {
+  const isMobile = useIsMobile()
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -49,7 +51,7 @@ export function TopPicks({ title, courses }: TopPicksProps) {
         >
           {topRatedCourses.length > 0 ? (
             topRatedCourses.map((course) => (
-              <div key={course._id} className="flex-shrink-0 w-[300px]">
+              <div key={course._id} className="flex-shrink-0 w-full sm:w-[300px]">
                 <CourseCard course={course} />
               </div>
             ))
@@ -58,7 +60,7 @@ export function TopPicks({ title, courses }: TopPicksProps) {
           )}
         </div>
 
-        {topRatedCourses.length >= 4 && (
+        {(topRatedCourses.length >= 4 || (isMobile && topRatedCourses.length >= 2)) && (
           <>
             <div className="absolute left-2 top-1/2 -translate-y-1/2 z-10">
               <Button 

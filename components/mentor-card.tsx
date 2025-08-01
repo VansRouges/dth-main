@@ -18,7 +18,7 @@ export function MentorCard({ mentor, className = "" }: MentorCardProps) {
       className={`group relative flex flex-col rounded-xl bg-white shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all duration-300 hover:-translate-y-1 ${className}`}
     >
       {/* Mentor Image */}
-      <div className="relative h-40 w-full bg-gradient-to-br from-blue-50 to-gray-100">
+      <div className="relative h-[240px] sm:h-40 w-full bg-gradient-to-br from-blue-50 to-gray-100">
         {mentor?.photo ? (
           <Image
             src={urlFor(mentor.photo).url()}
@@ -64,7 +64,7 @@ export function MentorCard({ mentor, className = "" }: MentorCardProps) {
           <Button 
             variant="default" 
             size="sm" 
-            className="w-full mt-2 transition-all duration-300 opacity-0 group-hover:opacity-100 hover:bg-accent/90 cursor-pointer"
+            className="w-full mt-2 transition-all duration-300 opacity-100 sm:opacity-0 group-hover:opacity-100 hover:bg-accent/90 cursor-pointer"
           >
             <span className="flex items-center">
               See more details <ChevronRight className="ml-2 h-4 w-4" />

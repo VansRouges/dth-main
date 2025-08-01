@@ -1,10 +1,4 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import {
-  ChevronDown,
-} from "lucide-react";
 import Image from "next/image";
 import { Suspense } from "react";
 import { CourseData, CourseEnrollments } from "./course-data";
@@ -148,99 +142,41 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
   const user = await currentUser();
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "19rem",
-          "--onboarding-sidebar-width": "22rem",
-        } as React.CSSProperties
-      }
-      className="flex h-full"
-    >
-      {/* Main App Sidebar (Left) */}
-      <AppSidebar />
+    <>
+      <main className="w-full lg:flex-1 min-w-0">
+        <div className="min-h-screen space-y-6">
+          {/* Banner */}
+          <div className="relative overflow-hidden rounded-xl rounded-bl-[80px] lg:rounded-bl-[100px] lg:rounded-tr-[100px] rounded-tr-[80px] mt-10 h-50 md:h-40 w-[100%]">
+            <Image
+              src="/course-banner.svg"
+              alt="Learning Management Dashboard"
+              width={1200}
+              height={200}
+              className="object-cover w-full h-full"
+              priority
+            />
 
-      {/* Main Content Area */}
-      <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
-        {/* Navigation */}
-        <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <div className="ml-auto flex space-x-2">
-            <SignedIn>
-              <div className="flex space-x-2 ">
-                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
-                  <Image
-                    src="/bell.svg"
-                    alt="notificatons"
-                    width={32}
-                    height={32}
-                    className="object-cover w-5 h-5 rounded-full"
-                  />
-                </div>
-                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
-                  <Image
-                    src="/information.svg"
-                    alt="notificatons"
-                    width={32}
-                    height={32}
-                    className="object-cover w-5 h-5 rounded-full"
-                  />
-                </div>
-              </div>
-              {/* User Avatar and Name */}
-              <div className="flex space-x-2 cursor-pointer">
-                <UserButton />
-                <h1 className="font-semibold">{user?.fullName}</h1>
-                <ChevronDown className="h-4 w-4 text-primary" />
-              </div>
-            </SignedIn>
+            <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
+              <h1 className="text-3xl font-bold">My Learning</h1>
+              <p className="my-3">Hi {user?.fullName}, you&#39;re welcome</p>
+            </div>
           </div>
-        </header>
 
-        {/* Main Content */}
-        <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
-          {/* Main Content Area - Takes full width on mobile, flexible on desktop */}
-          <main className="w-full lg:flex-1 min-w-0">
-            <div className="min-h-screen space-y-6">
-              {/* Banner */}
-              <div className="relative overflow-hidden rounded-bl-[80px] rounded-tr-[80px] rounded-tl-lg rounded-br-lg mr-20 bg-green- h-40 w-full max-w-[100%]">
-                <Image
-                  src="/course-banner.svg"
-                  alt="Learning Management Dashboard"
-                  width={1200}
-                  height={200}
-                  className="object-cover w-full h-full"
-                  priority
-                />
-
-                <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
-                  <h1 className="text-3xl font-bold">My Learning</h1>
-                  <p className="my-3">
-                    Hi {user?.fullName}, you&#39;re welcome
-                  </p>
-                </div>
-              </div>
-
-              <Suspense fallback={<CourseLoadingSkeleton />}>
-                <CourseData
-                  course={await getCourseBySlug(slug)}
-                />
-              </Suspense>
-            </div>
-          </main>
-
-          {/* Course Enrollment Sidebar */}
-          <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
-            <div className="lg:sticky lg:top-4">
-              <Suspense fallback={<CourseEnrollmentSkeleton />}>
-                <CourseEnrollments
-                  course={await getCourseBySlug(slug)}
-                  user={user}
-                />
-              </Suspense>
-            </div>
-          </aside>
+          <Suspense fallback={<CourseLoadingSkeleton />}>
+            <CourseData course={await getCourseBySlug(slug)} />
+          </Suspense>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </main>
+      <aside className="w-full lg:w-75 lg:flex-shrink-0 lg:flex-grow-0">
+        <div className="lg:sticky lg:top-4">
+          <Suspense fallback={<CourseEnrollmentSkeleton />}>
+            <CourseEnrollments
+              course={await getCourseBySlug(slug)}
+              user={user}
+            />
+          </Suspense>
+        </div>
+      </aside>
+    </>
   );
 }

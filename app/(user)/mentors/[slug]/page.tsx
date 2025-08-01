@@ -1,12 +1,7 @@
-// app/mentors/[id]/page.tsx
-import { SignedIn, UserButton } from "@clerk/nextjs";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
 import { Suspense } from "react";
-import { MentorData } from "../mentor-content";
+import { MentorData } from "./mentor-content";
 
 interface MentorDetailsPageProps {
   params: Promise<{
@@ -100,60 +95,11 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
   const user = await currentUser();
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "19rem",
-          "--onboarding-sidebar-width": "22rem",
-        } as React.CSSProperties
-      }
-      className="flex h-full"
-    >
-      {/* Main App Sidebar (Left) */}
-      <AppSidebar />
-      
-      {/* Main Content Area */}
-      <SidebarInset className="bg-inherit flex-1 flex flex-col min-h-screen">
-        {/* Navigation */}
-        <header className="flex h-16 bg-inherit shrink-0 items-center justify-between px-4">
-          <div className="ml-auto flex space-x-2">
-            <SignedIn>
-              <div className="flex space-x-2 ">
-                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
-                  <Image
-                    src="/bell.svg"
-                    alt="notifications"
-                    width={32}
-                    height={32}
-                    className="object-cover w-5 h-5 rounded-full"
-                  />
-                </div>
-                <div className="bg-[#FF880033] rounded-full p-2 cursor-pointer">
-                  <Image
-                    src="/information.svg"
-                    alt="information"
-                    width={32}
-                    height={32}
-                    className="object-cover w-5 h-5 rounded-full"
-                  />
-                </div>
-              </div>
-              {/* User Avatar and Name */}
-              <div className="flex space-x-2 cursor-pointer">
-                <UserButton />
-                <h1 className="font-semibold">{user?.fullName}</h1>
-                <ChevronDown className="h-4 w-4 text-primary" />
-              </div>
-            </SignedIn>
-          </div>
-        </header>
+    <>
 
         {/* Main Content */}
-        <div className="flex flex-col lg:flex-row w-full gap-4 px-4 pb-4">
-          {/* Main Content Area - Takes full width on mobile, 3/4 on desktop */}
-          <div className="min-h-screen space-y-6 w-full">
-            {/* Banner - Shows immediately */}
-            <div className="relative overflow-hidden rounded-xl mr-14 w-[90%]">
+    
+            <div className="relative overflow-hidden rounded-xl rounded-bl-[80px] lg:rounded-bl-[100px] lg:rounded-tr-[100px] rounded-tr-[80px] mt-10 h-50 md:h-40 w-[100%]">
               <Image
                 src="/course-banner.svg"
                 alt="Learning Management Dashboard"
@@ -162,8 +108,8 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
                 className="object-cover w-full h-full"
                 priority
               />
-              <div className="absolute inset-0 text-white p-6 flex flex-col justify-center">
-                <h1 className="text-4xl font-bold">Book Session Now</h1>
+              <div className="absolute inset-0 lg:ml-5 text-white p-6 flex flex-col justify-center">
+                <h1 className="max-[360px]:text-[23px] text-3xl sm:text-3xl md:text-4xl font-bold">Book Session Now</h1>
                 <p className="my-3">Hi {user?.fullName}, you&#39;re welcome</p>
               </div>
             </div>
@@ -172,9 +118,7 @@ export default async function MentorDetailsPage({ params }: MentorDetailsPagePro
             <Suspense fallback={<MentorLoadingSkeleton />}>
               <MentorData slug={slug} />
             </Suspense>
-          </div>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+  
+    </>
   );
 }

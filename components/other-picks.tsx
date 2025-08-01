@@ -5,6 +5,7 @@ import { CourseCard } from "@/components/course-card"
 import { Button } from "@/components/ui/button"
 // import { Course } from "@/types/course"
 import { GetCoursesQueryResult } from "@/sanity.types"
+import Link from "next/link"
 
 interface OtherPicksProps {
   title: string;
@@ -31,11 +32,11 @@ export function OtherPicks({ title, courses }: OtherPicksProps) {
   return (
     <div className="mb-8 w-full overflow-hidden">
       <div className="flex items-center justify-between mb-4 px-4">
-        <h2 className="text-xl font-bold">{title}</h2>
+        <h2 className="text-[17px] sm:text-xl font-bold">{title}</h2>
         {otherPickedCourses.length >= 4 && (
-          <a href="#" className="text-orange-500 font-semibold text-sm">
+          <Link href="/courses" className="text-orange-500 font-semibold text-xs sm:text-sm">
             See more
-          </a>
+          </Link>
         )}
       </div>
 
@@ -52,7 +53,7 @@ export function OtherPicks({ title, courses }: OtherPicksProps) {
         >
           {otherPickedCourses.length > 0 ? (
             otherPickedCourses.map((course) => (
-              <div key={course._id} className="flex-shrink-0 w-[300px]">
+              <div key={course._id} className="flex-shrink-0 w-full sm:w-[300px]">
                 <CourseCard course={course} />
               </div>
             ))

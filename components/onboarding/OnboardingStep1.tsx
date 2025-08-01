@@ -3,8 +3,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { OnboardingStepProps } from "@/types";
-import { ChevronRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export function OnboardingStep1({ formData, errors, handleChange }: OnboardingStepProps) {
   return (
@@ -122,13 +120,6 @@ export function OnboardingStep1({ formData, errors, handleChange }: OnboardingSt
           </p>
         )}
       </div>
-
-      <Button
-        type="button"
-        className="w-full py-6 bg-[#104BC1] hover:bg-blue-700 text-white flex items-center justify-center"
-      >
-        Next <ChevronRight className="ml-2 h-4 w-4" />
-      </Button>
     </div>
   );
 }

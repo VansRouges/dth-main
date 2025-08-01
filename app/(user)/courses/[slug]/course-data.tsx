@@ -148,9 +148,9 @@ export async function CourseData({ course }: CourseDataProps) {
               {course?.skillsCovered?.map((skill) => (
                 <div
                   key={skill._id}
-                  className="bg-[#FFDAB0] px-4 py-2 rounded-xl border border-[#E87C00] flex-shrink-0"
+                  className="bg-[#FFDAB0] px-4 py-2 rounded-xl border border-[#E87C00]"
                 >
-                  <p className="text-[#E87C00] font-medium whitespace-nowrap">
+                  <p className="text-[#E87C00] font-medium">
                     {skill.name}
                   </p>
                 </div>

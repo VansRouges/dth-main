@@ -52,7 +52,6 @@ export default function CourseDashboard({ courses, liveClasses }: TopPicksProps)
           <AdminLiveClasses liveClasses={liveClasses} />
         </TabsContent>
       </Tabs>
-
       <AddCourseDialog open={courseModalOpen} onOpenChange={setCourseModalOpen} />
     </div>
   )

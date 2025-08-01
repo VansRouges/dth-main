@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OnboardingStep1 } from "./OnboardingStep1";
 import { OnboardingStep2 } from "./OnboardingStep2";
@@ -97,8 +97,8 @@ export function OnboardingForm({ onSubmit, isSubmitting }: OnboardingFormProps) 
     <div className="max-w-md">
       <h1 className="text-2xl font-bold mb-2">Sign up</h1>
       <p className="mb-6 font-semibold">
-        Have an account?
-        <Link href="/sign-in" className="text-orange-500 font-semibold hover:underline">
+        Have an account? 
+        <Link href="/sign-in" className="text-orange-500 font-semibold hover:underline ml-1">
           Login
         </Link>
       </p>
@@ -108,7 +108,7 @@ export function OnboardingForm({ onSubmit, isSubmitting }: OnboardingFormProps) 
           <OnboardingStep1 {...commonProps} />
           <Button
             onClick={handleNext}
-            className="w-full py-6 bg-[#104BC1] hover:bg-blue-700 text-white flex items-center justify-center"
+            className="w-full py-6 bg-[#104BC1] hover:bg-blue-700 text-white flex items-center justify-center mt-8"
           >
             Next <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
@@ -121,10 +121,17 @@ export function OnboardingForm({ onSubmit, isSubmitting }: OnboardingFormProps) 
             className="w-full py-6 bg-[#104BC1] hover:bg-blue-700 text-white"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Processing..." : "Complete Registration"}
+            {isSubmitting ? (
+            <span className="flex items-center gap-2">
+              <Loader2 className="animate-spin" /> Processing...
+            </span>
+          ) : (
+            "Complete Registration"
+          )}
           </Button>
         </>
       )}
     </div>
   );
 }
+<Button/>

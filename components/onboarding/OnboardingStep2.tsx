@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { OnboardingStepProps } from "@/types";
 import { Loader2 } from "lucide-react";
-import getCountries, { Country } from "@/sanity/lib/countries/getCountries";
+import getCountries, { Country } from "@/lib/countries/getCountries";
 import { useState, useEffect } from "react";
 import Image from "next/image"
 

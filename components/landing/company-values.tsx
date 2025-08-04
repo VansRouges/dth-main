@@ -81,7 +81,7 @@ export default function CompanyValues() {
   };
 
   return (
-    <section className="py-16 px-4 bg-white relative">
+    <section className="sm:pt-8 pb-16 px-4 bg-white relative">
       <div className="max-w-6xl mx-auto">
         {/* Values Section - positioned to overlap */}
         <motion.div
@@ -91,7 +91,7 @@ export default function CompanyValues() {
           animate={valuesInView ? "visible" : "hidden"}
           {...fadeInFromTop({ transition: { delay: 0.2, duration: 0.8 } })}
         >
-          <div className="bg-[#DDE8FF] w-[80%] mx-auto rounded-3xl p-8 md:p-12">
+          <div className="bg-[#DDE8FF] sm:w-[80%] mx-auto rounded-3xl p-8 md:p-12">
             <motion.div
               className="grid grid-cols-1 md:grid-cols-3 gap-4"
               variants={valuesContainerVariants}
@@ -129,10 +129,10 @@ export default function CompanyValues() {
           </div>
         </motion.div>
 
-        {/* Vision and Mission Section - with negative margin to pull up */}
+        {/* Vision and Mission Section */}
         <motion.div
           ref={missionSectionRef}
-          className="relative pt-24 pb-8 bg-[#F8F8F8] rounded-2xl"
+          className="relative pt-34 pb-8 bg-[#F8F8F8] rounded-2xl"
           initial="hidden"
           animate={missionInView ? "visible" : "hidden"}
           {...fadeInFromBottom({ transition: { delay: 0.4, duration: 0.8 } })}

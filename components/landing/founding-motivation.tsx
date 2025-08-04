@@ -10,6 +10,7 @@ export default function FoundingMotivation() {
   const [isPaused, setIsPaused] = useState(false)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
+  const [slidesPerView, setSlidesPerView] = useState(4)
 
   const {
     fadeInFromLeft,
@@ -57,9 +58,26 @@ export default function FoundingMotivation() {
     },
   ]
 
-  const slidesPerView = 4;
+  useEffect(() => {
+    const updateSlidesPerView = () => {
+      if (window.innerWidth < 640) {
+        setSlidesPerView(1)
+      } else if (window.innerWidth < 768) {
+        setSlidesPerView(2)
+      } else if (window.innerWidth < 1024) {
+        setSlidesPerView(3)
+      } else {
+        setSlidesPerView(4)
+      }
+    }
+
+    updateSlidesPerView()
+    window.addEventListener('resize', updateSlidesPerView)
+    return () => window.removeEventListener('resize', updateSlidesPerView)
+  }, [])
+
   const slideWidth = 100 / slidesPerView;
-  const maxIndex = carouselImages.length - slidesPerView;
+  const maxIndex = Math.max(0, carouselImages.length - slidesPerView);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => 
@@ -170,30 +188,30 @@ export default function FoundingMotivation() {
   };
 
   return (
-    <section ref={sectionRef} className="py-32 px-4 bg-white">
+    <section ref={sectionRef} className="py-16 sm:py-12 md:py-16 lg:py-26 xl:py-30 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-start">
           {/* Left Side - Heading */}
           <motion.div 
-            className=""
+            className="lg:pr-4 xl:pr-8"
             initial="hidden"
             animate={sectionInView ? "visible" : "hidden"}
             {...fadeInFromLeft({ transition: { delay: 0.2, duration: 0.2 } })}
           >
-            <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold text-gray-900 leading-14 mt-14">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 leading-tight sm:leading-tight md:leading-tight lg:leading-tight mt-0 sm:mt-4 md:mt-8 lg:mt-12 xl:mt-14">
               The founding motivation of DataTechHub
             </h2>
           </motion.div>
 
           {/* Right Side - Content */}
           <motion.div 
-            className="space-y-6 lg:col-span-2"
+            className="space-y-6 sm:space-y-8 lg:col-span-2 lg:pl-4 xl:pl-8"
             initial="hidden"
             animate={sectionInView ? "visible" : "hidden"}
             variants={contentStaggerVariants}
           >
             <motion.p 
-              className="text-gray-700 text-lg leading-relaxed"
+              className="text-gray-700 text-base sm:text-lg lg:text-xl leading-relaxed sm:leading-relaxed lg:leading-loose"
               variants={paragraphVariants}
             >
               DataTechHub was founded to address the critical gap between theoretical learning and practical application
@@ -202,7 +220,7 @@ export default function FoundingMotivation() {
             </motion.p>
 
             <motion.p 
-              className="text-gray-700 text-lg leading-relaxed italic"
+              className="text-gray-700 text-base sm:text-lg lg:text-xl leading-relaxed sm:leading-relaxed lg:leading-loose italic border-l-4 border-blue-500 pl-4 sm:pl-6 lg:pl-8 py-2 sm:py-4 bg-blue-50/50 rounded-r-lg"
               variants={paragraphVariants}
             >
               &quot;Our story is rooted in a passion for data and a vision to empower learners and organizations to harness
@@ -216,7 +234,7 @@ export default function FoundingMotivation() {
         {/* Carousel */}
         <motion.div 
           ref={carouselRef}
-          className="mt-16 relative"
+          className="mt-12 sm:mt-16 lg:mt-20 xl:mt-24 relative"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={onMouseLeave}
           initial="hidden"
@@ -224,7 +242,7 @@ export default function FoundingMotivation() {
           {...fadeInFromBottom({ transition: { delay: 0.4, duration: 0.2 } })}
         >
           <div 
-            className="relative overflow-hidden w-full rounded-2xl h-96 cursor-grab active:cursor-grabbing"
+            className="relative overflow-hidden w-full rounded-xl sm:rounded-2xl h-48 sm:h-64 md:h-80 lg:h-96 xl:h-[28rem] cursor-grab active:cursor-grabbing"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -235,17 +253,17 @@ export default function FoundingMotivation() {
           >
             {/* Slides */}
             <div 
-              className="flex gap-4 h-full transition-transform duration-700 ease-in-out"
+              className="flex gap-2 sm:gap-3 md:gap-4 h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * slideWidth}%)` }}
             >
               {carouselImages.map((image, index) => (
                 <div key={index} className="flex-shrink-0 h-full" style={{ width: `${slideWidth}%` }}>
-                  <div className="relative w-full h-full px-2">
+                  <div className="relative w-full h-full px-1 sm:px-2">
                     <Image
                       src={image.src}
                       alt={image.alt}
                       fill
-                      className="object-cover rounded-lg pointer-events-none"
+                      className="object-cover rounded-md sm:rounded-lg pointer-events-none"
                       priority={index === currentIndex}
                       draggable={false}
                     />
@@ -255,10 +273,10 @@ export default function FoundingMotivation() {
             </div>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Hidden on mobile */}
           <motion.button 
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all z-10"
+            className="hidden sm:block absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-md transition-all z-10"
             aria-label="Previous slide"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -266,13 +284,13 @@ export default function FoundingMotivation() {
             animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
             transition={{ delay: 0.6, duration: 0.6 }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </motion.button>
           <motion.button 
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 rounded-full shadow-md transition-all z-10"
+            className="hidden sm:block absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm p-2 sm:p-3 rounded-full shadow-md transition-all z-10"
             aria-label="Next slide"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -280,14 +298,14 @@ export default function FoundingMotivation() {
             animate={carouselInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
             transition={{ delay: 0.6, duration: 0.2 }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </motion.button>
 
           {/* Indicators */}
           <motion.div 
-            className="flex justify-center mt-6 space-x-2"
+            className="flex justify-center mt-4 sm:mt-6 lg:mt-8 space-x-2 sm:space-x-3 px-4"
             initial="hidden"
             animate={carouselInView ? "visible" : "hidden"}
             variants={{
@@ -305,8 +323,10 @@ export default function FoundingMotivation() {
               <motion.button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex ? "bg-blue-600 w-6" : "bg-gray-300 hover:bg-gray-400"
+                className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? "bg-blue-600 w-4 sm:w-6" 
+                    : "bg-gray-300 hover:bg-gray-400"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
                 variants={{
@@ -322,6 +342,11 @@ export default function FoundingMotivation() {
               />
             ))}
           </motion.div>
+
+          {/* Mobile swipe instruction */}
+          <div className="block sm:hidden text-center mt-4">
+            <p className="text-xs text-gray-500">Swipe left or right to navigate</p>
+          </div>
         </motion.div>
       </div>
     </section>

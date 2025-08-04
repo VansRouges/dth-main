@@ -1,17 +1,14 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
-import { useRouter } from "next/navigation";
 import SubscriptionPlans from "@/components/landing/subscription-plans";
 import Image from "next/image";
 import { useFramerAnimations } from "@/hooks/use-framer-animate";
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import CtaSection from "@/components/CtaSection";
 
 export default function ProjectsPage() {
-  const router = useRouter();
-
   const {
     fadeInFromLeft,
     fadeInFromRight,
@@ -81,76 +78,79 @@ export default function ProjectsPage() {
   // Refs for each section to observe scroll
   const heroSectionRef = useRef<HTMLElement | null>(null);
   const featuresSectionRef = useRef<HTMLElement | null>(null);
-  const ctaSectionRef = useRef<HTMLElement | null>(null);
 
-  const heroInView = useInView(heroSectionRef, { once: false, amount: 0.3 });
-  const featuresInView = useInView(featuresSectionRef, { once: false, amount: 0.3 });
-  const ctaInView = useInView(ctaSectionRef, { once: false, amount: 0.3 });
+  const heroInView = useInView(heroSectionRef, { once: false, amount: 0.1 });
+  const featuresInView = useInView(featuresSectionRef, { once: false, amount: 0.1 });
 
   return (
-    <main className="min-h-screen relative">
+    <main className="relative gap-16 pt-2 font-[family-name:var(--font-geist-sans)]">
       {/* Navigation */}
       <Navigation navItems={navItems} />
 
       {/* Hero Section */}
-      <section ref={heroSectionRef} className="py-24 pb-60 px-4 bg-[#F8F8F8] relative">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+      <section ref={heroSectionRef} className="py-12 lg:py-14 lg:px-18 xl:px-4 px-4 !pb-30 bg-[#F8F8F8] relative">
+        <div 
+          className="w-full max-w-7xl sm:py-11 lg:py-20 mx-auto"
+        >
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 2xl:gap-32">
+            {/* Left content */}
+            <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col gap-6 sm:gap-8 md:gap-10 items-start text-left">
               <motion.h1
-                className="text-6xl font-bold text-gray-900 mb-6 leading-tight"
+                className="text-5xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl 2xl:text-6xl font-bold text-gray-900 leading-tight"
                 initial="hidden"
                 animate={heroInView ? "visible" : "hidden"}
                 {...fadeInFromLeft({ transition: { delay: 0.2, duration: 0.5 } })}
               >
-                Practice with Real-World Projects
+                Practice with <br className="sm:hidden block md:block" />
+                <span className="sm:hidden"> </span>Real-World Projects
               </motion.h1>
             </div>
+
+            {/* Right content */}
             <motion.div
-              className="aspect-square md:aspect-auto md:h-[400px] relative"
+              className="w-full md:mt-10 lg:w-1/2 xl:w-3/5 flex justify-center lg:justify-end"
               initial="hidden"
               animate={heroInView ? "visible" : "hidden"}
               {...fadeInFromRight({ transition: { delay: 0.2, duration: 0.5 } })}
             >
-              <Image
-                src="/landing/hero-7.png"
-                alt="Person reacting"
-                width={500}
-                height={600}
-                className="w-full h-full object-contain"
-                priority
-              />
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                <span className="sr-only">Bootcamp hero image</span>
+              <div className="w-full lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl h-auto flex items-center justify-center rounded-xl">
+                <Image
+                  src="/landing/hero-7.png"
+                  alt="Person reacting"
+                  width={800}
+                  height={960}
+                  className="w-full h-auto object-contain rounded-xl"
+                  priority
+                />
               </div>
             </motion.div>
           </div>
         </div>
 
         {/* Matching Process Section - positioned absolutely over the divider */}
-        <div className="absolute -bottom-20 left-0 right-0">
-          <div className="max-w-6xl mx-auto px-4">
-            <div className="bg-transparent p-8 rounded-xl">
+        <div className="absolute -bottom-25 sm:-bottom-20 left-0 right-0">
+          <div className="max-w-6xl mx-auto sm:px-4">
+            <div className="bg-transparent px-4 sm:p-8 rounded-xl">
               <motion.div
-                className="max-w-6xl mx-auto flex space-x-3 items-center justify-center"
+                className="max-w-6xl mx-auto h-29 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 items-center justify-center"
                 initial="hidden"
                 animate={heroInView ? "visible" : "hidden"}
                 variants={containerStaggerVariants}
               >
                 <motion.div
-                  className="bg-[#104BC1] text-white h-fit w-96 rounded-xl flex flex-col p-5 space-y-2"
+                  className="bg-[#104BC1] h-full text-white w-full sm:w-96 rounded-xl flex flex-col p-5 space-y-2"
                   variants={cardStaggerVariants}
                 >
-                  <h2 className="font-semibold text-xl">
+                  <h2 className="font-semibold text-md sm:text-[18px] md:text-xl">
                     Gain hands-on experience with curated projects and case
                     studies.
                   </h2>
                 </motion.div>
                 <motion.div
-                  className="bg-[#DDE8FF] h-fit w-96 text-[#081227] rounded-xl flex flex-col p-5 space-y-2"
+                  className="bg-[#DDE8FF] h-full w-full sm:w-96 text-[#081227] rounded-xl flex flex-col p-5 space-y-2"
                   variants={cardStaggerVariants}
                 >
-                  <h2 className="font-semibold text-xl">
+                  <h2 className="font-semibold text-md sm:text-[18px] md:text-xl">
                     Build a portfolio that demonstrates your skills.
                   </h2>
                 </motion.div>
@@ -161,7 +161,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresSectionRef} className="py-24 px-4 bg-white">
+      <section ref={featuresSectionRef} className="pt-48 sm:pt-34 pb-11 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center">
           {/* Header */}
           <div className="mb-12">
@@ -229,76 +229,7 @@ export default function ProjectsPage() {
       <SubscriptionPlans />
 
       {/* CTA Section */}
-      <section ref={ctaSectionRef} className="relative py-32 px-4 bg-[#081227] flex justify-center items-center">
-        {/* Shapes background - confined to the blue container */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
-          <Image
-            src="/landing/shapes.png"
-            alt="Abstract shapes background"
-            fill
-            className="w-full h-full object-cover opacity-10"
-          />
-        </div>
-        <div className="relative bg-[#104BC1] rounded-xl w-[70%] min-h-[400px]">
-          {/* Content container - transparent and on top */}
-          <div className="relative z-10 h-full">
-            <div className="h-full flex items-center justify-center p-12">
-              <div className="grid md:grid-cols-2 px-16 gap-8 items-center w-full max-w-6xl">
-                <div>
-                  <motion.h2
-                    className="text-5xl font-bold text-white mb-4"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                  >
-                    Ready to Start Your Journey?
-                  </motion.h2>
-                  <motion.p
-                    className="text-blue-100 mb-8 text-lg"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                  >
-                    Join thousands of learners transforming their careers with
-                    DataTechHub.
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={ctaInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                    transition={{ delay: 0.6, duration: 0.8 }}
-                  >
-                    <Button
-                      onClick={() => {
-                        router.push("/sign-up");
-                      }}
-                      className="bg-white cursor-pointer text-blue-600 hover:bg-gray-100 p-6 text-lg font-semibold"
-                    >
-                      Get Started Today
-                    </Button>
-                  </motion.div>
-                </div>
-
-                <div className="relative flex justify-center h-full">
-                  <motion.div
-                    className="bg-white w-[80%] rounded-lg p-8 text-center"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                  >
-                    <Image
-                      src="/landing/progress.png"
-                      alt="Abstract shapes background"
-                      width={900}
-                      height={900}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CtaSection />
 
       <Footer />
     </main>

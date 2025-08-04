@@ -1,4 +1,3 @@
-// components/landing/navigation.tsx
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -22,12 +21,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   ChevronDown,
-  ChevronRight,
   BookCopy,
   UserRound,
   Kanban,
   Handshake,
 } from "lucide-react";
+import Link from "next/link";
 
 interface NavigationProps {
   navItems: {
@@ -49,34 +48,52 @@ export default function Navigation({ navItems }: NavigationProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   return (
-    <Navbar className="mx-auto">
-      {/* Desktop Navigation */}
-      <NavBody>
-        {scrolled ? <NavbarDarkLogo /> : <NavbarLogo href="/"/>}
-        <NavItems items={navItems} />
-        <div className="flex items-center gap-4">
-          <NavbarButton
-            variant="primary"
-            onClick={() => router.push("/sign-in")}
-          >
-            Sign In
-          </NavbarButton>
-          <NavbarButton
-            variant="primary"
-            className="bg-[#104BC1] text-white"
-            onClick={() => router.push("/sign-up")}
-          >
-            Register
-          </NavbarButton>
-        </div>
-      </NavBody>
+    <>
+      <Navbar className="mx-auto">
+        {/* Desktop Navigation */}
+        <NavBody>
+          {scrolled ? (
+            <div className="w-auto flex-shrink-0">
+              <NavbarDarkLogo />
+            </div>
+          ) : (
+            <div className="w-auto flex-shrink-0">
+              <NavbarLogo href="/" />
+            </div>
+          )}
+          <NavItems items={navItems} />
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+            <NavbarButton
+              variant="primary"
+              onClick={() => router.push("/sign-in")}
+              className="text-xs sm:text-sm px-3 sm:px-4 py-2"
+            >
+              Sign In
+            </NavbarButton>
+            <NavbarButton
+              variant="primary"
+              className="bg-[#104BC1] text-white text-xs sm:text-sm px-3 sm:px-4 py-2"
+              onClick={() => router.push("/sign-up")}
+            >
+              Register
+            </NavbarButton>
+          </div>
+        </NavBody>
 
-      {/* Mobile Navigation */}
-      <MobileNav>
+        {/* Mobile Navigation */}
+      </Navbar>
+      <MobileNav visible={scrolled}>
         <MobileNavHeader>
-          <NavbarLogo />
+          {scrolled ? (
+            <div className="w-55 lg:w-auto sm:w-65">
+              <NavbarDarkLogo />
+            </div>
+          ) : (
+            <div className="w-55 lg:w-auto sm:w-65">
+              <NavbarLogo href="/" />
+            </div>
+          )}
           <MobileNavToggle
             isOpen={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -92,23 +109,38 @@ export default function Navigation({ navItems }: NavigationProps) {
               <span>Services</span>
               <ChevronDown className="h-4 w-4 ml-2" />
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-2 w-[400px]">
+            <DropdownMenuContent className="mt-2 sm:w-[400px] w-full px-4 sm:px-0">
               <DropdownMenuItem>
-                <BookCopy />
-                Bootcamp/Cohort-Based Learning
-                <ChevronRight className="h-4 w-4 ml-2" />
+                <Link href={"/bootcamps"}>
+                  <div className="flex gap-2 items-center">
+                    <BookCopy />
+                    Bootcamp/Cohort-Based Learning
+                  </div>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <UserRound />
-                One-on-one Learning sessions
+                <Link href={"/one-on-one"}>
+                  <div className="flex gap-2 items-center">
+                    <UserRound />
+                    One-on-one Learning sessions
+                  </div>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Kanban />
-                Guided Project Database
+                <Link href={"/projects"}>
+                  <div className="flex gap-2 items-center">
+                    <Kanban />
+                    Guided Project Database
+                  </div>
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Handshake />
-                Business Consulting Services
+                <Link href={"/business"}>
+                  <div className="flex gap-2 items-center">
+                    <Handshake />
+                    Business Consulting Services
+                  </div>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -130,18 +162,22 @@ export default function Navigation({ navItems }: NavigationProps) {
               variant="primary"
               className="w-full"
             >
+              <Link href={"/sign-in"}>
               Sign In
+              </Link>
             </NavbarButton>
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
             >
+              <Link href={"/sign-up"}>
               Register
+              </Link>
             </NavbarButton>
           </div>
         </MobileNavMenu>
       </MobileNav>
-    </Navbar>
+    </>
   );
 }

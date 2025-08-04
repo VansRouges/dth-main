@@ -22,7 +22,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="gap-16 sm:p- font-[family-name:var(--font-geist-sans)]">
+    <div className="gap-16 pt-2 sm:pt-8 font-[family-name:var(--font-geist-sans)]">
       {/* Navigation */}
       <Navigation navItems={navItems} />
 

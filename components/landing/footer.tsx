@@ -81,15 +81,18 @@ export default function Footer() {
           </div>
 
           {/* Logo and Links Section */}
-          <div className="text-right">
+          <div className="text-right sm:w-auto mx-auto flex justify-center flex-col">
+            <div className="lg:block flex w-fit justify-center">
+
             <Image
               src="/landing/footer-logo.png"
               alt="DataTechHub Logo"
               width={500}
               height={600}
-              className="w-full h-full object-contain mb-6"
+              className="w-2/3 sm:w-1/2 h-auto object-contain mb-6"
               priority
-            />
+              />
+              </div>
 
             <div className="flex justify-end gap-4 text-sm text-gray-600">
               <Link href="#" className="hover:text-gray-900">

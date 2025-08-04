@@ -105,7 +105,7 @@ export default function OurServices() {
 
   const sectionRef = useRef<HTMLElement | null>(null);
   
-  const sectionInView = useInView(sectionRef, { once: false, amount: 0.3 });
+  const sectionInView = useInView(sectionRef, { once: false, amount: 0.1 });
 
   const containerStaggerVariants = {
     hidden: { opacity: 0 },
@@ -130,7 +130,7 @@ export default function OurServices() {
   };
 
   return (
-    <section ref={sectionRef} className="py-16 px-72 w-full mx-auto bg-[#F8F8F8]">
+    <section ref={sectionRef} className="py-16 px-4 w-full mx-auto bg-[#F8F8F8]">
       <motion.div 
         className="text-center mb-12"
         initial="hidden"
@@ -157,13 +157,14 @@ export default function OurServices() {
       </motion.div>
 
       <motion.div 
-        className="grid md:grid-cols-2 gap-6 px-24"
+        className="grid md:grid-cols-2 h-full justify-center items-center gap-6 w-full max-w-6xl  mx-auto"
         initial="hidden"
         animate={sectionInView ? "visible" : "hidden"}
         variants={containerStaggerVariants}
       >
         {services.map((service) => (
           <motion.div
+            className="sm:min-w-[380px] h-full"
             key={service.id}
             variants={serviceItemVariants}
           >

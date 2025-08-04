@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import { BookCopy, ChevronDown, Handshake, Kanban, UserRound, ChevronRight } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -62,6 +62,7 @@ interface LogoProps {
 
 export const Navbar = ({ children, className }: NavbarProps) => {
   const ref = useRef<HTMLDivElement>(null);
+
   const { scrollY } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -81,7 +82,7 @@ export const Navbar = ({ children, className }: NavbarProps) => {
       ref={ref}
       initial={{ opacity: 0 }}
       className={cn(
-        "sticky inset-x-0 top-10 z-40 w-[80%] h-16 rounded-2xl",
+        "sticky hidden md:block top-8 inset-x-0 z-40 md:w-[760px] lg:w-[840px] h-16 rounded-2xl mx-auto",
         className
       )}
       animate={{
@@ -114,18 +115,15 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
-        y: visible ? 20 : 0,
+        y: visible ? 10 : 0,
       }}
       transition={{
         type: "spring",
         stiffness: 200,
         damping: 50,
       }}
-      style={{
-        minWidth: "800px",
-      }}
       className={cn(
-        "relative mx-auto w-[75%] rounded-xl flex-row items-center justify-between self-start bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
+        "relative mx-auto w-full rounded-xl flex-row items-center justify-between self-start bg-transparent h-[62px] px-2 sm:px-4 py-2 flex dark:bg-transparent",
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
@@ -143,41 +141,41 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden md:flex flex-1 flex-row items-center justify-center space-x-1 lg:space-x-2 text-xs lg:text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800",
         className,
       )}
     >
       {items.map((item, idx) => {
         if (item.name === "Services") {
           return (
-            <div key={`link-${idx}`} className="relative px-4 py-2">
+            <div key={`link-${idx}`} className="relative px-2 lg:px-4 py-2">
               <DropdownMenu>
                 <DropdownMenuTrigger
                   onMouseEnter={() => setHovered(idx)}
-                  className="text-neutral-600 dark:text-neutral-300 focus:outline-none flex items-center"
+                  className="text-white/80 hover:text-zinc-800 dark:text-neutral-300 focus:outline-none flex items-center"
                 >
-                  <span className="relative z-20">{item.name}</span>
-                  <ChevronDown className="h-4 w-4 ml-1" />
+                  <span className="relative z-20 ">{item.name}</span>
+                  <ChevronDown className="h-3 w-3 lg:h-4 lg:w-4 ml-1" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="mt-2 w-[400px]">
+                <DropdownMenuContent className="mt-2 w-[300px] lg:w-[400px]">
                   <DropdownMenuItem onClick={() => router.push('/bootcamps')}>
-                    <BookCopy />
-                    Bootcamp/Cohort-Based Learning
+                    <BookCopy className="h-4 w-4" />
+                    <span className="text-xs lg:text-sm">Bootcamp/Cohort-Based Learning</span>
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/one-on-one')}>
-                    <UserRound />
-                    One-on-one Learning sessions
+                    <UserRound className="h-4 w-4" />
+                    <span className="text-xs lg:text-sm">One-on-one Learning sessions</span>
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/projects')}>
-                    <Kanban />
-                    Guided Project Database
+                    <Kanban className="h-4 w-4" />
+                    <span className="text-xs lg:text-sm">Guided Project Database</span>
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => router.push('/business')}>
-                    <Handshake />
-                    Business Consulting Services
+                    <Handshake className="h-4 w-4" />
+                    <span className="text-xs lg:text-sm">Business Consulting Services</span>
                     <ChevronRight className="h-4 w-4 ml-auto" />
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -195,7 +193,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           <a
             onMouseEnter={() => setHovered(idx)}
             onClick={onItemClick}
-            className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+            className="relative px-2 lg:px-4 py-2 text-neutral-600 dark:text-neutral-300"
             key={`link-${idx}`}
             href={item.link}
           >
@@ -205,7 +203,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
                 className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
               />
             )}
-            <span className="relative z-20">{item.name}</span>
+            <span className="relative z-20 text-white/80 hover:text-zinc-800">{item.name}</span>
           </a>
         );
       })}
@@ -216,16 +214,19 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
 export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
+      initial={{ opacity: 0 }}
       animate={{
+        opacity: "100",
         backdropFilter: visible ? "blur(10px)" : "none",
         boxShadow: visible
           ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
           : "none",
         width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
-        y: visible ? 20 : 0,
+        paddingRight: visible ? "10px" : "15px",
+        paddingLeft: visible ? "10px" : "15px",
+        borderRadius: visible ? "16px" : "16px",
+        y: visible ? 0 : 0,
+        backgroundColor: visible ? "transparent" : "rgba(8, 18, 39, 1)"
       }}
       transition={{
         type: "spring",
@@ -233,7 +234,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
+        "sticky sm:top-8 top-4 z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] bg-neutral-950 flex-col items-center justify-between px-0 py-1 md:hidden",
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
@@ -272,7 +273,7 @@ export const MobileNavMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+            `absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950`,
             className,
           )}
         >
@@ -289,11 +290,23 @@ export const MobileNavToggle = ({
 }: {
   isOpen: boolean;
   onClick: () => void;
-}) => {
+  }) => {
+  const [isScrolled, setIsScrolled] = useState<boolean>();
+
+  useEffect(() => {
+    const scrollScreen = () => {
+        setIsScrolled(window.scrollY > 100)
+    }
+    window.addEventListener("scroll", scrollScreen)
+
+    return () => window.removeEventListener("scroll", scrollScreen)
+  }, [isScrolled])
+
+  const iconClasses = isScrolled ? "text-black cursor-pointer" : "text-white cursor-pointer"
   return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
+    <IconX className={`${iconClasses} dark:text-white`} onClick={onClick} />
   ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+      <IconMenu2 className={`${iconClasses} dark:text-white`} onClick={onClick} />
   );
 };
 

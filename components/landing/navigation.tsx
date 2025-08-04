@@ -161,19 +161,17 @@ export default function Navigation({ navItems }: NavigationProps) {
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
+              href={"/sign-in"}
             >
-              <Link href={"/sign-in"}>
               Sign In
-              </Link>
             </NavbarButton>
             <NavbarButton
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
+              href={"/sign-up"}
             >
-              <Link href={"/sign-up"}>
               Register
-              </Link>
             </NavbarButton>
           </div>
         </MobileNavMenu>

@@ -188,8 +188,9 @@ export default function AnimatedFooter() {
           </motion.div>
 
           {/* Logo and Links Section */}
-          <motion.div className="text-right" variants={itemVariants}>
+          <motion.div className="text-right sm:w-auto mx-auto flex justify-center flex-col" variants={itemVariants}>
             <motion.div
+              className="lg:block flex w-fit justify-center"
               initial={{ opacity: 0, y: 30 }}
               animate={footerInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ delay: 0.7, duration: 0.6 }}
@@ -199,7 +200,7 @@ export default function AnimatedFooter() {
                 alt="DataTechHub Logo"
                 width={500}
                 height={600}
-                className="w-full h-full object-contain mb-6"
+                className="w-2/3 sm:w-1/2 h-auto object-contain mb-6"
                 priority
               />
             </motion.div>

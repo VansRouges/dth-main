@@ -6,7 +6,7 @@ import { NavbarDarkLogo } from "@/components/landing/resizeable-navbar"
 
 export default function SignUpPage() {
   return (
-    <div className="bg-white min-h-screen md:h-screen md:overflow-hidden">
+    <div className="bg-white min-h-screen md:h-screen">
       <div className="container mx-auto px-4 py-8 h-full flex flex-col">
         <div className="flex justify-between items-center mb-8">
           <div className="[&>a]:w-[200px]">
@@ -22,7 +22,7 @@ export default function SignUpPage() {
             </Link>
         </div>
 
-        <div className="flex-grow grid md:grid-cols-2 gap-8 items-center">
+        <div className="flex-grow pb-8 grid md:grid-cols-2 gap-8 items-center">
           <div className="max-w-md w-full mx-auto">
             <SignUp />
           </div>

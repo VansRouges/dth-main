@@ -2,9 +2,8 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useFramerAnimations } from "@/hooks/use-framer-animate";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import CtaSection from "../CtaSection";
 
 const stats = [
   {
@@ -45,19 +44,16 @@ const stats = [
 ];
 
 export default function StatsTestimonialsCTA() {
-  const router = useRouter();
   const { fadeInFromTop } = useFramerAnimations();
 
   const statsSectionRef = useRef<HTMLElement | null>(null);
   const testimonialsSectionRef = useRef<HTMLElement | null>(null);
-  const ctaSectionRef = useRef<HTMLElement | null>(null);
 
-  const statsInView = useInView(statsSectionRef, { once: false, amount: 0.3 });
+  const statsInView = useInView(statsSectionRef, { once: false, amount: 0.1 });
   const testimonialsInView = useInView(testimonialsSectionRef, {
     once: false,
     amount: 0.3,
   });
-  const ctaInView = useInView(ctaSectionRef, { once: false, amount: 0.3 });
 
   const statsContainerVariants = {
     hidden: { opacity: 0 },
@@ -82,7 +78,6 @@ export default function StatsTestimonialsCTA() {
     },
   };
 
-  // Variants for testimonials
   const testimonialsContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -111,7 +106,7 @@ export default function StatsTestimonialsCTA() {
       <section ref={statsSectionRef} className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center"
+            className="grid grid-cols-2 gap-y-30 md:grid-cols-5 gap-8 text-center"
             initial="hidden"
             animate={statsInView ? "visible" : "hidden"}
             variants={statsContainerVariants}
@@ -238,89 +233,7 @@ export default function StatsTestimonialsCTA() {
       </section>
 
       {/* CTA Section */}
-      <section
-        ref={ctaSectionRef}
-        className="relative py-32 px-4 bg-slate-900 flex justify-center items-center"
-      >
-        {/* Shapes background - confined to the blue container */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
-          <Image
-            src="/landing/shapes.png"
-            alt="Abstract shapes background"
-            fill
-            className="object-cover opacity-10"
-          />
-        </div>
-        <div className="relative bg-[#104BC1] rounded-xl w-[70%] min-h-[400px]">
-          {/* Content container - transparent and on top */}
-          <div className="relative z-10 h-full">
-            <div className="h-full flex items-center justify-center p-12">
-              <div className="grid md:grid-cols-2 px-16 gap-8 items-center w-full max-w-6xl">
-                <div>
-                  <motion.h2
-                    className="text-5xl font-bold text-white mb-4"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={
-                      ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }
-                    }
-                    transition={{ delay: 0.2, duration: 0.8 }}
-                  >
-                    Ready to Start Your Journey?
-                  </motion.h2>
-                  <motion.p
-                    className="text-blue-100 mb-8 text-lg"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={
-                      ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }
-                    }
-                    transition={{ delay: 0.4, duration: 0.8 }}
-                  >
-                    Join thousands of learners transforming their careers with
-                    DataTechHub.
-                  </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={
-                      ctaInView
-                        ? { opacity: 1, scale: 1 }
-                        : { opacity: 0, scale: 0.8 }
-                    }
-                    transition={{ delay: 0.6, duration: 0.8 }}
-                  >
-                    <Button
-                      onClick={() => {
-                        router.push("/sign-up");
-                      }}
-                      className="bg-white cursor-pointer text-blue-600 hover:bg-gray-100 p-6 text-lg font-semibold"
-                    >
-                      Get Started Today
-                    </Button>
-                  </motion.div>
-                </div>
-
-                <div className="relative flex justify-center h-full">
-                  <motion.div
-                    className="bg-white w-[80%] rounded-lg p-8 text-center"
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={
-                      ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }
-                    }
-                    transition={{ delay: 0.8, duration: 0.8 }}
-                  >
-                    <Image
-                      src="/landing/progress.png"
-                      alt="Abstract shapes background"
-                      width={900}
-                      height={900}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <CtaSection />
     </div>
   );
 }

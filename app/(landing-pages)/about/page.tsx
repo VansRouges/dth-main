@@ -20,7 +20,7 @@ export default function About() {
   ];
   
   return (
-    <div className="gap-16 sm:p- font-[family-name:var(--font-geist-sans)]">
+    <div className="font-[family-name:var(--font-geist-sans)]">
       {/* Navigation */}
       <Navigation navItems={navItems} />
 

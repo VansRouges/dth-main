@@ -1,19 +1,16 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Footer from "@/components/landing/footer";
 import Navigation from "@/components/landing/navigation";
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import { useFramerAnimations } from '@/hooks/use-framer-animate';
 import React, { useRef } from 'react';
+import CtaSection from "@/components/CtaSection";
 
 export default function BootcampsPage() {
-  const router = useRouter();
   const {
     fadeInFromLeft,
-    fadeInFromRight,
     fadeInFromTop,
   } = useFramerAnimations();
 
@@ -95,12 +92,10 @@ export default function BootcampsPage() {
   const heroSectionRef = useRef(null);
   const benefitsSectionRef = useRef(null);
   const servicesSectionRef = useRef(null);
-  const ctaSectionRef = useRef(null);
 
-  const heroInView = useInView(heroSectionRef, { once: false, amount: 0.3 });
-  const benefitsInView = useInView(benefitsSectionRef, { once: false, amount: 0.3 });
-  const servicesInView = useInView(servicesSectionRef, { once: false, amount: 0.3 });
-  const ctaInView = useInView(ctaSectionRef, { once: false, amount: 0.3 });
+  const heroInView = useInView(heroSectionRef, { once: false, amount: 0.1 });
+  const benefitsInView = useInView(benefitsSectionRef, { once: false, amount: 0.1 });
+  const servicesInView = useInView(servicesSectionRef, { once: false, amount: 0.1 });
 
 
   return (
@@ -109,12 +104,15 @@ export default function BootcampsPage() {
       <Navigation navItems={navItems} />
 
       {/* Hero Section */}
-      <section ref={heroSectionRef} className="py-24 px-4 bg-[#F8F8F8]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+      <section ref={heroSectionRef} className="py-14 sm:py-20 pb-20 px-4 bg-[#F8F8F8] relative">
+        <div 
+          className="w-full max-w-7xl mx-auto lg:px-12 xl:px-16 2xl:px-20"
+        >
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 sm:gap-12 md:gap-16 lg:gap-20 xl:gap-24 2xl:gap-32">
+            {/* Left content */}
+            <div className="w-full lg:w-1/2 xl:w-2/5 flex flex-col gap-6 sm:gap-8 md:gap-10 items-start text-left">
               <motion.h1
-                className="text-6xl font-bold text-gray-900 mb-6 leading-tight"
+                className="text-5xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-6xl 2xl:text-6xl font-bold text-gray-900 leading-tight"
                 initial="hidden"
                 animate={heroInView ? "visible" : "hidden"}
                 {...fadeInFromLeft({ transition: { delay: 0.2, duration: 0.8 } })}
@@ -133,22 +131,27 @@ export default function BootcampsPage() {
                 rapid transition or build foundational skills quickly.
               </motion.p>
             </div>
+
+            {/* Right content - Updated responsive image container */}
             <motion.div
-              className="aspect-square md:aspect-auto md:h-[400px] relative"
-              initial="hidden"
-              animate={heroInView ? "visible" : "hidden"}
-              {...fadeInFromRight({ transition: { delay: 0.6, duration: 0.8 } })}
+              className="w-full md:mt-10 lg:w-1/2 xl:w-3/5 flex justify-center lg:justify-end"
             >
-              <Image
-                src="/landing/hero-3.png"
-                alt="Person reacting"
-                width={500}
-                height={600}
-                className="w-full h-full object-contain"
-                priority
-              />
-              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                <span className="sr-only">Bootcamp hero image</span>
+              <div className="w-full lg:max-w-2xl xl:max-w-3xl 2xl:max-w-4xl flex items-center justify-center rounded-xl">
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={heroInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+                  transition={{ delay: 0.3, duration: 0.6 }}
+                >
+                  <Image
+                    src="/landing/hero-3.png"
+                    alt="Person reacting"
+                    width={800}
+                    height={960}
+                    className="w-full h-auto object-cover rounded-xl"
+                    priority
+                 
+                  />
+                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -156,7 +159,7 @@ export default function BootcampsPage() {
       </section>
 
       {/* Benefits Section */}
-      <section ref={benefitsSectionRef} className="py-16 px-4 bg-white">
+      <section ref={benefitsSectionRef} className="pt-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <motion.p
@@ -186,21 +189,27 @@ export default function BootcampsPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Benefits Image - Now animated on scroll */}
             <motion.div
-              className="aspect-square md:aspect-auto md:h-[350px] relative"
-              initial="hidden"
-              animate={benefitsInView ? "visible" : "hidden"}
-              {...fadeInFromLeft({ transition: { delay: 0.5, duration: 0.8 } })}
+              className="w-full flex justify-center lg:justify-start"
             >
-              <Image
-                src="/landing/hero-4.png"
-                alt="Person reacting"
-                width={500}
-                height={600}
-                className="w-full h-full object-contain"
-                priority
-              />
-              <span className="sr-only">Benefits illustration</span>
+              <div className="w-full lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl h-auto flex items-center justify-center">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={benefitsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                >
+                  <Image
+                    src="/landing/hero-4.png"
+                    alt="Benefits illustration"
+                    width={500}
+                    height={600}
+                    className="w-full h-auto object-contain rounded-lg"
+                    priority
+                    
+                  />
+                </motion.div>
+              </div>
             </motion.div>
 
             <motion.div
@@ -247,7 +256,7 @@ export default function BootcampsPage() {
                 variants={itemStaggerVariants}
               >
                 <div className="mb-6">
-                  <div className="w-16 h-16 bg- rounded-lg flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-lg flex items-center justify-center">
                     <Image
                       src={service.icon}
                       alt={service.title}
@@ -270,76 +279,7 @@ export default function BootcampsPage() {
       </section>
 
       {/* CTA Section */}
-            <section ref={ctaSectionRef} className="relative py-32 px-4 bg-slate-900 flex justify-center items-center">
-              {/* Shapes background - confined to the blue container */}
-              <div className="absolute inset-0 w-full h-full overflow-hidden rounded-xl">
-                <Image
-                  src="/landing/shapes.png"
-                  alt="Abstract shapes background"
-                  fill
-                  className="object-cover opacity-10"
-                />
-              </div>
-              <div className="relative bg-[#104BC1] rounded-xl w-[70%] min-h-[400px]">
-                {/* Content container - transparent and on top */}
-                <div className="relative z-10 h-full">
-                  <div className="h-full flex items-center justify-center p-12">
-                    <div className="grid md:grid-cols-2 px-16 gap-8 items-center w-full max-w-6xl">
-                      <div>
-                        <motion.h2
-                          className="text-5xl font-bold text-white mb-4"
-                          initial={{ opacity: 0, x: -50 }}
-                          animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                          transition={{ delay: 0.2, duration: 0.8 }}
-                        >
-                          Ready to Start Your Journey?
-                        </motion.h2>
-                        <motion.p
-                          className="text-blue-100 mb-8 text-lg"
-                          initial={{ opacity: 0, x: -50 }}
-                          animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-                          transition={{ delay: 0.4, duration: 0.8 }}
-                        >
-                          Join thousands of learners transforming their careers with
-                          DataTechHub.
-                        </motion.p>
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={ctaInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                          transition={{ delay: 0.6, duration: 0.8 }}
-                        >
-                          <Button
-                            onClick={() => {
-                              router.push("/sign-up");
-                            }}
-                            className="bg-white cursor-pointer text-blue-600 hover:bg-gray-100 p-6 text-lg font-semibold"
-                          >
-                            Get Started Today
-                          </Button>
-                        </motion.div>
-                      </div>
-      
-                      <div className="relative flex justify-center h-full">
-                        <motion.div
-                          className="bg-white w-[80%] rounded-lg p-8 text-center"
-                          initial={{ opacity: 0, x: 50 }}
-                          animate={ctaInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-                          transition={{ delay: 0.8, duration: 0.8 }}
-                        >
-                          <Image
-                            src="/landing/progress.png"
-                            alt="Abstract shapes background"
-                            width={900}
-                            height={900}
-                            className="w-full h-full object-cover"
-                          />
-                        </motion.div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+      <CtaSection />
 
       <Footer />
     </main>

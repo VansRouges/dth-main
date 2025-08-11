@@ -16,7 +16,7 @@ interface VideoPlayerProps {
   loop?: boolean;
   className?: string;
   lessons?: string[];
-    currentLessonIndex?: number;
+  currentLessonIndex?: number;
 }
 
 // components/AudioPlayer.tsx
@@ -42,9 +42,9 @@ interface ControllerProps {
   toggleFullscreen: () => void;
   isFullscreen: boolean;
   isMuted: boolean;
-    volume: number;
-toggleMute?: () => void;
-
+  volume: number;
+  skip: (seconds: number) => void;
+  toggleMute: () => void;
 }
 
 export default function Controller({
@@ -58,8 +58,9 @@ export default function Controller({
   isFullscreen,
   isPlaying,
   isMuted,
-    volume,
-  toggleMute
+  volume,
+  skip,
+  toggleMute,
 }: ControllerProps) {
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
@@ -72,8 +73,7 @@ export default function Controller({
   return (
     <div className="flex items-center gap-2 lg:gap-4 p-4 rounded-lg w-full">
       <button className="p-2 sm:block hidden bg-[#E7EDF9] rounded-lg shadow hover:bg-gray-200">
-              <Volume2 onClick={toggleMute}
-                  className="md:w-4 md:h-4 h-3 w-3" />
+        <Volume2 onClick={toggleMute} className="md:w-4 md:h-4 h-3 w-3" />
       </button>
       {/* Volume Slider */}
       <VideoSlider
@@ -95,7 +95,7 @@ export default function Controller({
       />
 
       <button
-        onClick={togglePlay}
+        onClick={() => skip(-10)}
         className="p-2 md:ml-4 bg-[#E7EDF9] rounded-lg sm:block hidden shadow hover:bg-gray-200"
       >
         <RotateCcw className="md:w-4 md:h-4 h-3 w-3" />{" "}
@@ -106,10 +106,17 @@ export default function Controller({
         onClick={togglePlay}
         className="p-2 bg-[#E7EDF9] rounded-lg shadow hover:bg-gray-200"
       >
-        {isPlaying ? <Pause className="md:w-4 md:h-4 h-3 w-3" /> : <Play className="md:w-4 md:h-4 h-3 w-3" />}
+        {isPlaying ? (
+          <Pause className="md:w-4 md:h-4 h-3 w-3" />
+        ) : (
+          <Play className="md:w-4 md:h-4 h-3 w-3" />
+        )}
       </button>
 
-      <button className="p-2 bg-[#E7EDF9]  sm:block hidden rounded-lg shadow hover:bg-gray-200">
+      <button
+        onClick={() => skip(10)}
+        className="p-2 bg-[#E7EDF9]  sm:block hidden rounded-lg shadow hover:bg-gray-200"
+      >
         <RotateCw className="md:w-4 md:h-4 h-3 w-3" />{" "}
       </button>
 
@@ -164,11 +171,10 @@ export const VideoPlayerMain = ({
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(0.8);
   const [isMuted, setIsMuted] = useState(false);
-  const [playbackRate, setPlaybackRate] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [,setShowVolumeSlider] = useState(false);
 
   const router = useRouter();
 
@@ -178,7 +184,6 @@ export const VideoPlayerMain = ({
     }
   };
 
-  // Auto-play next lesson when video ends
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -196,32 +201,36 @@ export const VideoPlayerMain = ({
   const skip = useCallback(
     (seconds: number) => {
       if (videoRef.current) {
-        videoRef.current.currentTime = Math.max(
+        const video = videoRef.current;
+        const newTime = Math.max(
           0,
-          Math.min(duration, currentTime + seconds)
+          Math.min(duration, video.currentTime + seconds)
         );
+        video.currentTime = newTime;
         resetHideTimer();
       }
     },
-    [currentTime, duration]
+    [duration]
   );
+
   const INACTIVITY_TIMEOUT_MS = 3000;
+
   const hideControls = useCallback(() => {
-    if (isPlaying) {
+    if (isPlaying && isFullscreen) {
       setShowControls(false);
     }
-  }, [isPlaying]);
+  }, [isPlaying, isFullscreen]);
 
   const resetHideTimer = useCallback(() => {
     setShowControls(true);
     if (controlsTimeoutRef.current) {
       clearTimeout(controlsTimeoutRef.current);
     }
-    controlsTimeoutRef.current = setTimeout(
-      hideControls,
-      INACTIVITY_TIMEOUT_MS
-    );
-  }, [hideControls]);
+    
+    if (isPlaying && isFullscreen) {
+      controlsTimeoutRef.current = setTimeout(hideControls, INACTIVITY_TIMEOUT_MS);
+    }
+  }, [hideControls, isPlaying, isFullscreen]);
 
   const togglePlay = useCallback(() => {
     if (!videoRef.current) return;
@@ -231,8 +240,7 @@ export const VideoPlayerMain = ({
       videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
-    resetHideTimer();
-  }, [isPlaying, resetHideTimer]);
+  }, [isPlaying]);
 
   const handleSeek = useCallback(
     (newTime: number[]) => {
@@ -267,17 +275,6 @@ export const VideoPlayerMain = ({
     }
   }, [isMuted, resetHideTimer]);
 
-  const changePlaybackRate = useCallback(() => {
-    const rates = [0.5, 0.75, 1, 1.25, 1.5, 2];
-    const currentIndex = rates.indexOf(playbackRate);
-    const nextRate = rates[(currentIndex + 1) % rates.length];
-    if (videoRef.current) {
-      videoRef.current.playbackRate = nextRate;
-      setPlaybackRate(nextRate);
-      resetHideTimer();
-    }
-  }, [playbackRate, resetHideTimer]);
-
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement && containerRef.current) {
       containerRef.current.requestFullscreen().catch(console.error);
@@ -287,6 +284,18 @@ export const VideoPlayerMain = ({
     setIsFullscreen(!isFullscreen);
     resetHideTimer();
   }, [isFullscreen, resetHideTimer]);
+
+  useEffect(() => {
+    if (isPlaying && isFullscreen) {
+      resetHideTimer();
+    } else {
+      setShowControls(true);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+        controlsTimeoutRef.current = null;
+      }
+    }
+  }, [isPlaying, isFullscreen, resetHideTimer]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -304,6 +313,7 @@ export const VideoPlayerMain = ({
     const handleEnded = () => setIsPlaying(false);
     const handleFullscreenChange = () =>
       setIsFullscreen(!!document.fullscreenElement);
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if (document.activeElement?.tagName === "INPUT" || !video) return;
       resetHideTimer();
@@ -340,6 +350,10 @@ export const VideoPlayerMain = ({
       }
     };
 
+      const handleUserInteraction = () => {
+      resetHideTimer();
+    };
+
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
     video.addEventListener("timeupdate", handleTimeUpdate);
@@ -349,10 +363,9 @@ export const VideoPlayerMain = ({
     video.addEventListener("canplay", handleCanPlay);
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    container.addEventListener("mousemove", resetHideTimer);
-    container.addEventListener("touchstart", resetHideTimer);
-    container.addEventListener("click", resetHideTimer);
-    container.addEventListener("wheel", resetHideTimer);
+    container.addEventListener("mousemove", handleUserInteraction);
+    container.addEventListener("touchstart", handleUserInteraction);
+    container.addEventListener("click", handleUserInteraction);
 
     return () => {
       video.removeEventListener("play", handlePlay);
@@ -364,30 +377,20 @@ export const VideoPlayerMain = ({
       video.removeEventListener("canplay", handleCanPlay);
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      container.removeEventListener("mousemove", resetHideTimer);
-      container.removeEventListener("touchstart", resetHideTimer);
-      container.removeEventListener("click", resetHideTimer);
-      container.removeEventListener("wheel", resetHideTimer);
+      container.removeEventListener("mousemove", handleUserInteraction);
+      container.removeEventListener("touchstart", handleUserInteraction);
+      container.removeEventListener("click", handleUserInteraction);
       if (controlsTimeoutRef.current) {
         clearTimeout(controlsTimeoutRef.current);
       }
     };
-  }, [
-    duration,
-    resetHideTimer,
-    togglePlay,
-    toggleFullscreen,
-    toggleMute,
-    isPlaying,
-    volume,
-    isFullscreen,
-  ]);
+  }, [resetHideTimer, togglePlay, toggleFullscreen, toggleMute]);
 
   return (
     <div className="relative w-full mx-auto">
       <div
         ref={containerRef}
-        className={` flex items-center w-full bg-black rounded-lg overflow-hidden group select-none ${className}`}
+        className={`flex items-center w-full bg-black rounded-lg overflow-hidden group select-none ${className}`}
         onDoubleClick={toggleFullscreen}
         onMouseLeave={() => {
           setShowVolumeSlider(false);
@@ -414,10 +417,11 @@ export const VideoPlayerMain = ({
           ))}
           Your browser does not support the video tag.
         </video>
+        
         {/* Loading Spinner */}
         {isBuffering && <Spinner />}
+        
         {/* Play/Pause Overlay Button */}
-
         {!isPlaying && (
           <PauseAndPlayMain
             onClick={togglePlay}
@@ -426,18 +430,23 @@ export const VideoPlayerMain = ({
           />
         )}
 
-        {/* --- Controls Container --- */}
+        {/* Controls Container - Back to your original layout */}
         <div
           className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 transition-all duration-300 ${
-            showControls
+            showControls || !isFullscreen
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-2 pointer-events-none"
           }`}
         >
           {/* Progress Bar (using VideoSlider) */}
-         
         </div>
-              <div className={`absolute ${isFullscreen ? "bottom-0" : "-bottom-17"} left-0 h-16 w-full flex items-center`}>
+        <div
+          className={`absolute ${isFullscreen ? "bottom-0" : "-bottom-17"} left-0 h-16 w-full flex items-center transition-all duration-300 ${
+            showControls || !isFullscreen
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-2 pointer-events-none"
+          }`}
+        >
           <Controller
             handleSeek={handleSeek}
             handleVolumeChange={handleVolumeChange}
@@ -446,13 +455,16 @@ export const VideoPlayerMain = ({
             togglePlay={togglePlay}
             isPlaying={isPlaying}
             duration={duration}
-                      toggleFullscreen={toggleFullscreen}
-                      toggleMute={toggleMute}
+            toggleFullscreen={toggleFullscreen}
+            toggleMute={toggleMute}
             isFullscreen={isFullscreen}
             isMuted={isMuted}
             volume={volume}
+            skip={skip}
           />
         </div>
+
+        {/* Previous/Next buttons - only shown when not fullscreen */}
         {!isFullscreen && (
           <div className="absolute -bottom-36 left-0 flex justify-between w-full px-4">
             <Button

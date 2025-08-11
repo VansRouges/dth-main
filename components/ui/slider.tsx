@@ -58,12 +58,12 @@ const sliderVariants = cva(
 );
 
 const trackVariants = cva(
-  "bg-gray-200 dark:bg-gray-700 relative grow rounded-full group-hover:bg-gray-300 dark:group-hover:bg-gray-600 transition-colors",
+  "bg-[#FFF3E6] dark:bg-gray-700 relative grow rounded-full  ",
   {
     variants: {
       size: {
         xs: "h-1",
-        sm: "h-2",
+        sm: "h-2 bg-gray-200",
         md: "h-3",
         lg: "h-4",
         xl: "h-5"
@@ -75,6 +75,11 @@ const trackVariants = cva(
       clickable: {
         true: "cursor-pointer",
         false: ""
+      },
+      // NEW: Add colorScheme variant for track background
+      colorScheme: {
+        default: "",
+        dualOrange: "bg-orange-100"
       }
     },
     compoundVariants: [
@@ -102,12 +107,39 @@ const trackVariants = cva(
         orientation: "vertical",
         size: "xl",
         class: "w-5 h-auto"
+      },
+      // Override default background when using dual orange
+      {
+        colorScheme: "dualOrange",
+        size: "xs",
+        class: "bg-orange-100"
+      },
+      {
+        colorScheme: "dualOrange",
+        size: "sm",
+        class: "bg-orange-100"
+      },
+      {
+        colorScheme: "dualOrange",
+        size: "md",
+        class: "bg-orange-100"
+      },
+      {
+        colorScheme: "dualOrange",
+        size: "lg",
+        class: "bg-orange-100"
+      },
+      {
+        colorScheme: "dualOrange",
+        size: "xl",
+        class: "bg-orange-100"
       }
     ],
     defaultVariants: {
       size: "md",
       orientation: "horizontal",
-      clickable: true
+      clickable: true,
+      colorScheme: "default"
     }
   }
 );
@@ -132,13 +164,19 @@ const rangeVariants = cva(
         green: "bg-green-500 hover:bg-green-600",
         red: "bg-red-500 hover:bg-red-600", 
         purple: "bg-purple-500 hover:bg-purple-600",
-        orange: "bg-orange-500 hover:bg-orange-600",
+        orange: "bg-[#FF8800] hover:bg-[#FF8800]",
         white: "bg-white hover:bg-gray-100",
-        gray: "bg-gray-500 hover:bg-gray-600"
+        gray: "bg-gray-500 hover:bg-gray-600",
+        black: "bg-black hover:bg-gray-800"
       },
       buffered: {
         true: "opacity-60",
         false: "opacity-100"
+      },
+      // NEW: Add colorScheme variant for enhanced colors
+      colorScheme: {
+        default: "",
+        dualOrange: ""
       }
     },
     compoundVariants: [
@@ -170,19 +208,25 @@ const rangeVariants = cva(
         orientation: "vertical", 
         size: "xl",
         class: "w-5"
+      },
+      // Enhanced orange colors for dual orange scheme
+      {
+        colorScheme: "dualOrange",
+        color: "orange",
       }
     ],
     defaultVariants: {
       size: "md",
       orientation: "horizontal",
       color: "blue",
-      buffered: false
+      buffered: false,
+      colorScheme: "default"
     }
   }
 );
 
 const thumbVariants = cva(
-  "block bg-white dark:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-lg border-2",
+  "block bg-white dark:bg-gray-100 rounded-full focus:outline-none focus:ring-0 focus:ring-offset-0 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-lg border-2",
   {
     variants: {
       size: {
@@ -193,13 +237,14 @@ const thumbVariants = cva(
         xl: "w-7 h-7"
       },
       color: {
-        blue: "border-blue-500 focus:ring-blue-500 hover:border-blue-600",
-        green: "border-green-500 focus:ring-green-500 hover:border-green-600",
-        red: "border-red-500 focus:ring-red-500 hover:border-red-600",
-        purple: "border-purple-500 focus:ring-purple-500 hover:border-purple-600", 
-        orange: "border-orange-500 focus:ring-orange-500 hover:border-orange-600",
-        white: "border-gray-300 focus:ring-gray-300 hover:border-gray-400",
-        gray: "border-gray-500 focus:ring-gray-500 hover:border-gray-600"
+        blue: "border-blue-500 focus:ring-0 hover:border-blue-600",
+        green: "border-green-500 focus:ring-0 hover:border-green-600",
+        red: "border-red-500 focus:ring-0 hover:border-red-600",
+        purple: "border-purple-500 focus:ring-0 hover:border-purple-600", 
+        orange: "border-[#FF8800] focus:ring-0 hover:border-orange-600",
+        white: "border-gray-300 focus:ring-0 hover:border-gray-400",
+        gray: "border-gray-500 focus:ring-0 hover:border-gray-600",
+        black: "border-black focus:ring-0 hover:border-gray-800"
       },
       interactive: {
         true: "",
@@ -208,17 +253,32 @@ const thumbVariants = cva(
       visible: {
         true: "opacity-100",
         false: "opacity-0 group-hover:opacity-100"
+      },
+      // NEW: Add colorScheme variant for enhanced thumb colors
+      colorScheme: {
+        default: "",
+        dualOrange: ""
       }
     },
+    compoundVariants: [
+      // Enhanced orange thumb colors for dual orange scheme
+      {
+        colorScheme: "dualOrange",
+        color: "orange",
+        class: "border-orange-600 focus:ring-orange-600 hover:border-orange-700"
+      }
+    ],
     defaultVariants: {
       size: "md",
       color: "blue",
       interactive: true,
-      visible: false
+      visible: false,
+      colorScheme: "default"
     }
   }
 );
 
+// Updated component props to include colorScheme
 export const SliderRoot = React.forwardRef<
   React.ElementRef<typeof Slider.Root>,
   React.ComponentPropsWithoutRef<typeof Slider.Root> & 
@@ -246,11 +306,12 @@ export const SliderTrack = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Slider.Track> & 
   VariantProps<typeof trackVariants> & {
     clickable?: boolean;
+    colorScheme?: "default" | "dualOrange";
   }
->(({ className, size, orientation, clickable, ...props }, ref) => (
+>(({ className, size, orientation, clickable, colorScheme, ...props }, ref) => (
   <Slider.Track
     ref={ref}
-    className={trackVariants({ size, orientation, clickable, className })}
+    className={trackVariants({ size, orientation, clickable, colorScheme, className })}
     {...props}
   />
 ));
@@ -261,11 +322,12 @@ export const SliderRange = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof Slider.Range> & 
   VariantProps<typeof rangeVariants> & {
     buffered?: boolean;
+    colorScheme?: "default" | "dualOrange";
   }
->(({ className, size, orientation, color, buffered, ...props }, ref) => (
+>(({ className, size, orientation, color, buffered, colorScheme, ...props }, ref) => (
   <Slider.Range
     ref={ref}
-    className={rangeVariants({ size, orientation, color, buffered, className })}
+    className={rangeVariants({ size, orientation, color, buffered, colorScheme, className })}
     {...props}
   />
 ));
@@ -277,11 +339,12 @@ export const SliderThumb = React.forwardRef<
   VariantProps<typeof thumbVariants> & {
     interactive?: boolean;
     visible?: boolean;
+    colorScheme?: "default" | "dualOrange";
   }
->(({ className, size, color, interactive, visible, ...props }, ref) => (
+>(({ className, size, color, interactive, visible, colorScheme, ...props }, ref) => (
   <Slider.Thumb
     ref={ref}
-    className={thumbVariants({ size, color, interactive, visible, className })}
+    className={thumbVariants({ size, color, interactive, visible, colorScheme, className })}
     {...props}
   />
 ));
@@ -328,9 +391,9 @@ interface VideoSliderProps extends VariantProps<typeof sliderVariants> {
   label?: string;
   showValue?: boolean;
   formatValue?: (value: number) => string;
-  color?: "blue" | "green" | "red" | "purple" | "orange" | "white" | "gray";
-    orientation?: "horizontal" | "vertical";
-    size?: "xs" | "sm" | "md" | "lg" | "xl" 
+  color?: "blue" | "green" | "red" | "purple" | "orange" | "white" | "gray" | "black";
+  orientation?: "horizontal" | "vertical";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   
   // Video-specific props
   bufferedEnd?: number;
@@ -344,6 +407,9 @@ interface VideoSliderProps extends VariantProps<typeof sliderVariants> {
   onSeekEnd?: () => void;
   markers?: { position: number; label?: string; color?: string }[];
   chapters?: { start: number; end: number; title: string }[];
+  
+  // NEW: Add colorScheme prop
+  colorScheme?: "default" | "dualOrange";
 }
 
 export const VideoSlider: React.FC<VideoSliderProps> = ({
@@ -375,7 +441,10 @@ export const VideoSlider: React.FC<VideoSliderProps> = ({
   onSeekStart,
   onSeekEnd,
   markers = [],
-  chapters = []
+  chapters = [],
+  
+  // NEW: colorScheme prop
+  colorScheme = "default"
 }) => {
   const currentValue = value || defaultValue;
   const isVertical = orientation === "vertical";
@@ -453,7 +522,12 @@ export const VideoSlider: React.FC<VideoSliderProps> = ({
           size={size}
           interactive={interactive}
         >
-          <SliderTrack size={size} orientation={orientation} clickable={jumpOnClick}>
+          <SliderTrack 
+            size={size} 
+            orientation={orientation} 
+            clickable={jumpOnClick}
+            colorScheme={colorScheme}
+          >
             {/* Buffer indicator */}
             {showBuffer && bufferedEnd > 0 && (
               <SliderBufferRange
@@ -469,6 +543,7 @@ export const VideoSlider: React.FC<VideoSliderProps> = ({
               size={size} 
               orientation={orientation} 
               color={color}
+              colorScheme={colorScheme}
             />
           </SliderTrack>
           
@@ -477,6 +552,7 @@ export const VideoSlider: React.FC<VideoSliderProps> = ({
             color={color} 
             interactive={interactive}
             visible={thumbVisible}
+            colorScheme={colorScheme}
             aria-label="Video progress" 
           />
         </SliderRoot>
@@ -512,6 +588,7 @@ export const VideoControllerSlider: React.FC<{
   onSeekEnd?: () => void;
   onPreviewHover?: (position: number, event: React.MouseEvent) => void;
   className?: string;
+  colorScheme?: "default" | "dualOrange"; // NEW: Add colorScheme prop
 }> = ({
   currentTime,
   duration,
@@ -520,7 +597,8 @@ export const VideoControllerSlider: React.FC<{
   onSeekStart,
   onSeekEnd,
   onPreviewHover,
-  className
+  className,
+  colorScheme = "default" // NEW: Default to "default"
 }) => {
   return (
     <VideoSlider
@@ -534,7 +612,8 @@ export const VideoControllerSlider: React.FC<{
       bufferedEnd={bufferedEnd}
       orientation="horizontal"
       size="xs"
-      color="white"
+      color="orange"
+      colorScheme={colorScheme} // NEW: Pass colorScheme prop
       className={className}
       showBuffer={true}
       thumbVisible={false}

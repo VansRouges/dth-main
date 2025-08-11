@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import { getLessonById } from "@/sanity/lib/lessons/getLessonById";
 import { PortableText } from "@portabletext/react";
-import { VideoPlayer } from "@/components/video-player/VideoPlayer";
 import { LessonCompleteButton } from "@/components/my-learning/LessonCompleteButton";
+import { VideoPlayerMain } from "@/components/video-player/VideoPlayerMain";
 
 interface LessonPageProps {
   params: Promise<{
@@ -34,7 +34,7 @@ export default async function LessonPage({ params }: LessonPageProps) {
 
           <div className="space-y-8">
             {/* Video Section */}
-            {lesson.videoUrl && <VideoPlayer url={lesson.videoUrl} />}
+            {lesson.videoUrl && <VideoPlayerMain subtitles={[]} url={lesson.videoUrl} />}
 
             {/* Loom Embed Video if loomUrl is provided */}
             {/* {lesson.loomUrl && <LoomEmbed shareUrl={lesson.loomUrl} />} */}

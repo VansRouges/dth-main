@@ -229,3 +229,22 @@ export const Spinner: React.FC = () => {
     </div>
   );
 };
+
+export const PauseAndPlayMain: React.FC<{
+  isPlaying: boolean;
+  isFullscreen: boolean;
+  onClick: () => void;
+}> = ({ isPlaying, isFullscreen, onClick }) => {
+  return (
+    !isPlaying && (
+      <div className="absolute inset-0 flex w-full h-full items-center justify-center">
+        <button
+          onClick={onClick}
+          className="bg-[#E7EDF9] w-18 h-11 text-black rounded-[11px] cursor-pointer hover:bg-gray-300 transition-colors flex justify-center items-center"
+        >
+          <Play className={isFullscreen ? "w-12 h-12" : "lw-10 h-10"} />
+        </button>
+      </div>
+    )
+  ); 
+};

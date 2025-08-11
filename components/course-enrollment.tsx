@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { VideoPlayer } from "@/components/video-player/VideoPlayer";
 import { Separator } from "@/components/ui/separator";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { GetCourseBySlugQueryResult } from "@/sanity.types";
+import { VideoPlayerMain } from "./video-player/VideoPlayerMain";
 
 interface CourseEnrollmentProps {
   price?: number;
@@ -91,7 +91,7 @@ export const CourseEnrollment = ({
         <div className="space-y-3 bg-white p-1 rounded-xl">
           <div className="relative overflow-hidden">
             <div className="aspect-video relative">
-              <VideoPlayer url={previewVideo} subtitles={[]} />
+              <VideoPlayerMain url={previewVideo} subtitles={[]} />
             </div>
           </div>
           <div>

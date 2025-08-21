@@ -1,4 +1,6 @@
 import getCourseById from "@/sanity/lib/courses/getCourseById";
+import { getNextUncompletedLesson } from "@/lib/resume-course";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 interface CoursePageProps {
@@ -9,13 +11,25 @@ interface CoursePageProps {
 
 export default async function CoursePage({ params }: CoursePageProps) {
   const { courseId } = await params;
+  const user = await currentUser();
   const course = await getCourseById(courseId);
 
   if (!course) {
     return redirect("/");
   }
 
-  // Redirect to the first lesson of the first module if available
+  if (!user) {
+    return redirect("/sign-in");
+  }
+
+  // Find the next uncompleted lesson to resume from
+  const nextLessonId = await getNextUncompletedLesson(user.id, courseId);
+  
+  if (nextLessonId) {
+    return redirect(`/my-learning/${courseId}/lessons/${nextLessonId}`);
+  }
+
+  // Fallback to first lesson if no progress data available
   if (course.modules?.[0]?.lessons?.[0]?._id) {
     return redirect(
       `/my-learning/${courseId}/lessons/${course.modules[0].lessons[0]._id}`

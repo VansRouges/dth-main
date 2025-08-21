@@ -1022,7 +1022,7 @@ export type GetInstructorsQueryResult = Array<{
 
 // Source: ./sanity/lib/lessons/getCourseProgress.ts
 // Variable: progressQuery
-// Query: {    "completedLessons": *[_type == "lessonCompletion" && student._ref == $studentId && course._ref == $courseId] {      ...,      "lesson": lesson->{...},      "module": module->{...}    },    "course": *[_type == "course" && _id == $courseId][0] {      ...,      "modules": modules[]-> {        ...,        "lessons": lessons[]-> {...}      }    }  }
+// Query: {    "completedLessons": *[_type == "lessonCompletion" && student._ref == $studentId && course._ref == $courseId] {      ...,      "lesson": lesson->{...},      "module": module->{...}    },    "allCompletions": *[_type == "lessonCompletion" && student._ref == $studentId] {      ...,      "lesson": lesson->{...},      "course": course->{_id, title}    },    "course": *[_type == "course" && _id == $courseId][0] {      ...,      "modules": modules[]-> {        ...,        "lessons": lessons[]-> {...}      }    }  }
 export type ProgressQueryResult = {
   completedLessons: Array<{
     _id: string;
@@ -1087,6 +1087,60 @@ export type ProgressQueryResult = {
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "course";
     };
+    completedAt?: string;
+  }>;
+  allCompletions: Array<{
+    _id: string;
+    _type: "lessonCompletion";
+    _createdAt: string;
+    _updatedAt: string;
+    _rev: string;
+    student?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "student";
+    };
+    lesson: {
+      _id: string;
+      _type: "lesson";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      title?: string;
+      slug?: Slug;
+      description?: string;
+      videoUrl?: string;
+      loomUrl?: string;
+      content?: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }>;
+    } | null;
+    module?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "module";
+    };
+    course: {
+      _id: string;
+      title: string | null;
+    } | null;
     completedAt?: string;
   }>;
   course: {
@@ -1471,6 +1525,80 @@ export type GetLiveClassesByCourseIdQueryResult = Array<{
   } | null;
 }>;
 
+// Source: ./sanity/lib/student/getAllStudentsWithDetails.ts
+// Variable: studentsQuery
+// Query: *[_type == "student"] {    _id,    firstName,    lastName,    email,    clerkId,    imageUrl,    _createdAt,    "enrollments": *[_type == "enrollment" && student._ref == ^._id] {      _id,      enrolledAt,      amountPaid,      "course": course-> {        _id,        title,        price,        "instructor": instructor-> {          name        }      }    },    "totalEnrollments": count(*[_type == "enrollment" && student._ref == ^._id])  } | order(_createdAt desc)
+export type StudentsQueryResult = Array<{
+  _id: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  clerkId: string | null;
+  imageUrl: string | null;
+  _createdAt: string;
+  enrollments: Array<{
+    _id: string;
+    enrolledAt: string | null;
+    amountPaid: null;
+    course: {
+      _id: string;
+      title: string | null;
+      price: number | null;
+      instructor: {
+        name: string | null;
+      } | null;
+    } | null;
+  }>;
+  totalEnrollments: number;
+}>;
+// Variable: studentByIdQuery
+// Query: *[_type == "student" && _id == $studentId][0] {    _id,    firstName,    lastName,    email,    clerkId,    imageUrl,    _createdAt,    "enrollments": *[_type == "enrollment" && student._ref == ^._id] {      _id,      enrolledAt,      amountPaid,      "course": course-> {        _id,        title,        price,        description,        "instructor": instructor-> {          name        },        "modules": modules[]-> {          _id,          title,          "lessons": lessons[]-> {            _id,            title          }        }      }    },    "completions": *[_type == "lessonCompletion" && student._ref == ^._id] {      _id,      completedAt,      "lesson": lesson-> {        _id,        title      },      "course": course-> {        _id,        title      }    },    "totalEnrollments": count(*[_type == "enrollment" && student._ref == ^._id]),    "totalCompletions": count(*[_type == "lessonCompletion" && student._ref == ^._id])  }
+export type StudentByIdQueryResult = {
+  _id: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  clerkId: string | null;
+  imageUrl: string | null;
+  _createdAt: string;
+  enrollments: Array<{
+    _id: string;
+    enrolledAt: string | null;
+    amountPaid: null;
+    course: {
+      _id: string;
+      title: string | null;
+      price: number | null;
+      description: string | null;
+      instructor: {
+        name: string | null;
+      } | null;
+      modules: Array<{
+        _id: string;
+        title: string | null;
+        lessons: Array<{
+          _id: string;
+          title: string | null;
+        }> | null;
+      }> | null;
+    } | null;
+  }>;
+  completions: Array<{
+    _id: string;
+    completedAt: string | null;
+    lesson: {
+      _id: string;
+      title: string | null;
+    } | null;
+    course: {
+      _id: string;
+      title: string | null;
+    } | null;
+  }>;
+  totalEnrollments: number;
+  totalCompletions: number;
+} | null;
+
 // Source: ./sanity/lib/student/getEnrolledCourses.ts
 // Variable: getEnrolledCoursesQuery
 // Query: *[_type == "student" && clerkId == $clerkId][0] {    "enrolledCourses": *[_type == "enrollment" && student._ref == ^._id] {      ...,      "course": course-> {        ...,        "slug": slug.current,        "category": category->{...},        "instructor": instructor->{...}      }    }  }
@@ -1629,9 +1757,9 @@ export type GetStudentsQueryResult = Array<{
 }>;
 
 // Source: ./sanity/lib/student/isEnrolledInCourse.ts
-// Variable: studentQuery
+// Variable: getStudentQuery
 // Query: *[_type == "student" && clerkId == $clerkId][0]._id
-export type StudentQueryResult = string | null;
+export type GetStudentQueryResult = string | null;
 // Variable: enrollmentQuery
 // Query: *[_type == "enrollment" && student._ref == $studentId && course._ref == $courseId][0]
 export type EnrollmentQueryResult = {
@@ -1667,15 +1795,18 @@ declare module "@sanity/client" {
     "*[_type == \"course\" && (\n    title match $term + \"*\" ||\n    description match $term + \"*\" ||\n    category->name match $term + \"*\"\n  )] {\n    ...,\n    \"slug\": slug.current,\n    \"category\": category->{...},\n    \"instructor\": instructor->{...}\n  }": SearchQueryResult;
     "*[_type == \"instructor\" && slug.current == $slug][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    slug, \n    bio,\n    photo,\n    yearsOfExperience,\n    jobTitle,\n    company,\n    currentlyWorksAt,\n    \"profileInsights\": profileInsights[]-> {\n      _id,\n      title,\n      description\n    },\n    \"experience\": experience[]-> {\n      _id,\n      title,\n      company,\n      startDate,\n      endDate,\n      highlights\n    }\n  }": GetInstructorBySlugQueryResult;
     "*[_type == \"instructor\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    name,\n    \"slug\": slug.current,\n    bio,\n    photo,\n    yearsOfExperience,\n    currentlyWorksAt,\n    email,\n    phoneNumber,\n    location\n  }": GetInstructorsQueryResult;
-    "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult | GetCompletionsQueryResult;
+    "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"allCompletions\": *[_type == \"lessonCompletion\" && student._ref == $studentId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"course\": course->{_id, title}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": ProgressQueryResult;
     "*[_type == \"lesson\" && _id == $id][0] {\n    ...,\n    \"module\": module->{\n      ...,\n      \"course\": course->{...}\n    }\n  }": GetLessonByIdQueryResult;
     "*[_type == \"lessonCompletion\" && student._ref == $studentId && lesson._ref == $lessonId][0] {\n    ...\n  }": CompletionStatusQueryResult;
+    "{\n    \"completedLessons\": *[_type == \"lessonCompletion\" && student._ref == $studentId && course._ref == $courseId] {\n      ...,\n      \"lesson\": lesson->{...},\n      \"module\": module->{...}\n    },\n    \"course\": *[_type == \"course\" && _id == $courseId][0] {\n      ...,\n      \"modules\": modules[]-> {\n        ...,\n        \"lessons\": lessons[]-> {...}\n      }\n    }\n  }": GetCompletionsQueryResult;
     "*[_type == \"liveClass\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    title,\n    \"slug\": slug.current,\n    date,\n    time,\n    duration,\n    description,\n    meetingLink,\n    \"course\": course->{\n        _id,\n        title\n    },\n    facilitator->{\n      _id,\n      name\n    }\n  }": GetLiveClassesQueryResult;
     "\n    *[_type == \"liveClass\" && references($courseId)] {\n      _id,\n      _type,\n      _createdAt,\n      _updatedAt,\n      title,\n      \"slug\": slug.current,\n      date,\n      time,\n      duration,\n      description,\n      meetingLink,\n      \"course\": course->{\n        _id,\n        title\n      },\n      facilitator->{\n        _id,\n        name\n      }\n    }\n  ": GetLiveClassesByCourseIdQueryResult;
+    "*[_type == \"student\"] {\n    _id,\n    firstName,\n    lastName,\n    email,\n    clerkId,\n    imageUrl,\n    _createdAt,\n    \"enrollments\": *[_type == \"enrollment\" && student._ref == ^._id] {\n      _id,\n      enrolledAt,\n      amountPaid,\n      \"course\": course-> {\n        _id,\n        title,\n        price,\n        \"instructor\": instructor-> {\n          name\n        }\n      }\n    },\n    \"totalEnrollments\": count(*[_type == \"enrollment\" && student._ref == ^._id])\n  } | order(_createdAt desc)": StudentsQueryResult;
+    "*[_type == \"student\" && _id == $studentId][0] {\n    _id,\n    firstName,\n    lastName,\n    email,\n    clerkId,\n    imageUrl,\n    _createdAt,\n    \"enrollments\": *[_type == \"enrollment\" && student._ref == ^._id] {\n      _id,\n      enrolledAt,\n      amountPaid,\n      \"course\": course-> {\n        _id,\n        title,\n        price,\n        description,\n        \"instructor\": instructor-> {\n          name\n        },\n        \"modules\": modules[]-> {\n          _id,\n          title,\n          \"lessons\": lessons[]-> {\n            _id,\n            title\n          }\n        }\n      }\n    },\n    \"completions\": *[_type == \"lessonCompletion\" && student._ref == ^._id] {\n      _id,\n      completedAt,\n      \"lesson\": lesson-> {\n        _id,\n        title\n      },\n      \"course\": course-> {\n        _id,\n        title\n      }\n    },\n    \"totalEnrollments\": count(*[_type == \"enrollment\" && student._ref == ^._id]),\n    \"totalCompletions\": count(*[_type == \"lessonCompletion\" && student._ref == ^._id])\n  }": StudentByIdQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0] {\n    \"enrolledCourses\": *[_type == \"enrollment\" && student._ref == ^._id] {\n      ...,\n      \"course\": course-> {\n        ...,\n        \"slug\": slug.current,\n        \"category\": category->{...},\n        \"instructor\": instructor->{...}\n      }\n    }\n  }": GetEnrolledCoursesQueryResult;
     "*[_type == \"student\" && clerkId == $clerkId][0]": GetStudentByClerkIdQueryResult;
     "*[_type == \"student\"] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    _rev,\n    firstName,\n    lastName,\n    email,\n    clerkId,\n    imageUrl\n  }": GetStudentsQueryResult;
-    "*[_type == \"student\" && clerkId == $clerkId][0]._id": StudentQueryResult;
+    "*[_type == \"student\" && clerkId == $clerkId][0]._id": GetStudentQueryResult;
     "*[_type == \"enrollment\" && student._ref == $studentId && course._ref == $courseId][0]": EnrollmentQueryResult;
   }
 }

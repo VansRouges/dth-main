@@ -462,26 +462,25 @@ export const VideoPlayerMain = ({
             volume={volume}
             skip={skip}
           />
-        </div>
+      </div>
 
         {/* Previous/Next buttons - only shown when not fullscreen */}
         {!isFullscreen && (
           <div className="absolute -bottom-36 left-0 flex justify-between w-full px-4">
-            <Button
-              onClick={() => goToLesson(currentLessonIndex + 1)}
-              className={`py-4 lg:py-6 w-20 lg:w-24 bg-[#E7EDF9] hover:bg-[#E7EDF9]/70 cursor-pointer font-bold text-[#081227] lg:text-lg text-sm ${currentLessonIndex >= lessons.length - 1 ? "opacity-100" : "opacity-100"}`}
-            >
-              Previous
-            </Button>
-
-            <Button
+          <Button
               onClick={() => goToLesson(currentLessonIndex - 1)}
               className={`py-4 px-6 lg:py-6 lg:px-8 bg-[#E7EDF9] hover:bg-[#E7EDF9]/70 cursor-pointer font-bold text-[#081227] lg:text-lg text-sm ${currentLessonIndex <= 0 ? "opacity-0" : "opacity-100"}`}
-            >
-              Next
-            </Button>
-          </div>
-        )}
+          >
+            Previous
+          </Button>
+          <Button
+              onClick={() => goToLesson(currentLessonIndex + 1)}
+              className={`py-4 lg:py-6 w-20 lg:w-24 bg-[#E7EDF9] hover:bg-[#E7EDF9]/70 cursor-pointer font-bold text-[#081227] lg:text-lg text-sm ${currentLessonIndex >= lessons.length - 1 ? "opacity-100" : "opacity-100"}`}
+          >
+            Next
+          </Button>
+        </div>
+      )}
       </div>
     </div>
   );

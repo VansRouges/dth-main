@@ -1,0 +1,23 @@
+// Alternative approach for using SVG - you can replace the current approach with this if you prefer
+
+import { Card, CardContent } from "@/components/ui/card";
+import { BookOpen, CheckCircle, Clock, TrendingUp } from "lucide-react";
+import Image from "next/image";
+
+// ... other code ...
+
+// Custom Naira Icon using SVG
+const NairaSVGIcon = () => (
+  <div className="h-8 w-8 opacity-60 flex items-center justify-center">
+    <Image
+      src="/admin/naira.svg"
+      alt="Naira"
+      width={24}
+      height={24}
+      className="w-6 h-6"
+    />
+  </div>
+);
+
+// Then in your stats array, use NairaSVGIcon instead of NairaSymbol
+// And in the render section, check for NairaSVGIcon instead

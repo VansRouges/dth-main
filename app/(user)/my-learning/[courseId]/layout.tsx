@@ -4,6 +4,9 @@ import getCourseById from "@/sanity/lib/courses/getCourseById";
 import { Sidebar } from "@/components/my-learning/Sidebar";
 import { getCourseProgress } from "@/sanity/lib/lessons/getCourseProgress";
 import { checkCourseAccess } from "@/lib/auth";
+import { SidebarProvider } from "@/hooks/use-sidebar";
+import { LessonCompletionProvider } from "@/hooks/use-lesson-completion";
+import { GetCompletionsQueryResult } from "@/sanity.types";
 
 interface CourseLayoutProps {
   children: React.ReactNode;
@@ -33,14 +36,27 @@ export default async function CourseLayout({
     getCourseProgress(user.id, courseId),
   ]);
 
+  console.log("Progress:", progress)
+
   if (!course) {
     return redirect("/my-courses");
   }
 
+  // Transform completed lessons to match the expected type for Sidebar
+  
+  const transformedCompletedLessons: GetCompletionsQueryResult["completedLessons"] = progress.completedLessons.map((completion) => ({
+    ...completion,
+    module: completion.module || null, // Transform undefined to null
+  })) as GetCompletionsQueryResult["completedLessons"];
+
   return (
-    <div className="h-full">
-      <Sidebar course={course} completedLessons={progress.completedLessons} />
-      <main className="h-full lg:pt-[64px] pl-20 lg:pl-96">{children}</main>
-    </div>
+    <SidebarProvider>
+      <LessonCompletionProvider>
+        <div className="h-full">
+          <Sidebar course={course} completedLessons={transformedCompletedLessons} />
+          <main className="h-full pr-20 lg:pr-96">{children}</main>
+        </div>
+      </LessonCompletionProvider>
+    </SidebarProvider>
   );
 }

@@ -12,11 +12,19 @@ export async function getCourseProgress(clerkId: string, courseId: string) {
     throw new Error("Student not found");
   }
 
+  console.log("Student ID:", student.data._id);
+  console.log("Course ID:", courseId);
+
   const progressQuery = defineQuery(`{
     "completedLessons": *[_type == "lessonCompletion" && student._ref == $studentId && course._ref == $courseId] {
       ...,
       "lesson": lesson->{...},
       "module": module->{...}
+    },
+    "allCompletions": *[_type == "lessonCompletion" && student._ref == $studentId] {
+      ...,
+      "lesson": lesson->{...},
+      "course": course->{_id, title}
     },
     "course": *[_type == "course" && _id == $courseId][0] {
       ...,
@@ -32,16 +40,31 @@ export async function getCourseProgress(clerkId: string, courseId: string) {
     params: { studentId: student.data._id, courseId },
   });
 
-  const { completedLessons = [], course } = result.data;
+  console.log("Raw result:", result.data);
+
+  const { completedLessons = [], allCompletions = [], course } = result.data;
+
+  console.log("All completions for student:", allCompletions);
+  console.log("Course-specific completions:", completedLessons);
+
+  // Use the course-specific completions directly since we're filtering in the query
+  const courseCompletedLessons = completedLessons;
+
+  console.log("Filtered completed lessons:", courseCompletedLessons);
 
   // Calculate overall course progress
   const courseProgress = calculateCourseProgress(
     (course?.modules as unknown as Module[]) || null,
-    completedLessons
+    courseCompletedLessons.map(
+      (completion) => ({
+        ...completion,
+        module: completion.module || null, // Transform undefined to null
+      })
+    )
   );
 
   return {
-    completedLessons,
+    completedLessons: courseCompletedLessons,
     courseProgress,
   };
 }

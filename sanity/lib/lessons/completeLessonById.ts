@@ -6,9 +6,11 @@ import { sanityFetch } from "../live";
 export async function completeLessonById({
   lessonId,
   clerkId,
+  courseId,
 }: {
   lessonId: string;
   clerkId: string;
+  courseId?: string;
 }) {
   try {
     // Get Sanity student ID from Clerk ID
@@ -30,20 +32,57 @@ export async function completeLessonById({
       return existingCompletion.data;
     }
 
-    // Fetch lesson details to get module and course
-    const lesson = await sanityFetch({
-      query: groq`*[_type == "lesson" && _id == $lessonId][0]{
-        _id,
-        "module": *[_type == "module" && references(^._id)][0]{
-          _id,
-          "course": *[_type == "course" && references(^._id)][0]._id
-        }
-      }`,
-      params: { lessonId },
-    });
+    // If courseId is provided, find the module from the course context
+    let moduleId;
+    
+    if (courseId) {
+      // Find which module contains this lesson within the specified course
+      const courseQuery = await sanityFetch({
+        query: groq`*[_type == "course" && _id == $courseId][0]{
+          "modules": modules[]->{
+            _id,
+            "hasLesson": count(lessons[_id == $lessonId]) > 0
+          }
+        }`,
+        params: { courseId, lessonId },
+      });
 
-    if (!lesson?.data?.module?._id || !lesson?.data?.module?.course) {
-      throw new Error("Could not find module or course for lesson");
+      const moduleWithLesson = courseQuery.data?.modules?.find((m: { _id: string; hasLesson: boolean }) => m.hasLesson);
+      moduleId = moduleWithLesson?._id;
+    }
+
+    // If no moduleId found via course or no courseId provided, try the direct approach
+    if (!moduleId) {
+      const lesson = await sanityFetch({
+        query: groq`*[_type == "lesson" && _id == $lessonId][0]{
+          _id,
+          "module": *[_type == "module" && references(^._id)][0]{
+            _id
+          }
+        }`,
+        params: { lessonId },
+      });
+
+      moduleId = lesson?.data?.module?._id;
+    }
+
+    if (!moduleId) {
+      throw new Error("Could not find module for lesson");
+    }
+
+    // Use provided courseId or find it from module
+    let finalCourseId = courseId;
+    
+    if (!finalCourseId) {
+      const courseQuery = await sanityFetch({
+        query: groq`*[_type == "course" && references($moduleId)][0]._id`,
+        params: { moduleId },
+      });
+      finalCourseId = courseQuery.data;
+    }
+
+    if (!finalCourseId) {
+      throw new Error("Could not determine course for lesson");
     }
 
     // Create new completion record
@@ -59,11 +98,11 @@ export async function completeLessonById({
       },
       module: {
         _type: "reference",
-        _ref: lesson.data.module._id,
+        _ref: moduleId,
       },
       course: {
         _type: "reference",
-        _ref: lesson.data.module.course,
+        _ref: finalCourseId,
       },
       completedAt: new Date().toISOString(),
     });

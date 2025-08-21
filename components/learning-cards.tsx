@@ -71,7 +71,7 @@ export function LearningCard({ title, course, progress, href }: LearningCardProp
             className={`${progress === 0 ? "mt-9" : ""} w-full text-[#104BC1] font-semibold cursor-pointer hover:text-[#104BC1]/90 hover:bg-blue-300/10 `}
           >
             {/* <Play className="h-4 w-4 mr-2" /> */}
-            {progress === 0 ? "Start Learning" : "Continue Learning"}
+            {progress === 0 ? "Start Learning" : progress === 100 ? "Review Course" : "Resume Learning"}
           </Button>
         </div>
       </div>

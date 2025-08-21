@@ -23,9 +23,9 @@ export function CourseProgress({
   return (
     <div className={cn("space-y-2", className)}>
       <div className="flex items-center justify-between gap-2 text-sm">
-        {label && <span className="text-muted-foreground">{label}</span>}
+        {label && <span className="text-gray-900 font-medium">{label}</span>}
         {showPercentage && (
-          <span className="text-muted-foreground font-medium">{progress}%</span>
+          <span className="text-gray-900 font-bold">{progress}%</span>
         )}
       </div>
       <Progress
@@ -33,7 +33,7 @@ export function CourseProgress({
         className={cn(
           "h-2 transition-all",
           size === "sm" && "h-1",
-          variant === "success" && "[&>div]:bg-emerald-600"
+          variant === "success" && "[&>div]:bg-orange-500"
         )}
       />
     </div>

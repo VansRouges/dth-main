@@ -3,11 +3,84 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { CourseData, CourseEnrollments } from "./course-data";
 import getCourseBySlug from "@/sanity/lib/courses/getCourseBySlug";
+import CourseSchema from "@/components/structured-data/course-schema";
+import { urlFor } from "@/sanity/lib/image";
+import type { Metadata } from "next";
 
 interface CoursePageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+export async function generateMetadata({
+  params,
+}: CoursePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  
+  try {
+    const course = await getCourseBySlug(slug);
+    
+    if (!course) {
+      return {
+        title: "Course Not Found",
+        description: "The course you're looking for could not be found.",
+      };
+    }
+
+    const courseTitle = course.title || "Course";
+    const courseDescription = course.description || `Learn ${courseTitle} with DataTechHub's comprehensive course.`;
+    const instructorName = course.instructor?.name || "Expert Instructor";
+    const price = course.price ? `₦${course.price.toLocaleString()}` : "Free";
+    const courseImageUrl = course.image ? urlFor(course.image).url() : null;
+
+    return {
+      title: courseTitle,
+      description: `${courseDescription.substring(0, 155)}...`,
+      keywords: [
+        courseTitle.toLowerCase(),
+        "data science course",
+        "online learning",
+        "tech education",
+        instructorName.toLowerCase(),
+        "DataTechHub course"
+      ],
+      openGraph: {
+        title: `${courseTitle} | DataTechHub`,
+        description: courseDescription,
+        url: `/courses/${slug}`,
+        type: "article",
+        images: courseImageUrl ? [
+          {
+            url: courseImageUrl,
+            width: 1200,
+            height: 630,
+            alt: `${courseTitle} course thumbnail`,
+          }
+        ] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: `${courseTitle} | DataTechHub`,
+        description: courseDescription,
+        images: courseImageUrl ? [courseImageUrl] : [],
+      },
+      alternates: {
+        canonical: `/courses/${slug}`,
+      },
+      other: {
+        'course:price': price,
+        'course:instructor': instructorName,
+        'course:level': course.level || 'All Levels',
+      },
+    };
+  } catch (error) {
+    console.error("Error generating course metadata:", error);
+    return {
+      title: "Course",
+      description: "Learn with DataTechHub's comprehensive courses.",
+    };
+  }
 }
 
 const CourseTitleSkeleton = () => (
@@ -140,9 +213,11 @@ const CourseLoadingSkeleton = () => (
 export default async function CourseDetailsPage({ params }: CoursePageProps) {
   const { slug } = await params;
   const user = await currentUser();
+  const course = await getCourseBySlug(slug);
 
   return (
     <>
+      {course && <CourseSchema course={course} />}
       <main className="w-full lg:flex-1 min-w-0">
         <div className="min-h-screen space-y-6">
           {/* Banner */}
@@ -163,7 +238,7 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
           </div>
 
           <Suspense fallback={<CourseLoadingSkeleton />}>
-            <CourseData course={await getCourseBySlug(slug)} />
+            <CourseData course={course} />
           </Suspense>
         </div>
       </main>
@@ -171,7 +246,7 @@ export default async function CourseDetailsPage({ params }: CoursePageProps) {
         <div className="lg:sticky lg:top-4">
           <Suspense fallback={<CourseEnrollmentSkeleton />}>
             <CourseEnrollments
-              course={await getCourseBySlug(slug)}
+              course={course}
               user={user}
             />
           </Suspense>

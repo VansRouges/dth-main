@@ -8,6 +8,16 @@ import { getDetailedCompletionStats } from "@/sanity/lib/student/getCompletedCou
 import Link from "next/link";
 import { AlarmClock, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Learning",
+  description: "Track your course progress, continue learning, and manage your enrolled courses on DataTechHub.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 import { getLiveClassesByCourseId } from "@/sanity/lib/liveClasses/getLiveClassesByCourseId";
 
 export const StatsCard = ({

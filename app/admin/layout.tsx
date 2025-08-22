@@ -16,8 +16,15 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'DataTechHub',
-  description: 'Empowering Data Professionals and Businesses',
+  title: {
+    default: 'Admin Dashboard',
+    template: '%s | Admin | DataTechHub'
+  },
+  description: 'DataTechHub Administrator Dashboard - Manage courses, students, instructors, and platform analytics.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function RootLayout({

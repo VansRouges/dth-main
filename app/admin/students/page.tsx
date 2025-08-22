@@ -3,6 +3,12 @@ import React from 'react';
 import { getAllStudentsWithBasicInfo } from '@/lib/studentProgress';
 import { getEnrollmentStats } from '@/lib/enrollments';
 import { StudentsViewToggle } from '@/components/admin/StudentsViewToggle';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Students Management",
+  description: "Manage student enrollments, track progress, and view payment information in DataTechHub admin dashboard.",
+};
 
 const StudentsPage = async () => {
   const students = await getAllStudentsWithBasicInfo();

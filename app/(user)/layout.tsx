@@ -5,6 +5,15 @@ import { ChevronDown } from "lucide-react";
 import { getCourses } from "@/sanity/lib/courses/getCourses";
 import React from "react";
 import UserLayoutWrapper from "@/components/layouts/UserLayoutWrapper";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Learning Platform',
+    template: '%s | DataTechHub Learning'
+  },
+  description: 'Access your courses, track progress, and continue your data science journey on DataTechHub learning platform.',
+};
 
 const clerkRightNavBar = async () => {
   const user = await currentUser();

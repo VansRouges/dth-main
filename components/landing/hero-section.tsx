@@ -4,8 +4,10 @@ import { useFramerAnimations } from "@/hooks/use-framer-animate";
 import { motion, useInView } from "motion/react";
 import Image from "next/image"
 import {useRef} from "react"
+import { useRouter } from "next/navigation"
 
 export function HeroSection() {
+  const router = useRouter();
   const {
     fadeInFromLeft,
   } = useFramerAnimations();
@@ -84,6 +86,7 @@ export function HeroSection() {
               className="bg-[#104BC1] text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg rounded-md hover:bg-blue-700 transition-all duration-300 hover:scale-105 w-full md:w-60 whitespace-nowrap"
               variants={buttonVariants}
               whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/bootcamps')}
             >
               Explore Bootcamps
             </motion.button>
@@ -91,6 +94,7 @@ export function HeroSection() {
               className="bg-[#E7EDF9] text-gray-800 px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg rounded-md hover:bg-[#E9EDF9] transition-all duration-300 hover:scale-105 w-full md:w-60 whitespace-nowrap"
               variants={buttonVariants}
               whileTap={{ scale: 0.95 }}
+              onClick={() => router.push('/one-on-one')}
             >
               Join one-on-one
             </motion.button>

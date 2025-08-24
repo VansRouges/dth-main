@@ -4,9 +4,20 @@ import Image from "next/image";
 import { LearningCard } from "@/components/learning-cards";
 import { getEnrolledCourses } from "@/sanity/lib/student/getEnrolledCourses";
 import { getCourseProgress } from "@/sanity/lib/lessons/getCourseProgress";
+import { getDetailedCompletionStats } from "@/sanity/lib/student/getCompletedCoursesCount";
 import Link from "next/link";
 import { AlarmClock, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "My Learning",
+  description: "Track your course progress, continue learning, and manage your enrolled courses on DataTechHub.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 import { getLiveClassesByCourseId } from "@/sanity/lib/liveClasses/getLiveClassesByCourseId";
 
 export const StatsCard = ({
@@ -42,10 +53,17 @@ export const StatsCard = ({
 export default async function LearningPage() {
   const user = await currentUser();
   if (!user?.id) return redirect("/");
-  const enrolledCourses = await getEnrolledCourses(user.id);
+  
+  // Get enrolled courses and completion stats
+  const [enrolledCourses, completionStats] = await Promise.all([
+    getEnrolledCourses(user.id),
+    getDetailedCompletionStats(user.id)
+  ]);
+  
   console.log("Enrolled Courses:", enrolledCourses);
+  console.log("Completion Stats:", completionStats);
 
-  const currentlyEnrolled = enrolledCourses?.length;
+  const currentlyEnrolled = enrolledCourses?.length || 0;
 
   // Fetch live classes for each enrolled course
   const liveClassesData = await Promise.all(
@@ -129,15 +147,15 @@ export default async function LearningPage() {
               iconPath="/my-learning/book-open.svg"
             />
             <StatsCard
-              title="Enrollment Completed"
-              value={1}
+              title="Courses Completed"
+              value={completionStats.completed}
               bgColor="bg-[#B5C7EC]"
               textColor="text-[#081227]"
               iconPath="/my-learning/pc-user.svg"
             />
             <StatsCard
-              title="Certifications"
-              value={0}
+              title="In Progress"
+              value={completionStats.inProgress}
               bgColor="bg-[#9CD7A9]"
               textColor="text-[#11461D]"
               iconPath="/my-learning/cert.svg"

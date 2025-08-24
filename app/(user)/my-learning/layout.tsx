@@ -14,7 +14,7 @@ export default function DashboardLayout({
 }) {
   return (
     <ClerkProvider>
-          <div className="h-full">{children}</div>
+      <div className="h-full">{children}</div>
       <SanityLive />
     </ClerkProvider>
   );

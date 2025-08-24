@@ -8,6 +8,12 @@ import { Mentors } from "@/components/mentors"
 import { getCourses } from "@/sanity/lib/courses/getCourses";
 import { getInstructors } from "@/sanity/lib/instructors/getInstructors";
 import { getEnrolledCourses } from "@/sanity/lib/student/getEnrolledCourses";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Your DataTechHub learning dashboard - Track course progress, discover new courses, and connect with mentors.",
+};
 
 const normalizeString = (str: string) =>
   str.toLowerCase().replace(/\s+/g, '-');

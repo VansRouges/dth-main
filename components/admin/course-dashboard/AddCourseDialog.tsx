@@ -51,7 +51,7 @@ export function AddCourseDialog({ open, onOpenChange }: AddCourseDialogProps) {
               <li>Use the UploadThing widget on the right</li>
               <li>Only one video can be uploaded at a time</li>
               <li>Accepted formats: MP4, WebM, MOV</li>
-              <li>Maximum file size: 100MB</li>
+              <li>Maximum file size: 512MB</li>
             </ol>
 
             <h3 className="font-medium pt-4">After uploading</h3>
